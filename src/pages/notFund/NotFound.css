@@ -1,0 +1,13 @@
+.not-found {
+  text-align: center;
+  padding: 2rem;
+}
+
+.not-found a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.not-found a:hover {
+  text-decoration: underline;
+}
