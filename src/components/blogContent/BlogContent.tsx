@@ -9,22 +9,22 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
+import Section from "../section/Section";
 const defaultTheme = createTheme();
 
 const BlogContent: React.FC = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <Box sx={{ bgcolor: "antiquewhite", p: 2, borderRadius: 1 }}>
+      <Section bgcolor="lavenderblush">
         <Typography
           variant="h2"
-          noWrap
-          sx={{ display: "block", mb: 2, color: "black" }}
+          sx={{ mb: 2, color: "black", textAlign: "center" }}
         >
           Blog
         </Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
+        <Grid container spacing={2} justifyContent="center">
+          <Grid item xs={12} sm={6} md={4}>
             <img
               src="https://media.istockphoto.com/id/1922703877/fr/photo/gen-z-teenager-poses-full-body-towards-camera-showing-attitude.jpg?s=2048x2048&w=is&k=20&c=iA9bOzQPqvZmdSoPIADEaLNBSGJCG1MXhIHQdNGRWT0="
               style={{ width: "100%", maxWidth: 250 }}
@@ -35,29 +35,20 @@ const BlogContent: React.FC = () => {
                 flexDirection: "column",
                 alignItems: "center",
                 textAlign: "center",
+                mt: 2,
               }}
             >
-              <Typography
-                variant="h6"
-                noWrap
-                component="div"
-                sx={{ mt: 2, mb: 1 }}
-              >
+              <Typography variant="h6" sx={{ mb: 1 }}>
                 Anxiety
               </Typography>
-              <Typography
-                variant="caption"
-                component="p"
-                sx={{ fontSize: "0.75rem", maxWidth: "56%" }}
-              >
+              <Typography variant="caption" sx={{ fontSize: "0.75rem" }}>
                 Lorem ipsum dolor sit amet consectetur. Quis tristique est purus
                 et.Lorem ipsum dolor sit amet consectetur. Quis tristique est
                 purus et.Lorem ipsum dolor sit
               </Typography>
             </Box>
           </Grid>
-
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} md={4}>
             <img
               src="https://media.istockphoto.com/id/1922703877/fr/photo/gen-z-teenager-poses-full-body-towards-camera-showing-attitude.jpg?s=2048x2048&w=is&k=20&c=iA9bOzQPqvZmdSoPIADEaLNBSGJCG1MXhIHQdNGRWT0="
               style={{ width: "100%", maxWidth: 250 }}
@@ -68,21 +59,13 @@ const BlogContent: React.FC = () => {
                 flexDirection: "column",
                 alignItems: "center",
                 textAlign: "center",
+                mt: 2,
               }}
             >
-              <Typography
-                variant="h6"
-                noWrap
-                component="div"
-                sx={{ mt: 2, mb: 1 }}
-              >
+              <Typography variant="h6" sx={{ mb: 1 }}>
                 Anxiety
               </Typography>
-              <Typography
-                variant="caption"
-                component="p"
-                sx={{ fontSize: "0.75rem", maxWidth: "56%" }}
-              >
+              <Typography variant="caption" sx={{ fontSize: "0.75rem" }}>
                 Lorem ipsum dolor sit amet consectetur. Quis tristique est purus
                 et.Lorem ipsum dolor sit amet consectetur. Quis tristique est
                 purus et.Lorem ipsum dolor sit
@@ -90,8 +73,10 @@ const BlogContent: React.FC = () => {
             </Box>
           </Grid>
         </Grid>
-        <Button variant="contained">Learn more</Button>
-      </Box>
+        <Button variant="contained" sx={{ mt: 2 }}>
+          Learn more
+        </Button>
+      </Section>
     </ThemeProvider>
   );
 };

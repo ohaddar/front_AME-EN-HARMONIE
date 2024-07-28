@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import { ThemeProvider } from "@emotion/react";
 import { Box, createTheme, CssBaseline, Grid, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import Section from "../../components/section/Section";
 
 const defaultTheme = createTheme();
 
@@ -10,19 +11,13 @@ const TestComponent: React.FC = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <Box
-        sx={{
-          bgcolor: "antiquewhite",
-          p: 2,
-          borderRadius: 1,
-          marginTop: "3%",
-        }}
-      >
+      <Section bgcolor="antiquewhite">
         <Grid
           container
           spacing={2}
           alignItems="center"
-          sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" } }}
+          justifyContent="center"
+          sx={{ height: "100%", textAlign: { xs: "center", sm: "left" } }}
         >
           <Grid
             item
@@ -32,30 +27,21 @@ const TestComponent: React.FC = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: { xs: "center", sm: "flex-start" },
-              textAlign: { xs: "center", sm: "left" },
               p: 2,
             }}
           >
-            <Typography
-              variant="h4"
-              noWrap
-              sx={{
-                mb: 2,
-              }}
-            >
+            <Typography variant="h4" sx={{ mb: 2 }}>
               Test Your Psychique Health
             </Typography>
-            <Typography
-              variant="caption"
-              component="h1"
-              sx={{ mb: 2, fontSize: "1rem" }}
-            >
+            <Typography variant="caption" sx={{ mb: 2, fontSize: "1rem" }}>
               Lorem ipsum dolor sit amet consectetur. Quis tristique est purus
               et.Lorem ipsum dolor sit amet consectetur. Quis tristique est
               purus et.Lorem ipsum dolor sit
             </Typography>
             <Button variant="contained">
-              <Link to="Test">Tester</Link>
+              <Link to="Test" style={{ color: "#fff", textDecoration: "none" }}>
+                Tester
+              </Link>
             </Button>
           </Grid>
           <Grid
@@ -75,7 +61,7 @@ const TestComponent: React.FC = () => {
             />
           </Grid>
         </Grid>
-      </Box>
+      </Section>
     </ThemeProvider>
   );
 };
