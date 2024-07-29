@@ -12,7 +12,7 @@ const Home: React.FC = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <Box sx={{ bgcolor: "antiquewhite", p: 2, borderRadius: 1 }}>
+      <Box sx={{ p: 2, borderRadius: 1 }}>
         <TestComponent />
         <BlogComponent />
         <RetourExperienceSection />

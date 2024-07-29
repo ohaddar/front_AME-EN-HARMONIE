@@ -6,7 +6,6 @@ const TestCard: React.FC = () => {
   return (
     <Paper
       sx={{
-        backgroundColor: "antiquewhite",
         p: 3,
         borderRadius: 2,
         textAlign: "center",

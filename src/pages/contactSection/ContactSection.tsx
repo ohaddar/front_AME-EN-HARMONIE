@@ -28,7 +28,6 @@ const Textarea = styled(BaseTextareaAutosize)(
     borderWidth: 1,
     borderStyle: "solid",
 
-    backgroundColor: "lightcyan",
     fontSize: theme.typography.fontSize,
     fontFamily: theme.typography.fontFamily,
     color: theme.palette.text.primary,

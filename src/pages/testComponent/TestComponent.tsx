@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import { ThemeProvider } from "@emotion/react";
-import { Box, createTheme, CssBaseline, Grid, Typography } from "@mui/material";
+import { createTheme, CssBaseline, Grid, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import Section from "../../components/section/Section";
 
@@ -11,7 +11,7 @@ const TestComponent: React.FC = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <Section bgcolor="antiquewhite">
+      <Section>
         <Grid
           container
           spacing={2}

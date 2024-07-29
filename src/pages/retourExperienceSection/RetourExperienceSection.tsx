@@ -16,7 +16,7 @@ const RetourExperienceSection: React.FC = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <Section bgcolor="lightcyan">
+      <Section>
         <Typography
           variant="h2"
           sx={{ mb: 2, color: "black", textAlign: "center" }}
