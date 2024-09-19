@@ -101,7 +101,7 @@ const ContactSection: React.FC = () => {
                   label="First Name"
                   name="firstName"
                   autoComplete="given-name"
-                  autoFocus
+                  autoFocus={false}
                 />
                 <TextField
                   margin="normal"
@@ -111,6 +111,7 @@ const ContactSection: React.FC = () => {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  autoFocus={false}
                 />
                 <TextField
                   margin="normal"
@@ -120,6 +121,7 @@ const ContactSection: React.FC = () => {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  autoFocus={false}
                 />
                 <Textarea
                   minRows={4}
@@ -127,6 +129,7 @@ const ContactSection: React.FC = () => {
                   placeholder="subject"
                   defaultValue=""
                   theme={theme}
+                  autoFocus={false}
                 />
 
                 <Button

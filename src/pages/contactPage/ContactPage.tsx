@@ -77,7 +77,7 @@ const ContactPage: React.FC = () => {
               label="First Name "
               name="First Name"
               autoComplete="First Name"
-              autoFocus
+              autoFocus={false}
             />
             <TextField
               margin="normal"
@@ -87,7 +87,7 @@ const ContactPage: React.FC = () => {
               label="Last Name "
               name="Last Name"
               autoComplete="Last Name"
-              autoFocus
+              autoFocus={false}
             />
             <TextField
               margin="normal"
@@ -97,7 +97,7 @@ const ContactPage: React.FC = () => {
               label="Email Address"
               name="email"
               autoComplete="email"
-              autoFocus
+              autoFocus={false}
             />
             <Textarea
               minRows={4}
