@@ -1,0 +1,96 @@
+{
+  "questions": [
+    {
+      "keywords": ["what is reactjs", "reactjs"],
+      "response": "ReactJS is a JavaScript library for building user interfaces, particularly for single-page applications where you need a fast, interactive user experience. It allows developers to build web applications with a component-based architecture.",
+      "followUpQuestion": {
+        "question": "Would you like to learn about React's component-based architecture?",
+        "response": "React's component-based architecture allows you to build encapsulated components that manage their own state and then compose them to create complex UIs. This modular approach helps in maintaining and scaling applications.",
+        "keywords": ["component-based architecture", "components architecture"]
+      }
+    },
+    {
+      "keywords": ["what are components", "components"],
+      "response": "Components are the building blocks of a React application. They are reusable pieces of code that represent part of the user interface. Components can be functional or class-based, and they encapsulate both logic and UI.",
+      "followUpQuestion": {
+        "question": "Would you like to explore class vs functional components?",
+        "response": "Class components are ES6 classes that extend React.Component, while functional components are simpler and can use hooks to manage state and side effects. Functional components are generally preferred for their simplicity and performance benefits.",
+        "keywords": ["class components", "functional components"]
+      }
+    },
+    {
+      "keywords": ["what is jsx", "jsx"],
+      "response": "JSX stands for JavaScript XML. It is a syntax extension for JavaScript that looks similar to HTML and is used with React to describe what the UI should look like. JSX allows you to write HTML elements and components in JavaScript code.",
+      "followUpQuestion": {
+        "question": "Would you like to learn about how JSX works?",
+        "response": "JSX is compiled into JavaScript function calls that create React elements. It simplifies writing UI code by allowing you to mix HTML with JavaScript logic.",
+        "keywords": ["jsx works", "how jsx works"]
+      }
+    },
+    {
+      "keywords": ["difference between state and props", "state", "props"],
+      "response": "State is a local data storage that is specific to a component and can be changed within the component. Props are inputs to a component passed from its parent and are read-only. Props allow data to be passed from one component to another.",
+      "followUpQuestion": {
+        "question": "Would you like to see an example of how to use state and props?",
+        "response": "In React, state is managed with `useState` in functional components or `this.state` in class components. Props are passed from parent to child components as attributes. For example, a parent component can pass a `userName` prop to a child component that displays it.",
+        "keywords": ["example of state", "state and props example"]
+      }
+    },
+    {
+      "keywords": ["redux"],
+      "response": "Redux is a state management library for JavaScript applications. It is often used with React to manage and centralize application state, making it easier to manage state changes and debug applications. Redux uses actions and reducers to handle state changes.",
+      "followUpQuestion": {
+        "question": "Do you want to know how to integrate Redux with React?",
+        "response": "To integrate Redux with React, you use `react-redux` to connect React components to the Redux store. You can use `Provider` to pass the store to components and `connect` or `useSelector` and `useDispatch` hooks to interact with the store.",
+        "keywords": ["redux integration", "integrate redux"]
+      }
+    },
+    {
+      "keywords": ["useeffect", "what is useeffect", "useeffect hook"],
+      "response": "The useEffect hook allows you to perform side effects in functional components. It runs after the component renders and can be used for tasks like fetching data, interacting with the DOM, and setting up subscriptions.",
+      "followUpQuestion": {
+        "question": "Do you want to learn about the dependency array in useEffect?",
+        "response": "The dependency array in `useEffect` specifies which values the effect depends on. If any of these values change, the effect is re-run. An empty array means the effect runs only once after the initial render.",
+        "keywords": ["dependency array", "useeffect dependency"]
+      }
+    },
+    {
+      "keywords": ["usecontext", "what is usecontext", "usecontext hook"],
+      "response": "The useContext hook allows you to access context values in functional components without needing to use a Consumer component. It simplifies consuming context values and avoids prop drilling.",
+      "followUpQuestion": {
+        "question": "Do you want to learn about creating and providing context?",
+        "response": "To create and provide context, use `React.createContext` to create a context object, and use `Context.Provider` to provide the context value to components. Components can then consume the context using `useContext`.",
+        "keywords": ["create context", "provide context"]
+      }
+    },
+    {
+      "keywords": ["usecallback", "what is usecallback", "usecallback hook"],
+      "response": "The useCallback hook returns a memoized version of the callback function that only changes if one of the dependencies has changed. It helps to optimize performance by preventing unnecessary re-renders.",
+      "followUpQuestion": {
+        "question": "Would you like to see an example of useCallback in action?",
+        "response": "An example of `useCallback` could be a button click handler that only changes if certain props or state values change, thus preventing unnecessary re-renders of child components that use this callback.",
+        "keywords": ["usecallback example", "usecallback action"]
+      }
+    },
+    {
+      "keywords": ["usememo", "what is usememo", "usememo hook"],
+      "response": "The useMemo hook returns a memoized value that only recalculates when one of the dependencies changes. It is useful for optimizing performance by avoiding expensive calculations on every render.",
+      "followUpQuestion": {
+        "question": "Do you want to learn how to use useMemo for performance optimization?",
+        "response": "You can use `useMemo` to optimize performance by memoizing expensive calculations or data processing. For instance, you might use `useMemo` to avoid recalculating a derived value unless its dependencies change.",
+        "keywords": ["usememo optimization", "usememo performance"]
+      }
+    }
+  ],
+  "defaultResponse": "Hmm, I'm not sure how to respond to \"{input}\". Can you ask me something else?",
+  "clarifyingQuestions": [
+    {
+      "question": "Could you clarify your question?",
+      "response": "I'm here to help with React concepts, including components, state management, hooks, and more. Please provide more details."
+    },
+    {
+      "question": "Do you want to ask about ReactJS, components, or state management?",
+      "response": "I can assist with various React topics. Let me know if you need information about ReactJS in general, components, state management, or any specific concept."
+    }
+  ]
+}

@@ -66,13 +66,13 @@ export const questionnaireData: Questionnaire = {
       id: "1.3",
       text: "Ces sentiments interfèrent-ils avec vos activités quotidiennes ?",
       responses: ["Oui", "Non"],
-      next: { oui: "Dépression", non: "2.1" },
+      next: { oui: "DEPRESSION", non: "2.1" },
     },
     {
       id: "2.1",
       text: "Avez-vous des difficultés à vous endormir ou à rester endormi ?",
       responses: ["Oui", "Non"],
-      next: { oui: "Trouble d'insomnie ou anxiété", non: "3.1" },
+      next: { oui: "TROUBLE_INSOMNIE_ANXIETE", non: "3.1" },
     },
     {
       id: "3.1",
@@ -84,13 +84,13 @@ export const questionnaireData: Questionnaire = {
       id: "3.2",
       text: "Avez-vous des crises de panique soudaines et intenses ?",
       responses: ["Oui", "Non"],
-      next: { oui: "Trouble panique", non: "3.3" },
+      next: { oui: "TROUBLE_PANIQUE", non: "3.3" },
     },
     {
       id: "3.3",
       text: "Évitez-vous certaines situations de peur de ressentir de l'anxiété ?",
       responses: ["Oui", "Non"],
-      next: { oui: "Phobie", non: "4.1" },
+      next: { oui: "PHOBIE", non: "4.1" },
     },
     {
       id: "4.1",
@@ -120,7 +120,7 @@ export const questionnaireData: Questionnaire = {
       id: "5.3",
       text: "Avez-vous essayé d'arrêter sans succès ?",
       responses: ["Oui", "Non"],
-      next: { oui: "Addiction", non: "6.1" },
+      next: { oui: "ADDICTION", non: "6.1" },
     },
     {
       id: "6.1",
@@ -138,7 +138,7 @@ export const questionnaireData: Questionnaire = {
       id: "6.3",
       text: "Avez-vous des comportements impulsifs durant ces périodes ?",
       responses: ["Oui", "Non"],
-      next: { oui: "Trouble bipolaire", non: "7.1" },
+      next: { oui: "TROUBLE_BIPOLAIRE", non: "7.1" },
     },
     {
       id: "7.1",
@@ -150,50 +150,50 @@ export const questionnaireData: Questionnaire = {
       id: "7.2",
       text: "Quels sont les objets ou situations qui vous causent ces peurs ?",
       responses: [],
-      next: { default: "Phobie spécifique" },
+      next: { default: "PHOBIE_SPECIFIQUE" },
     },
     {
       id: "8.1",
       text: "Avez-vous des symptômes physiques tels que des maux de tête, douleurs musculaires, sans cause médicale ?",
       responses: ["Oui", "Non"],
-      next: { oui: "Trouble somatique", non: "8.2" },
+      next: { oui: "TROUBLE_SOMATIQUE", non: "8.2" },
     },
     {
       id: "8.2",
       text: "Avez-vous des pensées suicidaires ou des envies de vous faire du mal ?",
       responses: ["Oui", "Non"],
-      next: { oui: "Intervention immédiate nécessaire", non: "8.3" },
+      next: { oui: "INTERVENTION_IMMEDIATE_NECESSAIRE", non: "8.3" },
     },
     {
       id: "8.3",
       text: "Avez-vous des difficultés de communication et d'interaction sociale ?",
       responses: ["Oui", "Non"],
       next: {
-        oui: "Trouble du spectre autistique",
-        non: "Consultation professionnelle recommandée",
+        oui: "TROUBLE_SPECTRE_AUTISTIQUE",
+        non: "CONSULTATION_PROFESSIONNELLE_RECOMMANDEE",
       },
     },
   ],
-  messages: {
-    Dépression: "Il est possible que vous soyez confronté(e) à une dépression.",
-    "Trouble d'insomnie ou anxiété":
+  results: {
+    DEPRESSION: "Il est possible que vous soyez confronté(e) à une dépression.",
+    TROUBLE_INSOMNIE_ANXIETE:
       "Il est possible que vous soyez confronté(e) à un trouble d'insomnie ou d'anxiété.",
-    "Trouble panique":
+    TROUBLE_PANIQUE:
       "Il est possible que vous soyez confronté(e) à un trouble panique.",
-    Phobie: "Il est possible que vous soyez confronté(e) à une phobie.",
+    PHOBIE: "Il est possible que vous soyez confronté(e) à une phobie.",
     TOC: "Il est possible que vous soyez confronté(e) à un trouble obsessionnel-compulsif (TOC).",
-    Addiction: "Il est possible que vous soyez confronté(e) à une addiction.",
-    "Trouble bipolaire":
+    ADDICTION: "Il est possible que vous soyez confronté(e) à une addiction.",
+    TROUBLE_BIPOLAIRE:
       "Il est possible que vous soyez confronté(e) à un trouble bipolaire.",
-    "Phobie spécifique":
+    PHOBIE_SPECIFIQUE:
       "Il est possible que vous soyez confronté(e) à une phobie spécifique.",
-    "Trouble somatique":
+    TROUBLE_SOMATIQUE:
       "Il est possible que vous soyez confronté(e) à un trouble somatique.",
-    "Intervention immédiate nécessaire":
+    INTERVENTION_IMMEDIATE_NECESSAIRE:
       "Il est possible que vous ayez besoin d'une intervention immédiate.",
-    "Trouble du spectre autistique":
+    TROUBLE_SPECTRE_AUTISTIQUE:
       "Il est possible que vous soyez confronté(e) à un trouble du spectre autistique.",
-    "Consultation professionnelle recommandée":
+    CONSULTATION_PROFESSIONNELLE_RECOMMANDEE:
       "Il est recommandé de consulter un professionnel pour un avis plus approfondi.",
   },
   defaultMessage:

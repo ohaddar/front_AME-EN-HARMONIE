@@ -1,8 +1,13 @@
 import Layout from "../../layouts/Layout";
-import "./App.css";
+import FloatingChatIcon from "../botComponent/FloatingChatIcon";
 
 function App() {
-  return <Layout />;
+  return (
+    <>
+      <Layout />
+      <FloatingChatIcon />
+    </>
+  );
 }
 
 export default App;

@@ -1,59 +1,45 @@
-import * as React from "react";
+import React from "react";
 import {
   AppBar,
   Box,
   Toolbar,
   IconButton,
-  Typography,
   Menu,
   Container,
-  Button,
-  MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import AdbIcon from "@mui/icons-material/Adb";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import MenuItemLink from "../../components/menu/MenuItemLink";
+import Logo from "../../components/menu/Logo";
+
+const pages = [
+  { name: "Accueil", path: "/" },
+  { name: "Blog", path: "/Blog" },
+  { name: "Contact", path: "/Contact" },
+  { name: "À propos", path: "/À propos" },
+];
 
 const Header: React.FC = () => {
-  const [navMenu, setnavMenu] = React.useState<null | HTMLElement>(null);
+  const [navMenu, setNavMenu] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setnavMenu(event.currentTarget);
+    setNavMenu(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
-    setnavMenu(null);
+    setNavMenu(null);
   };
 
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}>
-            <Link to="/" />
-          </AdbIcon>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
+          <Logo />
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
-              aria-label="account of current user"
+              aria-label="menu"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
@@ -75,143 +61,42 @@ const Header: React.FC = () => {
               }}
               open={Boolean(navMenu)}
               onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
+              sx={{ display: { xs: "block", md: "none" } }}
             >
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">
-                  <Link
-                    to="/"
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                    Acceuil
-                  </Link>
-                </Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">
-                  <Link
-                    to="/Blog"
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                    Blog
-                  </Link>
-                </Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">
-                  <Link
-                    to="/Contact"
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                    Contact
-                  </Link>
-                </Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">
-                  <Link
-                    to="/Connecter"
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                    Connecter
-                  </Link>
-                </Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">
-                  <Link
-                    to="/À propos"
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                    À propos
-                  </Link>
-                </Typography>
-              </MenuItem>
+              {pages.map((page) => (
+                <MenuItemLink
+                  key={page.name}
+                  name={page.name}
+                  path={page.path}
+                  onClick={handleCloseNavMenu}
+                />
+              ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}>
-            <Link to="/" />
-          </AdbIcon>
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
+
           <Box
             sx={{
               flexGrow: 1,
               display: { xs: "none", md: "flex" },
-              marginLeft: "7rem",
-              justifyContent: "space-between",
+              justifyContent: "center",
             }}
           >
-            <Button
+            {pages.map((page) => (
+              <MenuItemLink
+                key={page.name}
+                name={page.name}
+                path={page.path}
+                onClick={handleCloseNavMenu}
+              />
+            ))}
+          </Box>
+
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <MenuItemLink
+              name="Se Connecter"
+              path="/Connecter"
               onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-                Acceuil
-              </Link>
-            </Button>
-            <Button
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              <Link
-                to="/Blog"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                Blog
-              </Link>
-            </Button>
-            <Button
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              <Link
-                to="/Contact"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                Contact
-              </Link>
-            </Button>
-            <Button
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              <Link
-                to="/Connecter"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                Connecter
-              </Link>
-            </Button>
-            <Button
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              <Link
-                to="/À propos"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                À propos
-              </Link>
-            </Button>
+            />
           </Box>
         </Toolbar>
       </Container>

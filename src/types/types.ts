@@ -16,6 +16,6 @@ export interface Messages {
 
 export interface Questionnaire {
   questions: Question[];
-  messages: Messages;
+  results: Messages;
   defaultMessage: string;
 }

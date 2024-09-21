@@ -29,7 +29,7 @@ export default class QuestionService {
       throw new Error(`No next question available for answer: ${answer}`);
     }
 
-    return this.getQuestionById(nextId) || this.questionnaire?.messages[nextId];
+    return this.getQuestionById(nextId) || this.questionnaire?.results[nextId];
   }
 
   private ensureQuestionnaireLoaded(): void {

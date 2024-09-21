@@ -1,0 +1,241 @@
+/* :root {
+  --primary-bg: #464545;
+  --primary-text: whitesmoke;
+  --primary-placeholder: #c0c0c0;
+
+  --secondary-bg: #a5a5a5;
+  --secondary-hover: #7b7979;
+  --secondary-active: #5a5a5a;
+  --secondary-text: #464545;
+
+  --box-shadow: rgba(0, 0, 0, 0.1);
+  --bot-bg-color: #6a0dad;
+  --bot-text-color: #ffffff;
+  --user-bg-color: #007fff;
+  --user-text-color: #ffffff;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 84vh;
+  margin-bottom: 18rem;
+  width: 51rem;
+  position: fixed;
+}
+
+body {
+  background-image: url("./assets/icons/ai-generated.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  padding-top: 93px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0;
+  place-items: center;
+  animation: moveBackground 50s linear infinite;
+  position: relative;
+  z-index: 0;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+
+@keyframes moveBackground {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 100% 100%;
+  }
+}
+.button {
+  background: none;
+  border: none;
+  width: 14%;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.button:hover {
+  transform: scale(1.2);
+}
+
+.div-side {
+  background: none;
+
+  border: none;
+
+  bottom: 0;
+
+  display: flex;
+  border-radius: 50px;
+}
+.icon {
+  width: 68px;
+  height: 57px;
+  margin-left: -10px;
+  padding: 4px;
+  cursor: pointer;
+}
+.input {
+  flex: 1;
+  padding: 8px;
+  margin-right: 10px;
+  border-color: darkcyan;
+
+  font-size: medium;
+  font-family: "Courier New", Courier, monospace;
+  border-radius: 100px;
+}
+.liste-container {
+  font-size: medium;
+  font-family: "Courier New", Courier, monospace;
+  max-height: 100vh;
+  flex: 1;
+  overflow-y: auto;
+
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.avatar-icon {
+  width: 36px;
+  height: 36px;
+  margin-right: 10px;
+  margin-top: -5px;
+}
+.user-name {
+  font-weight: bolder;
+  font-family: "Courier New", Courier, monospace;
+  color: rgb(26, 94, 120);
+}
+.item-content {
+  font-size: medium;
+  font-family: "Courier New", Courier, monospace;
+  word-wrap: break-word;
+}
+
+.input-group {
+  padding: 10px;
+}
+.ul {
+  position: relative;
+  padding: 20px;
+  margin-bottom: 60px;
+}
+.sub-of-list-container {
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.content-interaction {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
+  align-items: flex-start;
+  max-width: 80%;
+  background-color: #333;
+}
+
+.user-message {
+  justify-content: flex-end;
+  padding: 10px;
+  border-radius: 10px;
+  margin-right: 10px;
+  align-self: flex-end;
+  background-color: var(--secondary-bg);
+  color: black;
+}
+
+.bot-message {
+  justify-content: flex-start;
+  background-color: var(--primary-bg);
+  border-radius: 10px;
+  margin-left: 10px;
+  align-self: flex-start;
+  background-color: var(--bot-bg-color);
+  color: var(--bot-text-color);
+}
+.bot-msg {
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+}
+.liste-sub-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 15px 10px;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+  background-color: var(--primary-bg);
+  border-radius: 75px;
+  color: var(--primary-text);
+}
+
+.input-bar {
+  width: 100%;
+  max-width: 800px;
+  border: none;
+  background-color: inherit;
+  font-size: 16px;
+  padding-left: 10px;
+  outline: none;
+  box-shadow: none;
+  color: inherit;
+}
+.input-bar::placeholder {
+  color: var(--primary-placeholder);
+  opacity: 1;
+}
+
+.send-button {
+  display: inline-grid;
+  justify-content: center;
+  align-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--secondary-bg);
+  color: var(--secondary-text);
+  border: none;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px var(--box-shadow);
+}
+
+.send-button:hover {
+  background-color: var(--secondary-hover);
+}
+
+.send-button:active {
+  background-color: var(--secondary-active);
+}
+
+.send-button svg {
+  width: 40px;
+  height: 40px;
+  top: 0;
+  fill: currentColor;
+}
+ */
