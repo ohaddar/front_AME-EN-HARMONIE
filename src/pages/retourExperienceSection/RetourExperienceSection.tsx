@@ -73,7 +73,7 @@ const RetourExperienceSection: React.FC = () => {
             </Box>
           </Grid>
         </Grid>
-        <Button variant="contained" sx={{ mt: 2 }}>
+        <Button variant="contained" sx={{ mt: 2 }} href="/Connecter">
           Learn more
         </Button>
       </Section>

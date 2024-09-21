@@ -16,7 +16,7 @@ const BlogContent: React.FC = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <Section bgcolor="lavenderblush">
+      <Section>
         <Typography
           variant="h2"
           sx={{ mb: 2, color: "black", textAlign: "center" }}
@@ -73,7 +73,7 @@ const BlogContent: React.FC = () => {
             </Box>
           </Grid>
         </Grid>
-        <Button variant="contained" sx={{ mt: 2 }}>
+        <Button variant="contained" sx={{ mt: 2 }} href="/Connecter">
           Learn more
         </Button>
       </Section>

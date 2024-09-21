@@ -44,7 +44,7 @@ const ContactSection: React.FC = () => {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Section bgcolor="lightcyan">
+      <Section>
         <Grid container component="main">
           <CssBaseline />
           <Grid
