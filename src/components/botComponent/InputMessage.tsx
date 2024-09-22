@@ -2,8 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { useEffect, useState } from "react";
 import responses from "../../utils/localDatas/data.json";
-import Message from "../../types/Message";
-import Discussion from "../../types/Discussion";
+import { Message, Discussion } from "../../types/Discussion";
 type inputMessageProps = {
   discussion: Discussion;
   setDiscussion: React.Dispatch<React.SetStateAction<Discussion>>;

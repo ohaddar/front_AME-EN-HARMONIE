@@ -1,20 +1,19 @@
-import "../../App.css"; // Assurez-vous que les styles généraux sont bien importés
-import Discussion from "../../types/Discussion";
+import "../../App.css"; // Ensure global styles are imported
 import MessagesSendsList from "./MessagesSendsList";
-import InputMessage from "./InputMessage";
-import { useState } from "react";
+import { useBot } from "../../hooks/useBot";
 
 const BotContainer = () => {
-  const [discussion, setDiscussion] = useState<Discussion>({
-    Messages: [],
-  });
+  const { loading, error } = useBot();
 
   return (
     <div className="chatbot-container">
-      {" "}
-      {/* Utilisation de la classe chatbot-container */}
-      <MessagesSendsList discussion={discussion} />
-      <InputMessage discussion={discussion} setDiscussion={setDiscussion} />
+      {loading ? (
+        <div>Loading bot...</div>
+      ) : error ? (
+        <div>Error: {error}</div>
+      ) : (
+        <MessagesSendsList />
+      )}
     </div>
   );
 };
