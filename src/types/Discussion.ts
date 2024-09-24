@@ -25,7 +25,6 @@ export interface Section {
   themes: Theme[];
 }
 
-// Example of the simplified botData type
 export type BotData = Section[];
 
 export interface DefaultBotResponses {
@@ -34,4 +33,8 @@ export interface DefaultBotResponses {
 export interface Topic {
   code: string;
   question: string;
+}
+export interface TopicDetails {
+  subCode: string;
+  subQuestion: string;
 }
