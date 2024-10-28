@@ -1,15 +1,20 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from "../pages/Home";
+import NotFound from "../pages/NotFound";
+import About from "../pages/About";
+import BlogsList from "../pages/BlogsList";
+import ContactPage from "../pages/ContactPage";
+import SignInPage from "../pages/SignInPage";
+import SignUpPage from "../pages/SignUpPage";
+import ResetPasswordPage from "../pages/ResetPasswordPage";
+import MainLayout from "./mainLayout/MainLayout";
+import AdminLayout from "./adminLayout/AdminLayout";
+import { AuthProvider } from "../contexts/AuthContext";
+import TestCard from "../components/TestCard";
 import Root from "./root/Root";
-import Home from "../pages/home/Home";
-import NotFound from "../pages/notFund/NotFound";
-import About from "../pages/about/About";
-import BlogsList from "../pages/blogsList/BlogsList";
-import ContactPage from "../pages/contactPage/ContactPage";
-import SignInPage from "../pages/SigInPage/SignInPage";
-import SignUpPage from "../pages/signUpPage/SignUpPage";
-import ResetPasswordPage from "../pages/resetPasswordPage/ResetPasswordPage";
-import TestCard from "../pages/testCard/TestCard";
+import UserRoot from "./root/UserRoot";
+import FeedbacksList from "../pages/FeedbacksList";
 
 const router = createBrowserRouter([
   {
@@ -17,49 +22,55 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       {
-        path: "/",
+        path: "",
         element: <Home />,
       },
       {
-        path: "Blog",
-        element: <BlogsList />,
-      },
-      {
-        path: "Contact",
+        path: "contact",
         element: <ContactPage />,
       },
       {
-        path: "Connecter",
+        path: "connect",
         element: <SignInPage />,
       },
       {
-        path: "À propos",
-        element: <About />,
-      },
-
-      {
-        path: "Sign Up",
+        path: "sign-up",
         element: <SignUpPage />,
       },
       {
-        path: "Reset Password",
-        element: <ResetPasswordPage />,
-      },
-      {
-        path: "Test",
-        element: <TestCard />,
+        path: "about",
+        element: <About />,
       },
     ],
-    errorElement: <NotFound />,
   },
+  {
+    path: "user",
+    element: <UserRoot />, // User-specific routes
+    children: [
+      { path: "", element: <Home /> }, // You can render a specific component here if needed
+      { path: "blog", element: <BlogsList /> },
+      { path: "feedback", element: <FeedbacksList /> },
+      { path: "reset-password", element: <ResetPasswordPage /> },
+      { path: "test", element: <TestCard /> },
+    ],
+  },
+  {
+    path: "admin",
+    element: <AdminLayout />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: "blog", element: <BlogsList /> },
+      { path: "feedback", element: <FeedbacksList /> },
+      { path: "test", element: <TestCard /> },
+    ],
+  },
+  { errorElement: <NotFound /> },
 ]);
 
-const Layout: React.FC = () => {
-  return (
-    <>
-      <RouterProvider router={router} />
-    </>
-  );
-};
+const Layout: React.FC = () => (
+  <AuthProvider>
+    <RouterProvider router={router} />
+  </AuthProvider>
+);
 
 export default Layout;

@@ -1,16 +1,16 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import MainNav from "../../navigation/MainNav";
+import AdminNav from "../../navigation/AdminNav";
 import Footer from "../footer/Footer";
 
-const Root: React.FC = () => {
+const AdminRoot: React.FC = () => {
   return (
     <main>
-      <MainNav />
+      <AdminNav />
       <Outlet />
       <Footer />
     </main>
   );
 };
 
-export default Root;
+export default AdminRoot;
