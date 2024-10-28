@@ -12,7 +12,7 @@ const About: React.FC = () => {
         à nos clients. Notre vision est de transformer les défis en opportunités
         et de toujours chercher à améliorer nos pratiques.
       </p>
-      <p>Pour plus d'informations, n'hésitez pas à</p>
+      <p>Pour plus d'informations, n'hésitez pas à nous contacter</p>
     </div>
   );
 };
