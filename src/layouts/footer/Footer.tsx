@@ -64,7 +64,7 @@ const Footer: React.FC = () => {
                 Home
               </Link>
               <Link
-                href="/Blog"
+                href="/blog"
                 variant="body2"
                 color="inherit"
                 sx={{ display: "block" }}
@@ -80,7 +80,7 @@ const Footer: React.FC = () => {
                 Contact
               </Link>
               <Link
-                href="/Connecter"
+                href="/connect"
                 variant="body2"
                 color="inherit"
                 sx={{ display: "block" }}
