@@ -13,7 +13,7 @@ const AdminNav: React.FC = () => {
         </Link>
         <Link to="feedback" className="nav-link">
           Feedbacks
-        </Link>{" "}
+        </Link>
         <Link to="test" className="nav-link">
           tests
         </Link>

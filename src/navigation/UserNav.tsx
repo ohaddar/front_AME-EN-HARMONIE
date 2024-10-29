@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   AppBar,
   Box,
@@ -11,6 +11,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import MenuItemLink from "../components/MenuItemLink";
 import Logo from "../components/Logo";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const pages = [
   { name: "Accueil", path: "" },
@@ -21,13 +23,23 @@ const pages = [
 
 const UserNav: React.FC = () => {
   const [navMenu, setNavMenu] = useState<null | HTMLElement>(null);
-
+  const { setAuthStatus, isUserAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setNavMenu(event.currentTarget);
   };
-
   const handleCloseNavMenu = () => {
     setNavMenu(null);
+  };
+  useEffect(() => {
+    setAuthStatus("user", true);
+  }, [setAuthStatus]);
+  const handleLogout = () => {
+    setNavMenu(null);
+
+    localStorage.removeItem("user");
+    setAuthStatus("user", false);
+    navigate("/connect");
   };
 
   return (
@@ -92,7 +104,9 @@ const UserNav: React.FC = () => {
           </Box>
 
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <MenuItemLink name="Logout" path="" onClick={handleCloseNavMenu} />
+            {isUserAuthenticated && (
+              <MenuItemLink name="Logout" path="" onClick={handleLogout} />
+            )}{" "}
           </Box>
         </Toolbar>
       </Container>

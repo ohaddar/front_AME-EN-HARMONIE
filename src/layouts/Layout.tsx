@@ -8,7 +8,6 @@ import ContactPage from "../pages/ContactPage";
 import SignInPage from "../pages/SignInPage";
 import SignUpPage from "../pages/SignUpPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
-import MainLayout from "./mainLayout/MainLayout";
 import AdminLayout from "./adminLayout/AdminLayout";
 import { AuthProvider } from "../contexts/AuthContext";
 import TestCard from "../components/TestCard";
