@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { ThemeProvider } from "@emotion/react";
 import {
@@ -10,26 +10,15 @@ import {
   Typography,
 } from "@mui/material";
 import Section from "./Section";
-import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 const defaultTheme = createTheme();
 
-interface Feedback {
-  id?: number;
-  title: string;
-  content: string;
-  rating: number;
-  image?: string;
-
-  publicationDate?: Date;
-  user_id: number;
-}
 const RetourExperienceSection: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isUserAuthenticated } = useAuth();
   const navigate = useNavigate();
   const handleFeedbacks = () => {
-    isAuthenticated ? navigate("feedback") : navigate("/connect");
+    isUserAuthenticated ? navigate("feedback") : navigate("/connect");
   };
   return (
     <ThemeProvider theme={defaultTheme}>

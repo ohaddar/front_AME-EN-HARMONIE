@@ -4,10 +4,10 @@ import UserPrivateRoot from "./UserPrivateRoot";
 import { useAuth } from "../../contexts/AuthContext";
 
 const UserRoot: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isUserAuthenticated } = useAuth();
   const location = useLocation();
 
-  return isAuthenticated ? (
+  return isUserAuthenticated ? (
     <UserPrivateRoot />
   ) : (
     <Navigate to="/connect" state={{ from: location }} />

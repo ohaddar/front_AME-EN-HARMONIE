@@ -15,10 +15,10 @@ import { useNavigate } from "react-router-dom";
 const defaultTheme = createTheme();
 
 const BlogContent: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isUserAuthenticated } = useAuth();
   const navigate = useNavigate();
   const handleBlogs = () => {
-    isAuthenticated ? navigate("blog") : navigate("/connect");
+    isUserAuthenticated ? navigate("blog") : navigate("/connect");
   };
   return (
     <ThemeProvider theme={defaultTheme}>

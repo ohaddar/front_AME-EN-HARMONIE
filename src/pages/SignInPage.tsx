@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { User } from "../types/classes/User";
 
 function Copyright(props: any) {
   return (
@@ -53,14 +54,17 @@ const SignInPage: React.FC = () => {
         "http://localhost:8080/auth/login",
         user
       );
-      const { role, token } = response.data;
+      const { id, nom, prenom, mdp, email, role, token } = response.data;
+      const loggedInUser = new User(id, nom, prenom, email, mdp, role);
 
+      // Store the user and role in localStorage
+      localStorage.setItem("user", JSON.stringify(loggedInUser));
       localStorage.setItem("token", token);
-      localStorage.setItem("role", role);
-      localStorage.setItem("user", JSON.stringify(response.data));
 
-      setAuthStatus(true);
+      // Set the authentication status based on the role
+      setAuthStatus(role === "USER" ? "user" : "admin", true);
 
+      // Navigate based on the user's role
       navigate(role === "USER" ? "/user" : "/admin");
     } catch (err) {
       console.error("Login failed:", err);

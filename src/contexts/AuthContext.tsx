@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface AuthContextType {
-  isAuthenticated: boolean;
-  setAuthStatus: (authStatus: boolean) => void;
+  isUserAuthenticated: boolean;
+  isAdminAuthenticated: boolean;
+  setAuthStatus: (role: "user" | "admin", authStatus: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -10,19 +11,33 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
 
   useEffect(() => {
     const user = localStorage.getItem("user");
-    if (user && JSON.parse(user).role === "USER") {
-      setIsAuthenticated(true);
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      if (parsedUser.role === "USER") {
+        setIsUserAuthenticated(true);
+      } else if (parsedUser.role === "ADMIN") {
+        setIsAdminAuthenticated(true);
+      }
     }
   }, []);
 
-  const setAuthStatus = (authStatus: boolean) => setIsAuthenticated(authStatus);
+  const setAuthStatus = (role: "user" | "admin", authStatus: boolean) => {
+    if (role === "user") {
+      setIsUserAuthenticated(authStatus);
+    } else if (role === "admin") {
+      setIsAdminAuthenticated(authStatus);
+    }
+  };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setAuthStatus }}>
+    <AuthContext.Provider
+      value={{ isUserAuthenticated, isAdminAuthenticated, setAuthStatus }}
+    >
       {children}
     </AuthContext.Provider>
   );
