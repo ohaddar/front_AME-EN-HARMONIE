@@ -28,7 +28,6 @@ const Textarea = styled(BaseTextareaAutosize)(
     borderColor: "gray",
     borderWidth: 1,
     borderStyle: "solid",
-
     fontSize: theme.typography.fontSize,
     fontFamily: theme.typography.fontFamily,
     color: theme.palette.text.primary,
@@ -39,6 +38,7 @@ const Textarea = styled(BaseTextareaAutosize)(
     },
   })
 );
+
 interface Contact {
   id: number;
   nom: string;
@@ -47,17 +47,31 @@ interface Contact {
   objet: string;
   sujet: string;
 }
+
 const ContactSection: React.FC = () => {
   const theme = useTheme();
   const [contactForm, setContactForm] = useState<Contact[]>([]);
-  const handleSubmit = () => {
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const contactData = {
+      nom: formData.get("firstName"),
+      prenom: formData.get("lastName"),
+      email: formData.get("email"),
+      objet: formData.get("object"),
+      sujet: formData.get("subject"),
+    };
+
     axios
-      .post("http://localhost:8080/contact/submit")
+      .post("http://localhost:8080/contact/submit", contactData)
       .then((response) => {
         setContactForm(response.data);
+        alert("your message is sent");
       })
       .catch((err) => console.error(err));
   };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Section>
@@ -108,7 +122,12 @@ const ContactSection: React.FC = () => {
               <Typography component="h1" variant="h5">
                 Contact us
               </Typography>
-              <Box component="form" noValidate sx={{ mt: 1 }}>
+              <Box
+                component="form"
+                noValidate
+                sx={{ mt: 1 }}
+                onSubmit={handleSubmit}
+              >
                 <TextField
                   margin="normal"
                   required
@@ -117,7 +136,6 @@ const ContactSection: React.FC = () => {
                   label="First Name"
                   name="firstName"
                   autoComplete="given-name"
-                  autoFocus={false}
                 />
                 <TextField
                   margin="normal"
@@ -127,7 +145,6 @@ const ContactSection: React.FC = () => {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
-                  autoFocus={false}
                 />
                 <TextField
                   margin="normal"
@@ -137,23 +154,28 @@ const ContactSection: React.FC = () => {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  autoFocus={false}
+                />{" "}
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="object"
+                  label="object"
+                  name="object"
+                  autoComplete="object"
                 />
                 <Textarea
                   minRows={4}
                   aria-label="subject"
-                  placeholder="subject"
-                  defaultValue=""
+                  placeholder="Subject"
+                  name="subject"
                   theme={theme}
-                  autoFocus={false}
                 />
-
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
-                  onClick={handleSubmit}
                 >
                   Submit
                 </Button>

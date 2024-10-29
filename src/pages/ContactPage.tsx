@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Box,
@@ -37,22 +37,33 @@ const Textarea = styled(BaseTextareaAutosize)(
     },
   })
 );
+interface Contact {
+  id: number;
+  nom: string;
+  prenom: string;
+  email: string;
+  objet: string;
+  sujet: string;
+}
 const ContactPage: React.FC = () => {
   const theme = useTheme();
+  const [contactForm, setContactForm] = useState<Contact[]>([]);
+
   const handleContactFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    const contactForm = {
-      firstName: data.get("First Name"),
-      lastName: data.get("Last Name"),
+    const contactData = {
+      nom: data.get("firstName"),
+      prenom: data.get("lastName"),
       email: data.get("email"),
-      subject: data.get("subject"),
-      object: data.get("object"),
+      objet: data.get("object"),
+      sujet: data.get("subject"),
     };
     axios
-      .post("http://localhost:8080/contact/submit", contactForm)
+      .post("http://localhost:8080/contact/submit", contactData)
       .then((response) => {
-        console.log(response);
+        setContactForm(response.data);
+        alert("your message is sent");
       })
       .catch((err) => console.error(err));
   };
