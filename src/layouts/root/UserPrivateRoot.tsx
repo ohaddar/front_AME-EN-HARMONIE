@@ -5,9 +5,13 @@ import Footer from "../footer/Footer";
 
 const UserPrivateRoot: React.FC = () => {
   return (
-    <main>
+    <main
+      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+    >
       <UserNav />
-      <Outlet />
+      <div style={{ flexGrow: 1 }}>
+        <Outlet />
+      </div>
       <Footer />
     </main>
   );

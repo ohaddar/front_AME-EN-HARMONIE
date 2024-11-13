@@ -1,10 +1,14 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import AdminNav from "../../navigation/AdminNav";
+import Footer from "../footer/Footer";
 
 const AdminLayout: React.FC = () => {
   return (
     <main>
+      <AdminNav />
       <Outlet />
+      <Footer />
     </main>
   );
 };

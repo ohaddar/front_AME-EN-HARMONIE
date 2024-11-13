@@ -14,9 +14,11 @@ import Logo from "../components/Logo";
 
 const pages = [
   { name: "Accueil", path: "" },
-  { name: "Connect", path: "connect" },
   { name: "Contact", path: "contact" },
   { name: "About", path: "about" },
+  { name: "Blogs", path: "blog" },
+  { name: "Feedbacks", path: "feedback" },
+  { name: "Test", path: "test" },
 ];
 
 const MainNav: React.FC = () => {

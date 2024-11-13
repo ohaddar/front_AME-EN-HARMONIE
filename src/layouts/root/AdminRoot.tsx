@@ -5,9 +5,13 @@ import Footer from "../footer/Footer";
 
 const AdminRoot: React.FC = () => {
   return (
-    <main>
+    <main
+      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+    >
       <AdminNav />
-      <Outlet />
+      <div style={{ flexGrow: 1 }}>
+        <Outlet />
+      </div>
       <Footer />
     </main>
   );

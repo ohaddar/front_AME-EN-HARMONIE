@@ -18,6 +18,8 @@ const pages = [
   { name: "Accueil", path: "" },
   { name: "Blog", path: "blog" },
   { name: "Feedback", path: "feedback" },
+  { name: " create a new feedback", path: "create-feedback" },
+
   { name: "Your Tests", path: "test" },
 ];
 

@@ -14,6 +14,13 @@ import TestCard from "../components/TestCard";
 import Root from "./root/Root";
 import UserRoot from "./root/UserRoot";
 import FeedbacksList from "../pages/FeedbacksList";
+import { CreateBlogPage } from "../pages/CreateBlogPage";
+import { BlogProvider } from "../contexts/CreateBlogContext";
+import ContactListPage from "../pages/ContactListPage";
+import BlogDetails from "../pages/BlogDetails";
+import FeedbackDetails from "../pages/FeedbackDetails";
+import { CreateFeedbackPage } from "../pages/CreateFeedbackPage";
+import { FeedbackProvider } from "../contexts/themeContext/CreateFeedbackContext";
 
 const router = createBrowserRouter([
   {
@@ -40,27 +47,38 @@ const router = createBrowserRouter([
         path: "about",
         element: <About />,
       },
+      { path: "test", element: <TestCard /> },
+      { path: "blog", element: <SignInPage /> },
+      { path: "feedback", element: <SignInPage /> },
+      { path: "test", element: <TestCard /> },
     ],
   },
   {
     path: "user",
-    element: <UserRoot />, // User-specific routes
+    element: <UserRoot />,
     children: [
-      { path: "", element: <Home /> }, // You can render a specific component here if needed
+      { path: "", element: <Home /> },
       { path: "blog", element: <BlogsList /> },
       { path: "feedback", element: <FeedbacksList /> },
       { path: "reset-password", element: <ResetPasswordPage /> },
       { path: "test", element: <TestCard /> },
+      { path: "BlogDetails/:id", element: <BlogDetails /> },
+      { path: "FeedbackDetails/:id", element: <FeedbackDetails /> },
+      { path: "create-feedback", element: <CreateFeedbackPage /> },
     ],
   },
   {
     path: "admin",
     element: <AdminLayout />,
     children: [
-      { index: true, element: <Home /> },
+      { path: "", element: <Home /> },
       { path: "blog", element: <BlogsList /> },
       { path: "feedback", element: <FeedbacksList /> },
       { path: "test", element: <TestCard /> },
+      { path: "create-blog", element: <CreateBlogPage /> },
+      { path: "contacts", element: <ContactListPage /> },
+      { path: "FeedbackDetails/:id", element: <FeedbackDetails /> },
+      { path: "BlogDetails/:id", element: <BlogDetails /> },
     ],
   },
   { errorElement: <NotFound /> },
@@ -68,7 +86,11 @@ const router = createBrowserRouter([
 
 const Layout: React.FC = () => (
   <AuthProvider>
-    <RouterProvider router={router} />
+    <BlogProvider>
+      <FeedbackProvider>
+        <RouterProvider router={router} />
+      </FeedbackProvider>
+    </BlogProvider>
   </AuthProvider>
 );
 
