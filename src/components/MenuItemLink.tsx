@@ -1,12 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
-
-interface MenuItemLinkProps {
-  name: string;
-  path: string;
-  onClick?: () => void;
-}
+import { MenuItemLinkProps } from "../types/types";
 
 const MenuItemLink: React.FC<MenuItemLinkProps> = ({ name, path, onClick }) => (
   <Button

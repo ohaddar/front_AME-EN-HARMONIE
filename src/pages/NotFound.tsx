@@ -2,11 +2,7 @@ import React from "react";
 import { Link, useRouteError } from "react-router-dom";
 
 import "./NotFound.css";
-
-interface Error {
-  statusText?: string;
-  message?: string;
-}
+import { Error } from "../types/types";
 
 const NotFound: React.FC = () => {
   const error = useRouteError() as Error;

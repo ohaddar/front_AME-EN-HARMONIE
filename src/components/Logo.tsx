@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Typography } from "@mui/material";
-import AdbIcon from "@mui/icons-material/Adb";
 
 const Logo: React.FC = () => (
   <Link
@@ -13,7 +12,6 @@ const Logo: React.FC = () => (
       color: "inherit",
     }}
   >
-    <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
     <Typography
       variant="h6"
       noWrap
@@ -24,7 +22,7 @@ const Logo: React.FC = () => (
         letterSpacing: ".3rem",
       }}
     >
-      LOGO
+      ÂmeEnHarmonie
     </Typography>
   </Link>
 );

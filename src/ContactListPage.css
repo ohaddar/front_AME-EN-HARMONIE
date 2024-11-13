@@ -1,0 +1,50 @@
+/* ContactListPage.css */
+
+/* Container for the entire page */
+.contact-list-page {
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 1200px;
+  font-family: Arial, sans-serif;
+}
+
+/* Page title styling */
+.page-title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Styling for the contact table */
+.contact-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+}
+
+.contact-table th,
+.contact-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.contact-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.contact-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Message when no contacts are found */
+.no-contacts-message {
+  font-size: 1.2rem;
+  text-align: center;
+  color: #555;
+  margin-top: 20px;
+}

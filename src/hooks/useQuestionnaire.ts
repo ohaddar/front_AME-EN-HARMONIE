@@ -11,13 +11,16 @@ export const useQuestionnaire = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const loadQuestionnaire = () => {
+    const loadQuestionnaire = async () => {
       try {
-        questionService.loadQuestionnaire();
+        const response = await questionService.loadQuestionnaire();
+        console.log("response", response);
+
         const firstQuestion = questionService.getQuestionById("0.1");
         setCurrentQuestion(firstQuestion || null);
       } catch (err) {
         setError("Failed to load questionnaire");
+        console.error(err);
       } finally {
         setLoading(false);
       }

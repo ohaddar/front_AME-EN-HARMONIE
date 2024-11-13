@@ -2,7 +2,10 @@ import React from "react";
 
 const About: React.FC = () => {
   return (
-    <div className="about">
+    <div
+      className="about"
+      style={{ display: "flex", margin: "4rem", flexDirection: "column" }}
+    >
       <p>
         Bienvenue sur la page "À Propos". Ici, vous trouverez des informations
         sur notre entreprise, notre histoire et notre mission.
