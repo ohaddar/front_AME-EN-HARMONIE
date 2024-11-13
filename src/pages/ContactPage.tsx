@@ -16,7 +16,9 @@ import { TextareaAutosize as BaseTextareaAutosize } from "@mui/material";
 import { styled } from "@mui/system";
 import { Theme } from "@mui/material/styles";
 import axios from "axios";
+
 const defaultTheme = createTheme();
+
 const Textarea = styled(BaseTextareaAutosize)(
   ({ theme }: { theme: Theme }) => ({
     width: "100%",
@@ -25,7 +27,6 @@ const Textarea = styled(BaseTextareaAutosize)(
     borderColor: "gray",
     borderWidth: 1,
     borderStyle: "solid",
-
     backgroundColor: "white",
     fontSize: theme.typography.fontSize,
     fontFamily: theme.typography.fontFamily,
@@ -37,19 +38,14 @@ const Textarea = styled(BaseTextareaAutosize)(
     },
   })
 );
-interface Contact {
-  id: number;
-  nom: string;
-  prenom: string;
-  email: string;
-  objet: string;
-  sujet: string;
-}
+
 const ContactPage: React.FC = () => {
   const theme = useTheme();
-  const [contactForm, setContactForm] = useState<Contact[]>([]);
-
-  const handleContactFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const handleContactFormSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const contactData = {
@@ -59,14 +55,28 @@ const ContactPage: React.FC = () => {
       objet: data.get("object"),
       sujet: data.get("subject"),
     };
-    axios
-      .post("http://localhost:8080/contact/submit", contactData)
-      .then((response) => {
-        setContactForm(response.data);
-        alert("your message is sent");
-      })
-      .catch((err) => console.error(err));
+    if (
+      !contactData.nom?.toString().trim() ||
+      !contactData.prenom?.toString().trim() ||
+      !contactData.email?.toString().trim() ||
+      !contactData.objet?.toString().trim() ||
+      !contactData.sujet?.toString().trim()
+    ) {
+      setErrorMessage("All fields are required.");
+      return;
+    }
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/contact",
+        contactData
+      );
+      setSuccessMessage("Your message has been sent successfully!");
+      setErrorMessage("");
+    } catch (err) {
+      setErrorMessage("There was an error sending your message.");
+    }
   };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid
@@ -78,6 +88,7 @@ const ContactPage: React.FC = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          minHeight: "100vh",
         }}
       >
         <CssBaseline />
@@ -88,6 +99,7 @@ const ContactPage: React.FC = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            flexGrow: 1,
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -96,6 +108,12 @@ const ContactPage: React.FC = () => {
           <Typography component="h1" variant="h5">
             Contact us
           </Typography>
+          {errorMessage && (
+            <Typography color="error">{errorMessage}</Typography>
+          )}
+          {successMessage && (
+            <Typography color="success">{successMessage}</Typography>
+          )}
           <Box
             component="form"
             noValidate
@@ -108,8 +126,8 @@ const ContactPage: React.FC = () => {
               fullWidth
               id="First Name"
               label="First Name"
-              name="First Name"
-              autoComplete="First Name"
+              name="firstName"
+              autoComplete="firstName"
               autoFocus={false}
             />
             <TextField
@@ -118,8 +136,8 @@ const ContactPage: React.FC = () => {
               fullWidth
               id="Last Name"
               label="Last Name"
-              name="Last Name"
-              autoComplete="Last Name"
+              name="lastName"
+              autoComplete="lastName"
               autoFocus={false}
             />
             <TextField
@@ -137,7 +155,7 @@ const ContactPage: React.FC = () => {
               required
               fullWidth
               id="object"
-              label="object"
+              label="Object"
               name="object"
               autoComplete="object"
               autoFocus={false}
@@ -145,7 +163,7 @@ const ContactPage: React.FC = () => {
             <Textarea
               minRows={4}
               aria-label="subject"
-              placeholder="subject"
+              placeholder="Subject"
               defaultValue=""
               name="subject"
               theme={theme}
@@ -160,6 +178,7 @@ const ContactPage: React.FC = () => {
             </Button>
           </Box>
         </Box>
+        <Box sx={{ mt: "auto" }}></Box>
       </Grid>
     </ThemeProvider>
   );

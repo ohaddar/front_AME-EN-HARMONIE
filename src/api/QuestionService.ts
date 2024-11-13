@@ -1,17 +1,27 @@
-import { questionnaireData } from "../utils/constants/questionnaire";
 import { Questionnaire, Question } from "../types/types";
+import axios from "axios";
 
 export default class QuestionService {
   private questionnaire: Questionnaire | null = null;
 
-  public loadQuestionnaire(): void {
-    this.questionnaire = questionnaireData;
-    console.log("Questionnaire loaded successfully");
+  public async loadQuestionnaire(): Promise<Questionnaire> {
+    try {
+      const response = await axios.get<Questionnaire>(
+        "http://localhost:8080/questionnaire/show"
+      );
+      this.questionnaire = response.data;
+      return this.questionnaire;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      throw new Error("Failed to load questionnaire data.");
+    }
   }
-
   public getQuestionById(id: string): Question | undefined {
-    this.ensureQuestionnaireLoaded();
-    return this.questionnaire?.questions.find((q) => q.id === id);
+    if (!this.questionnaire) {
+      throw new Error("Questionnaire not loaded.");
+    }
+
+    return this.questionnaire?.questions?.find((q) => q.id === id);
   }
 
   public getNextQuestionById(
@@ -30,11 +40,5 @@ export default class QuestionService {
     }
 
     return this.getQuestionById(nextId) || this.questionnaire?.results[nextId];
-  }
-
-  private ensureQuestionnaireLoaded(): void {
-    if (!this.questionnaire) {
-      throw new Error("Questionnaire not loaded.");
-    }
   }
 }

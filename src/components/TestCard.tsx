@@ -11,7 +11,7 @@ const TestCard: React.FC = () => {
         textAlign: "center",
         boxShadow: 3,
         maxWidth: 600,
-        mx: "auto", // Center the card
+        mx: "auto",
       }}
     >
       <Typography variant="h4" gutterBottom>

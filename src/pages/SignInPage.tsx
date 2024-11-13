@@ -40,6 +40,7 @@ const defaultTheme = createTheme();
 const SignInPage: React.FC = () => {
   const navigate = useNavigate();
   const { setAuthStatus } = useAuth();
+  const [errorMessage, setErrorMessage] = React.useState<string>("");
 
   const handleAuth = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,7 +49,10 @@ const SignInPage: React.FC = () => {
       email: data.get("email") as string,
       password: data.get("password") as string,
     };
-
+    if (!user.email.trim() || !user.password.trim()) {
+      setErrorMessage("Both email and password are required.");
+      return;
+    }
     try {
       const response = await axios.post(
         "http://localhost:8080/auth/login",
@@ -57,18 +61,14 @@ const SignInPage: React.FC = () => {
       const { id, nom, prenom, mdp, email, role, token } = response.data;
       const loggedInUser = new User(id, nom, prenom, email, mdp, role);
 
-      // Store the user and role in localStorage
       localStorage.setItem("user", JSON.stringify(loggedInUser));
       localStorage.setItem("token", token);
 
-      // Set the authentication status based on the role
       setAuthStatus(role === "USER" ? "user" : "admin", true);
 
-      // Navigate based on the user's role
       navigate(role === "USER" ? "/user" : "/admin");
     } catch (err) {
-      console.error("Login failed:", err);
-      alert("Login failed. Please check your email and password.");
+      setErrorMessage("Login failed. Please check your email and password.");
     }
   };
 
@@ -90,6 +90,9 @@ const SignInPage: React.FC = () => {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
+          {errorMessage && (
+            <Typography color="error">{errorMessage}</Typography>
+          )}
           <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleAuth}>
             <TextField
               margin="normal"

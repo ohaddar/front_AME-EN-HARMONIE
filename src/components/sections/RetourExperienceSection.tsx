@@ -1,5 +1,5 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import "../../BlogSection.css";
 import { ThemeProvider } from "@emotion/react";
 import {
   Box,
@@ -12,14 +12,35 @@ import {
 import Section from "./Section";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { Feedback } from "../../types/types";
 const defaultTheme = createTheme();
 
 const RetourExperienceSection: React.FC = () => {
-  const { isUserAuthenticated } = useAuth();
+  const { isUserAuthenticated, isAdminAuthenticated } = useAuth();
+  const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
+
   const navigate = useNavigate();
   const handleFeedbacks = () => {
-    isUserAuthenticated ? navigate("feedback") : navigate("/connect");
+    isUserAuthenticated || isAdminAuthenticated
+      ? navigate("feedback")
+      : navigate("/connect");
   };
+  useEffect(() => {
+    const fetchFeedbacks = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/feedback/public"
+        );
+
+        setFeedbacks(response.data);
+      } catch (error) {
+        console.error("Error fetching feedbacks:", error);
+      }
+    };
+
+    fetchFeedbacks();
+  }, []);
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
@@ -28,61 +49,51 @@ const RetourExperienceSection: React.FC = () => {
           variant="h2"
           sx={{ mb: 2, color: "black", textAlign: "center" }}
         >
-          Retour Experiences
+          Latest Blogs
         </Typography>
         <Grid container spacing={2} justifyContent="center">
-          <Grid item xs={12} sm={6} md={4}>
-            <img
-              src="https://media.istockphoto.com/id/1922703877/fr/photo/gen-z-teenager-poses-full-body-towards-camera-showing-attitude.jpg?s=2048x2048&w=is&k=20&c=iA9bOzQPqvZmdSoPIADEaLNBSGJCG1MXhIHQdNGRWT0="
-              style={{ width: "100%", maxWidth: 250 }}
-            />
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                textAlign: "center",
-                mt: 2,
-              }}
-            >
-              <Typography variant="h6" sx={{ mb: 1 }}>
-                Anxiety
-              </Typography>
-              <Typography variant="caption" sx={{ fontSize: "0.75rem" }}>
-                Lorem ipsum dolor sit amet consectetur. Quis tristique est purus
-                et.Lorem ipsum dolor sit amet consectetur. Quis tristique est
-                purus et.Lorem ipsum dolor sit
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <img
-              src="https://media.istockphoto.com/id/1922703877/fr/photo/gen-z-teenager-poses-full-body-towards-camera-showing-attitude.jpg?s=2048x2048&w=is&k=20&c=iA9bOzQPqvZmdSoPIADEaLNBSGJCG1MXhIHQdNGRWT0="
-              style={{ width: "100%", maxWidth: 250 }}
-            />
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                textAlign: "center",
-                mt: 2,
-              }}
-            >
-              <Typography variant="h6" sx={{ mb: 1 }}>
-                Anxiety
-              </Typography>
-              <Typography variant="caption" sx={{ fontSize: "0.75rem" }}>
-                Lorem ipsum dolor sit amet consectetur. Quis tristique est purus
-                et.Lorem ipsum dolor sit amet consectetur. Quis tristique est
-                purus et.Lorem ipsum dolor sit
-              </Typography>
-            </Box>
-          </Grid>
+          {feedbacks.length === 0 ? (
+            <Typography variant="h6" sx={{ color: "black" }}>
+              No blogs available at the moment.
+            </Typography>
+          ) : (
+            feedbacks.map((feedback) => (
+              <Grid item xs={12} sm={6} md={4} key={feedback.id}>
+                <div className="blog-card">
+                  {/* Image */}
+                  {feedback.imageUrl && (
+                    <img
+                      src={feedback.imageUrl}
+                      alt={feedback.title}
+                      className="blog-image"
+                    />
+                  )}
+
+                  {/* Titre */}
+                  <Typography variant="h6" className="blog-title">
+                    {feedback.title}
+                  </Typography>
+
+                  {/* Contenu */}
+                  <Typography variant="body2" className="blog-content">
+                    {feedback.content.length > 100
+                      ? feedback.content.substring(0, 100) + "..."
+                      : feedback.content}
+                  </Typography>
+
+                  {/* Bouton */}
+                  <Button
+                    variant="contained"
+                    className="blog-button"
+                    onClick={handleFeedbacks}
+                  >
+                    Learn more
+                  </Button>
+                </div>
+              </Grid>
+            ))
+          )}
         </Grid>
-        <Button variant="contained" sx={{ mt: 2 }} onClick={handleFeedbacks}>
-          Learn more
-        </Button>
       </Section>
     </ThemeProvider>
   );

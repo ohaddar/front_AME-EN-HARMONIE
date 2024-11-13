@@ -14,23 +14,25 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { User } from "../types/classes/User";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import "../BlogsList.css";
+import { Feedback } from "../types/types";
 
 const defaultTheme = createTheme();
 
-interface Feedback {
-  id?: number;
-  title: string;
-  content: string;
-  rating: number;
-  image?: string;
-
-  publicationDate?: Date;
-  user?: User;
-}
-
 const FeedbacksList: React.FC = () => {
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
-
+  const navigate = useNavigate();
+  const { isAdminAuthenticated } = useAuth();
+  const handleDisplayFeedback = (feedbackId: number | undefined) => {
+    if (feedbackId) {
+      const path = isAdminAuthenticated
+        ? `/admin/FeedbackDetails/${feedbackId}`
+        : `/user/FeedbackDetails/${feedbackId}`;
+      navigate(path);
+    }
+  };
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
@@ -66,7 +68,12 @@ const FeedbacksList: React.FC = () => {
           minHeight: "100vh",
         }}
       >
-        <Typography variant="h3" align="center" gutterBottom>
+        <Typography
+          className="blog-list-title"
+          variant="h3"
+          align="center"
+          gutterBottom
+        >
           Retour Experiences
         </Typography>
         <Grid container spacing={4}>
@@ -74,22 +81,44 @@ const FeedbacksList: React.FC = () => {
             feedbacks.map((feedback, index) => (
               <Grid item xs={12} sm={6} md={3} key={index}>
                 <Card>
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={`http://localhost:8080/Blogs/images/${feedback.image}`}
-                    alt={feedback.title}
-                  />
+                  {feedback.image && (
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={`${feedback.imageUrl}`}
+                      alt={feedback.title}
+                    />
+                  )}
                   <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="div"
+                      className="blog-card-title"
+                    >
                       {feedback.title}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      className="blog-card-content"
+                    >
                       {feedback.content}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {/* Display user username */}
+                      {feedback.user?.firstname && (
+                        <span>By: {feedback.user.firstname}</span>
+                      )}
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary">
+                    <Button
+                      size="small"
+                      color="primary"
+                      className="read-more-btn"
+                      onClick={() => handleDisplayFeedback(feedback.id)}
+                    >
                       Read More
                     </Button>
                   </CardActions>

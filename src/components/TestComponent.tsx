@@ -31,16 +31,15 @@ const TestComponent: React.FC = () => {
             }}
           >
             <Typography variant="h4" sx={{ mb: 2 }}>
-              Test Your Psychique Health
+              Passez le Test Aujourd'hui !
             </Typography>
             <Typography variant="caption" sx={{ mb: 2, fontSize: "1rem" }}>
-              Lorem ipsum dolor sit amet consectetur. Quis tristique est purus
-              et.Lorem ipsum dolor sit amet consectetur. Quis tristique est
-              purus et.Lorem ipsum dolor sit
+              Découvrez des informations précieuses sur vous-même avec notre
+              test psychologique rapide et facile !
             </Typography>
             <Button variant="contained">
               <Link to="test" style={{ color: "#fff", textDecoration: "none" }}>
-                Tester
+                Commencez Votre Test
               </Link>
             </Button>
           </Grid>

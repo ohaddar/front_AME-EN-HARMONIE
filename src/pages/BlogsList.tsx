@@ -14,21 +14,24 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "../contexts/AuthContext";
+import "../BlogsList.css";
+import { Blog } from "../types/types";
 const defaultTheme = createTheme();
-
-interface Blog {
-  id?: number;
-  title: string;
-  content: string;
-  creationDate?: Date;
-  category?: string;
-  image?: string;
-}
 
 const BlogsList: React.FC = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
+  const { isAdminAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const handleDisplayBlogs = (blogId: number | undefined) => {
+    if (blogId) {
+      const path = isAdminAuthenticated
+        ? `/admin/BlogDetails/${blogId}`
+        : `/user/BlogDetails/${blogId}`;
+      navigate(path);
+    }
+  };
+
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
@@ -36,7 +39,7 @@ const BlogsList: React.FC = () => {
 
         if (!token) {
           console.warn("No token found. Redirecting to login.");
-          navigate("/login"); // Redirect to login if no token is found
+          navigate("/login");
           return;
         }
 
@@ -69,30 +72,50 @@ const BlogsList: React.FC = () => {
           minHeight: "100vh",
         }}
       >
-        <Typography variant="h3" align="center" gutterBottom>
+        {/* Titre principal de la liste de blogs avec la classe CSS */}
+        <Typography className="blog-list-title" variant="h3" gutterBottom>
           Our Blogs
         </Typography>
+
         <Grid container spacing={4}>
           {blogs &&
             blogs.map((blog, index) => (
               <Grid item xs={12} sm={6} md={3} key={index}>
                 <Card>
+                  {/* Affichage de l'image avec CardMedia */}
                   <CardMedia
                     component="img"
                     height="140"
-                    image={`http://localhost:8080/Blogs/images/${blog.image}`}
+                    image={blog.imageUrl}
                     alt={blog.title}
                   />
                   <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
+                    {/* Titre du blog avec la classe CSS personnalisée */}
+                    <Typography
+                      className="blog-card-title"
+                      gutterBottom
+                      variant="h5"
+                      component="div"
+                    >
                       {blog.title}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {blog.content}
+                    {/* Contenu du blog avec la classe CSS personnalisée */}
+                    <Typography
+                      className="blog-card-content"
+                      variant="body2"
+                      color="text.secondary"
+                    >
+                      {`${blog.content.substring(0, 120)}...`}
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary">
+                    {/* Bouton de lecture */}
+                    <Button
+                      className="read-more-btn"
+                      size="small"
+                      color="primary"
+                      onClick={() => handleDisplayBlogs(blog.id)}
+                    >
                       Read More
                     </Button>
                   </CardActions>

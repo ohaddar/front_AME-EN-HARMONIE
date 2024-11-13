@@ -14,7 +14,6 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
 import { User } from "../types/classes/User";
 
 function Copyright(props: any) {
@@ -39,9 +38,8 @@ const defaultTheme = createTheme();
 
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
-  const [users, setUsers] = React.useState<User[]>([]);
-
+  const [errorMessage, setErrorMessage] = React.useState<string>("");
+  const [successMessage, setSuccessMessage] = React.useState<string>("");
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
@@ -51,56 +49,51 @@ const SignUpPage: React.FC = () => {
       email: data.get("email") as string,
       password: data.get("password") as string,
     };
-    function validatePassword(password: string | undefined) {
-      const regex =
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-      return password ? regex.test(password) : false;
-    }
-    function validateEmail(email: string | undefined) {
-      const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-      return email ? regex.test(email) : false;
-    }
-    function validateName(name: string | undefined) {
-      const regex = /\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+/;
-      return name ? regex.test(name) : false;
-    }
     if (
-      !(
-        validatePassword(user.password) ||
-        validateEmail(user.email) ||
-        validateName(user.firstname) ||
-        validateName(user.lastname)
-      )
+      !user.firstname.trim() ||
+      !user.lastname.trim() ||
+      !user.email.trim() ||
+      !user.password.trim()
     ) {
-      alert("inputs does not much the criteria.");
+      setErrorMessage("All fields are required.");
+      return;
     }
-    try {
-      const response = await axios
-        .post("http://localhost:8080/auth/register", user)
-        .then((response) => {
-          setUsers([...users, response.data]);
-          const { id, firstname, lastname, email, password, role } =
-            response.data;
-          console.log("response", response.data);
+    const isValidEmail = /\S+@\S+\.\S+/.test(user.email);
+    const isValidPassword =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+        user.password
+      );
 
-          const loggedInUser = new User(
-            id,
-            firstname,
-            lastname,
-            email,
-            password,
-            role
-          );
-          if (loggedInUser.role === "USER") {
-            login();
-            navigate("/");
-          } else if (loggedInUser.role === "ADMIN") {
-            navigate("/admin");
-          }
-          localStorage.setItem("user", JSON.stringify(loggedInUser));
-        });
+    if (!isValidEmail || !isValidPassword) {
+      setErrorMessage("Invalid email or password format.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/auth/register",
+        user
+      );
+      setSuccessMessage("Account created successfully!");
+      setErrorMessage("");
+      const { id, firstname, lastname, email, password, role } = response.data;
+      const loggedInUser = new User(
+        id,
+        firstname,
+        lastname,
+        email,
+        password,
+        role
+      );
+      localStorage.setItem("user", JSON.stringify(loggedInUser));
+
+      if (loggedInUser.role === "USER") {
+        navigate("/");
+      } else if (loggedInUser.role === "ADMIN") {
+        navigate("/admin");
+      }
     } catch (err) {
-      console.error(err);
+      setErrorMessage("An error occurred while creating your account.");
     }
   };
   return (
@@ -121,6 +114,12 @@ const SignUpPage: React.FC = () => {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
+          {errorMessage && (
+            <Typography color="error">{errorMessage}</Typography>
+          )}
+          {successMessage && (
+            <Typography color="success">{successMessage}</Typography>
+          )}
           <Box
             component="form"
             noValidate

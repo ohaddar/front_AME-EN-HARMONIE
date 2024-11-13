@@ -17,6 +17,7 @@ import { styled } from "@mui/system";
 import { Theme } from "@mui/material/styles";
 import Section from "./Section";
 import axios from "axios";
+import { Contact } from "../../types/types";
 
 const defaultTheme = createTheme();
 
@@ -39,20 +40,13 @@ const Textarea = styled(BaseTextareaAutosize)(
   })
 );
 
-interface Contact {
-  id: number;
-  nom: string;
-  prenom: string;
-  email: string;
-  objet: string;
-  sujet: string;
-}
-
 const ContactSection: React.FC = () => {
   const theme = useTheme();
   const [contactForm, setContactForm] = useState<Contact[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const contactData = {
@@ -62,14 +56,29 @@ const ContactSection: React.FC = () => {
       objet: formData.get("object"),
       sujet: formData.get("subject"),
     };
-
-    axios
-      .post("http://localhost:8080/contact/submit", contactData)
-      .then((response) => {
-        setContactForm(response.data);
-        alert("your message is sent");
-      })
-      .catch((err) => console.error(err));
+    if (
+      !contactData.nom?.toString().trim() ||
+      !contactData.prenom?.toString().trim() ||
+      !contactData.email?.toString().trim() ||
+      !contactData.objet?.toString().trim() ||
+      !contactData.sujet?.toString().trim()
+    ) {
+      setErrorMessage("All fields are required.");
+      setSuccessMessage(""); // Clear any previous success message
+      return;
+    }
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/contact/submit",
+        contactData
+      );
+      setContactForm(response.data);
+      setSuccessMessage("Your message has been sent successfully!");
+      setErrorMessage(""); // Clear any previous error message
+    } catch (err) {
+      setErrorMessage("There was an error sending your message.");
+      setSuccessMessage(""); // Clear any previous success message
+    }
   };
 
   return (
@@ -85,7 +94,7 @@ const ContactSection: React.FC = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              marginTop: "12%",
+              marginTop: "18%",
             }}
           >
             <Typography
@@ -94,16 +103,16 @@ const ContactSection: React.FC = () => {
               component="div"
               sx={{ mt: 2, mb: 1 }}
             >
-              Anxiety
+              Nous Contacter
             </Typography>
             <Typography
               variant="caption"
               component="p"
-              sx={{ fontSize: "1rem", width: "80%" }}
+              sx={{ fontSize: "1rem", width: "80%", margin: "2rem" }}
             >
-              Lorem ipsum dolor sit amet consectetur. Quis tristique est purus
-              et.Lorem ipsum dolor sit amet consectetur. Quis tristique est
-              purus et.Lorem ipsum dolor sit
+              Des questions ou besoin d'accompagnement personnalisé ? N'hésitez
+              pas à nous contacter — notre équipe est là pour vous aider à
+              chaque étape !
             </Typography>
           </Grid>
           <Grid item xs={12} sm={8} md={5}>
@@ -122,6 +131,16 @@ const ContactSection: React.FC = () => {
               <Typography component="h1" variant="h5">
                 Contact us
               </Typography>
+              {errorMessage && (
+                <Typography color="error" sx={{ mt: 2 }}>
+                  {errorMessage}
+                </Typography>
+              )}
+              {successMessage && (
+                <Typography color="success" sx={{ mt: 2 }}>
+                  {successMessage}
+                </Typography>
+              )}
               <Box
                 component="form"
                 noValidate
