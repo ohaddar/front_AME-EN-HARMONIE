@@ -21,14 +21,7 @@ export interface Questionnaire {
   results: Messages;
   defaultMessage: string;
 }
-export interface Contact {
-  id: number;
-  nom: string;
-  prenom: string;
-  email: string;
-  objet: string;
-  sujet: string;
-}
+
 export interface Feedback {
   id?: number;
   title: string;
@@ -70,22 +63,35 @@ export interface FeedbackContextProps {
   rating: number;
   content: string;
   file: File | null;
+  warningMessage: string;
+  successMessage: string;
+  createNewFeedback: () => Promise<void>;
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
   setTitle: (title: string) => void;
   setRating: (rating: number) => void;
   setContent: (content: string) => void;
   setFile: (file: File | null) => void;
-  posts: FeedbackType[];
-  setPosts: React.Dispatch<React.SetStateAction<FeedbackType[]>>;
-  addPost: (post: FeedbackType) => void;
+  setWarningMessage: React.Dispatch<React.SetStateAction<string>>;
+  setSuccessMessage: React.Dispatch<React.SetStateAction<string>>;
 }
 export interface AuthContextType {
-  isUserAuthenticated: boolean;
-  isAdminAuthenticated: boolean;
   currentUser: User | null;
-
-  setAuthStatus: (role: "user" | "admin", authStatus: boolean) => void;
-  blog: () => void;
-  feedback: () => void;
+  token: string | null;
+  setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
+  errorMessage: string;
+  successMessage: string;
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
+  setSuccessMessage: React.Dispatch<React.SetStateAction<string>>;
+  isLoading: boolean;
+  //setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  signIn: (email: string, password: string) => Promise<void>;
+  signUp: (
+    firstname: string,
+    lastname: string,
+    email: string,
+    password: string,
+  ) => Promise<void>;
+  signOut: () => void;
 }
 export interface BlogType {
   _id: string;
@@ -102,13 +108,18 @@ export interface BlogContextProps {
   category: string;
   content: string;
   file: File | null;
+  warningMessage: string;
+  successMessage: string;
   setTitle: (title: string) => void;
   setCategory: (category: string) => void;
   setContent: (content: string) => void;
   setFile: (file: File | null) => void;
-  posts: BlogType[];
-  setPosts: React.Dispatch<React.SetStateAction<BlogType[]>>;
-  addPost: (post: BlogType) => void;
+  setWarningMessage: React.Dispatch<React.SetStateAction<string>>;
+  setSuccessMessage: React.Dispatch<React.SetStateAction<string>>;
+
+  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  validateForm: () => boolean;
+  createNewPost: () => Promise<void>;
 }
 export interface Error {
   statusText?: string;
