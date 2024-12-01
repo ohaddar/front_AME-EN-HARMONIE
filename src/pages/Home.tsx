@@ -4,8 +4,6 @@ import { Box, createTheme, CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
 import RetourExperienceSection from "../components/sections/RetourExperienceSection";
 import TestComponent from "../components/TestComponent";
-import ValuesSection from "../components/sections/ValuesSection";
-import ContactSection from "../components/sections/ContactSection";
 const defaultTheme = createTheme();
 
 const Home: React.FC = () => {
@@ -16,8 +14,6 @@ const Home: React.FC = () => {
         <TestComponent />
         <BlogComponent />
         <RetourExperienceSection />
-        <ValuesSection />
-        <ContactSection />
       </Box>
     </ThemeProvider>
   );

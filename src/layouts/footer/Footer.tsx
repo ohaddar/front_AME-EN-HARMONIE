@@ -71,14 +71,7 @@ const Footer: React.FC = () => {
               >
                 Blog
               </Link>
-              <Link
-                href="/Contact"
-                variant="body2"
-                color="inherit"
-                sx={{ display: "block" }}
-              >
-                Contact
-              </Link>
+
               <Link
                 href="/connect"
                 variant="body2"

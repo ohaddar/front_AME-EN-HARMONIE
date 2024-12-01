@@ -4,7 +4,7 @@ import { Typography } from "@mui/material";
 
 const Logo: React.FC = () => (
   <Link
-    to="/"
+    to=""
     style={{
       display: "flex",
       alignItems: "center",
