@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
 import { User } from "../types/classes/User";
 import { AuthContextType } from "../types/types";
 
@@ -7,60 +8,118 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
-  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-
+  const [errorMessage, setErrorMessage] = React.useState<string>("");
+  const [successMessage, setSuccessMessage] = React.useState<string>("");
+  const [token, setToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      try {
-        const parsedUser: User = JSON.parse(storedUser);
-        setCurrentUser(parsedUser);
+    const storedToken = localStorage.getItem("token");
 
-        setAuthStatus(parsedUser.role === "USER" ? "user" : "admin", true);
-      } catch (error) {
-        console.error("Failed to parse user from localStorage", error);
-      }
-    }
-  }, []);
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      const parsedUser = JSON.parse(user);
-      if (parsedUser.role === "USER") {
-        setIsUserAuthenticated(true);
-      } else if (parsedUser.role === "ADMIN") {
-        setIsAdminAuthenticated(true);
-      }
+    if (storedUser && storedToken) {
+      setCurrentUser(JSON.parse(storedUser));
+      setToken(storedToken);
     }
   }, []);
 
-  const blog = () => {
-    setIsAdminAuthenticated(true);
-  };
+  const signIn = async (email: string, password: string) => {
+    setIsLoading(true);
 
-  const feedback = () => {
-    setIsUserAuthenticated(true);
-  };
-
-  const setAuthStatus = (role: "user" | "admin", authStatus: boolean) => {
-    if (role === "user") {
-      setIsUserAuthenticated(authStatus);
-    } else if (role === "admin") {
-      setIsAdminAuthenticated(authStatus);
+    if (!email.trim() || !password.trim()) {
+      setErrorMessage("Both email and password are required.");
+      setIsLoading(false);
+      return;
     }
+
+    try {
+      const response = await axios.post("http://localhost:8080/auth/login", {
+        email,
+        password,
+      });
+
+      setCurrentUser(response.data);
+      setToken(response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data));
+      localStorage.setItem("token", response.data.token);
+
+      // Log the response for debugging
+      console.log("Login successful:", response.data);
+
+      setErrorMessage(""); // Clear previous errors
+    } catch (err) {
+      setErrorMessage("Login failed. Please check your email and password.");
+      console.error("Login error:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const signUp = async (
+    firstname: string,
+    lastname: string,
+    email: string,
+    password: string,
+  ) => {
+    if (
+      !firstname.trim() ||
+      !lastname.trim() ||
+      !email.trim() ||
+      !password.trim()
+    ) {
+      setErrorMessage("All fields are required.");
+      return;
+    }
+    const isValidEmail = /\S+@\S+\.\S+/.test(email);
+    const isValidPassword =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+        password,
+      );
+
+    if (!isValidEmail || !isValidPassword) {
+      setErrorMessage("Invalid email or password format.");
+      return;
+    }
+    setIsLoading(true);
+
+    try {
+      const response = await axios.post("http://localhost:8080/auth/register", {
+        firstname,
+        lastname,
+        email,
+        password,
+      });
+      setSuccessMessage("Account created successfully!");
+      setErrorMessage("");
+
+      setCurrentUser(response.data);
+    } catch (err) {
+      setErrorMessage("An error occurred while creating your account.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const signOut = () => {
+    setCurrentUser(null);
+    setToken(null);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
   };
 
   return (
     <AuthContext.Provider
       value={{
-        isUserAuthenticated,
-        isAdminAuthenticated,
         currentUser,
-        setAuthStatus,
-        blog,
-        feedback,
+        isLoading,
+        signIn,
+        signUp,
+        signOut,
+        token,
+        errorMessage,
+        setErrorMessage,
+        successMessage,
+        setSuccessMessage,
+        setCurrentUser,
       }}
     >
       {children}
