@@ -12,10 +12,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { User } from "../types/classes/User";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props: any) {
   return (
@@ -38,39 +36,32 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 const SignInPage: React.FC = () => {
+  const { signIn, errorMessage, setErrorMessage, currentUser } = useAuth();
+  const [email, setEmail] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("");
   const navigate = useNavigate();
-  const { setAuthStatus } = useAuth();
-  const [errorMessage, setErrorMessage] = React.useState<string>("");
 
   const handleAuth = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const user = {
-      email: data.get("email") as string,
-      password: data.get("password") as string,
-    };
-    if (!user.email.trim() || !user.password.trim()) {
-      setErrorMessage("Both email and password are required.");
-      return;
-    }
     try {
-      const response = await axios.post(
-        "http://localhost:8080/auth/login",
-        user
-      );
-      const { id, nom, prenom, mdp, email, role, token } = response.data;
-      const loggedInUser = new User(id, nom, prenom, email, mdp, role);
-
-      localStorage.setItem("user", JSON.stringify(loggedInUser));
-      localStorage.setItem("token", token);
-
-      setAuthStatus(role === "USER" ? "user" : "admin", true);
-
-      navigate(role === "USER" ? "/user" : "/admin");
+      await signIn(email, password);
     } catch (err) {
-      setErrorMessage("Login failed. Please check your email and password.");
+      setErrorMessage("Invalid credentials, please try again.");
     }
   };
+
+  // Handle redirection based on the user's role
+  React.useEffect(() => {
+    if (currentUser) {
+      console.log("Redirecting user:", currentUser);
+
+      if (currentUser.role === "ADMIN") {
+        navigate("/admin", { replace: true });
+      } else if (currentUser.role === "USER") {
+        navigate("/user", { replace: true });
+      }
+    }
+  }, [currentUser, navigate]);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -103,6 +94,8 @@ const SignInPage: React.FC = () => {
               name="email"
               autoComplete="email"
               autoFocus
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -113,6 +106,8 @@ const SignInPage: React.FC = () => {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -128,7 +123,7 @@ const SignInPage: React.FC = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="/Reset Password" variant="body2">
+                <Link href="/reset-password" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
@@ -145,4 +140,5 @@ const SignInPage: React.FC = () => {
     </ThemeProvider>
   );
 };
+
 export default SignInPage;

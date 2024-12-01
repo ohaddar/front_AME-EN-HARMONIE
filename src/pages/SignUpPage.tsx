@@ -12,9 +12,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import axios from "axios";
+import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { User } from "../types/classes/User";
 
 function Copyright(props: any) {
   return (
@@ -37,63 +36,26 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 const SignUpPage: React.FC = () => {
+  const {
+    signUp,
+    successMessage,
+    errorMessage,
+    setErrorMessage,
+    setSuccessMessage,
+  } = useAuth();
+  const [email, setEmail] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("");
+  const [firstname, setFirstname] = React.useState<string>("");
+  const [lastname, setLastname] = React.useState<string>("");
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = React.useState<string>("");
-  const [successMessage, setSuccessMessage] = React.useState<string>("");
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const user = {
-      firstname: data.get("firstName") as string,
-      lastname: data.get("lastName") as string,
-      email: data.get("email") as string,
-      password: data.get("password") as string,
-    };
-    if (
-      !user.firstname.trim() ||
-      !user.lastname.trim() ||
-      !user.email.trim() ||
-      !user.password.trim()
-    ) {
-      setErrorMessage("All fields are required.");
-      return;
-    }
-    const isValidEmail = /\S+@\S+\.\S+/.test(user.email);
-    const isValidPassword =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-        user.password
-      );
-
-    if (!isValidEmail || !isValidPassword) {
-      setErrorMessage("Invalid email or password format.");
-      return;
-    }
-
     try {
-      const response = await axios.post(
-        "http://localhost:8080/auth/register",
-        user
-      );
-      setSuccessMessage("Account created successfully!");
-      setErrorMessage("");
-      const { id, firstname, lastname, email, password, role } = response.data;
-      const loggedInUser = new User(
-        id,
-        firstname,
-        lastname,
-        email,
-        password,
-        role
-      );
-      localStorage.setItem("user", JSON.stringify(loggedInUser));
-
-      if (loggedInUser.role === "USER") {
-        navigate("/");
-      } else if (loggedInUser.role === "ADMIN") {
-        navigate("/admin");
-      }
+      await signUp(firstname, lastname, email, password);
+      setSuccessMessage("Sign-up successful!");
+      navigate("/user");
     } catch (err) {
-      setErrorMessage("An error occurred while creating your account.");
+      setErrorMessage("Error during sign up. Please try again.");
     }
   };
   return (
@@ -136,6 +98,8 @@ const SignUpPage: React.FC = () => {
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  value={firstname}
+                  onChange={(e) => setFirstname(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -146,6 +110,8 @@ const SignUpPage: React.FC = () => {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  value={lastname}
+                  onChange={(e) => setLastname(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -156,6 +122,8 @@ const SignUpPage: React.FC = () => {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -166,7 +134,9 @@ const SignUpPage: React.FC = () => {
                   label="Password"
                   type="password"
                   id="password"
-                  autoComplete="new-password"
+                  autoComplete="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
