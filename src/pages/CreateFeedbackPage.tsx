@@ -1,10 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
-import sanitizeHtml from "sanitize-html";
 
-import { useAuth } from "../contexts/AuthContext";
-import axios from "axios";
 import { useCreateFeedbackContext } from "../contexts/themeContext/CreateFeedbackContext";
 import "../CreateBlogPage.css";
 
@@ -13,92 +10,22 @@ export const CreateFeedbackPage: React.FC = () => {
     title,
     rating,
     content,
-    file,
+    warningMessage,
+    successMessage,
+    createNewFeedback,
+    handleFileChange,
     setTitle,
     setRating,
     setContent,
-    setFile,
-    addPost,
   } = useCreateFeedbackContext();
-  const { feedback, currentUser } = useAuth();
-  const token = localStorage.getItem("token");
   const quillRef = useRef(null);
-  const [warningMessage, setWarningMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
-    }
-  };
-  const validateForm = () => {
-    if (!title.trim() || !rating.toString().trim() || !content.trim()) {
-      setWarningMessage(
-        "Please fill in all fields. Empty inputs are not allowed."
-      );
-      return false;
-    }
-    setWarningMessage("");
-    return true;
-  };
-  const createNewFeedback = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validateForm()) return;
 
-    const plainText = sanitizeHtml(content, { allowedTags: [] });
-
-    const feedbackData = JSON.stringify({
-      title,
-      rating,
-      content: plainText,
-      publicationDate: new Date().toISOString(),
-      user: { firstname: currentUser?.firstname },
-    });
-
-    const data = new FormData();
-    data.append("feedback", feedbackData);
-    if (file) {
-      data.append("image", file);
-    }
-
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/feedback/save",
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        console.log("Success:", response.data);
-        addPost(response.data);
-        setSuccessMessage(
-          "Feedback created successfully! You can now go to the feedback list."
-        );
-        setTitle("");
-        setRating(0);
-        setContent("");
-        setFile(null);
-        feedback();
-      } else {
-        console.error(
-          "Feedback creation failed: Unexpected status",
-          response.status
-        );
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
   const handleRedirect = (route: string) => {
-    if (route === "Feedback list") {
-      window.location.href = "/feedback";
-    } else {
-      window.location.href = "/";
-    }
+    window.location.href = route === "Feedback list" ? "feedback" : "";
+  };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    createNewFeedback();
   };
   return (
     <div>
@@ -114,7 +41,7 @@ export const CreateFeedbackPage: React.FC = () => {
           </button>
         </div>
       )}
-      <form onSubmit={createNewFeedback} className="create-blog-form">
+      <form onSubmit={handleSubmit} className="create-blog-form">
         <input
           type="text"
           placeholder="Title"
