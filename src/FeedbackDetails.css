@@ -1,4 +1,3 @@
-/* Style pour le titre */
 .feedback-title {
   width: 58%;
   margin-left: 48%;
@@ -6,10 +5,9 @@
   justify-content: space-between;
 }
 
-/* Style pour le contenu */
 .feedback-content {
   margin: 2rem;
-  font-size: 1rem; /* Taille de police par défaut */
+  font-size: 1rem;
 }
 
 .feedback-image {
