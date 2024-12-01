@@ -17,14 +17,12 @@ import { Feedback } from "../../types/types";
 const defaultTheme = createTheme();
 
 const RetourExperienceSection: React.FC = () => {
-  const { isUserAuthenticated, isAdminAuthenticated } = useAuth();
+  const { currentUser } = useAuth();
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
 
   const navigate = useNavigate();
   const handleFeedbacks = () => {
-    isUserAuthenticated || isAdminAuthenticated
-      ? navigate("feedback")
-      : navigate("/connect");
+    currentUser ? navigate("feedback") : navigate("/connect");
   };
   useEffect(() => {
     const fetchFeedbacks = async () => {
@@ -60,7 +58,6 @@ const RetourExperienceSection: React.FC = () => {
             feedbacks.map((feedback) => (
               <Grid item xs={12} sm={6} md={4} key={feedback.id}>
                 <div className="blog-card">
-                  {/* Image */}
                   {feedback.imageUrl && (
                     <img
                       src={feedback.imageUrl}
@@ -69,19 +66,16 @@ const RetourExperienceSection: React.FC = () => {
                     />
                   )}
 
-                  {/* Titre */}
                   <Typography variant="h6" className="blog-title">
                     {feedback.title}
                   </Typography>
 
-                  {/* Contenu */}
                   <Typography variant="body2" className="blog-content">
                     {feedback.content.length > 100
                       ? feedback.content.substring(0, 100) + "..."
                       : feedback.content}
                   </Typography>
 
-                  {/* Bouton */}
                   <Button
                     variant="contained"
                     className="blog-button"

@@ -21,11 +21,11 @@ interface Feedback {
 const FeedbackDetails = () => {
   const { id } = useParams();
   const [feedback, setFeedback] = useState<Feedback | null>(null);
-  const { isUserAuthenticated, isAdminAuthenticated } = useAuth();
+  const { currentUser } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!(isUserAuthenticated || isAdminAuthenticated)) {
+    if (!currentUser) {
       navigate("/login");
       return;
     }
@@ -51,7 +51,7 @@ const FeedbackDetails = () => {
     };
 
     fetchFeedbackDetails();
-  }, [id, isUserAuthenticated, isAdminAuthenticated, navigate]);
+  }, [currentUser]);
 
   if (!feedback) return <div>Loading...</div>;
 

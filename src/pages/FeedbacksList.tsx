@@ -13,7 +13,6 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import axios from "axios";
-import { User } from "../types/classes/User";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import "../BlogsList.css";
@@ -24,12 +23,13 @@ const defaultTheme = createTheme();
 const FeedbacksList: React.FC = () => {
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const navigate = useNavigate();
-  const { isAdminAuthenticated } = useAuth();
+  const { currentUser } = useAuth();
   const handleDisplayFeedback = (feedbackId: number | undefined) => {
     if (feedbackId) {
-      const path = isAdminAuthenticated
-        ? `/admin/FeedbackDetails/${feedbackId}`
-        : `/user/FeedbackDetails/${feedbackId}`;
+      const path =
+        currentUser?.role === "ADMIN"
+          ? `/admin/feedback-details/${feedbackId}`
+          : `/user/feedback-details/${feedbackId}`;
       navigate(path);
     }
   };

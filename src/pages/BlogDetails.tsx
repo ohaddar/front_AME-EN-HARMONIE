@@ -8,7 +8,7 @@ import { Blog } from "../types/types";
 const BlogDetails = () => {
   const { id } = useParams();
   const [blog, setBlog] = useState<Blog | null>(null);
-  const { isUserAuthenticated, isAdminAuthenticated } = useAuth();
+  const { currentUser } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,13 +36,13 @@ const BlogDetails = () => {
         console.error("Error fetching blog details:", error);
       }
     };
-    if (!isUserAuthenticated && !isAdminAuthenticated) {
+    if (!currentUser) {
       navigate("/login");
       console.log("there is a problem");
     } else {
       fetchBlogDetails();
     }
-  }, [id, navigate, isUserAuthenticated, isAdminAuthenticated]);
+  }, [currentUser]);
   if (!blog) return <div>Loading...</div>;
 
   return (
