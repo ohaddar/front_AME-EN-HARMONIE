@@ -6,7 +6,7 @@ import { MenuItemLinkProps } from "../types/types";
 const MenuItemLink: React.FC<MenuItemLinkProps> = ({ name, path, onClick }) => (
   <Button
     onClick={onClick}
-    sx={{ my: 2, color: "white", display: "block" }}
+    sx={{ my: 2, color: "black", display: "block" }}
     component={Link}
     to={path}
   >
