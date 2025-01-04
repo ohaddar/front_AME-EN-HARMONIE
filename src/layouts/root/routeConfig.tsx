@@ -13,6 +13,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import Home from "../../pages/Home";
 import Root from "./Root";
 import TestCard from "../../components/TestCard";
+import SignUpPage from "../../pages/SignUpPage";
 
 const RoutesConfig: React.FC = () => {
   const { currentUser } = useAuth();
@@ -34,7 +35,7 @@ const RoutesConfig: React.FC = () => {
       <Route path="/" element={<Root />}>
         <Route path="" element={<Home />} />
         <Route path="/connect" element={<SignInPage />} />
-        <Route path="/sign-up" element={<div>Sign Up Page</div>} />{" "}
+        <Route path="/sign-up" element={<SignUpPage />} />{" "}
         {/* Replace with actual Sign Up Page */}
         <Route path="/about" element={<About />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
