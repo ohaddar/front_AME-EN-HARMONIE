@@ -22,7 +22,6 @@ const defaultTheme = {
   },
 };
 
-// Styled Components for Blog Section
 const BlogSection = styled(Box)`
   padding: 24px;
   background: radial-gradient(circle, #f2ffff);
@@ -60,7 +59,7 @@ const BlogTitle = styled(Typography)`
   color: ${({ theme }) => theme.colors.text.primary};
   margin: 0;
   min-height: 48px;
-  max-height: 60px;
+  max-height: 50px;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
@@ -104,11 +103,32 @@ const CategoryBadge = styled(Typography)`
 `;
 
 const ReadMoreButton = styled(Button)`
-  margin-top: auto;
-  background-color: ${({ theme }) => theme.colors.primary.main};
-  color: white;
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.primary.dark};
+  && {
+    background-color: #7c3aed;
+    color: white;
+    text-transform: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin-left: 1rem;
+    width: 46%;
+    &:hover {
+      background-color: #5b21b6;
+      transform: translateY(-2px);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.5);
+    }
+
+    &:active {
+      transform: translateY(0);
+      background-color: #7c3aed;
+    }
   }
 `;
 
@@ -153,10 +173,7 @@ const BlogComponent: React.FC = () => {
                   <BlogImage src={blog.imageUrl} alt={blog.title} />
                   <BlogContent>
                     <BlogTitle>{blog.title}</BlogTitle>
-                    <BlogExcerpt>{`${blog.content.substring(
-                      0,
-                      120,
-                    )}...`}</BlogExcerpt>
+                    <BlogExcerpt>{blog.content}</BlogExcerpt>
                     <BlogMeta>
                       <DateText>{"Unknown Date"}</DateText>
                       <CategoryBadge>{blog.category}</CategoryBadge>
