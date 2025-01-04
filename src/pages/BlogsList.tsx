@@ -55,27 +55,41 @@ const BlogsList: React.FC = () => {
   const ReadMoreButton = styled.button`
     margin: 16px 16px 16px;
     padding: 8px 12px;
-    background-color: ${({ theme }) => theme.colors.primary.main};
-    color: white;
+    background-color: #7c3aed;
+    color: #ffffff;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 
     &:hover {
-      background-color: ${({ theme }) => theme.colors.primary.dark};
+      background-color: #5b21b6;
+      transform: translateY(-2px);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.5);
+    }
+
+    &:active {
+      transform: translateY(0);
+      background-color: #7c3aed;
     }
   `;
 
   const Container = styled.div`
     background-color: ${({ theme }) => theme.colors.background.default};
-    padding: 16px;
+    padding: 10px;
     min-height: 100vh;
   `;
 
   const BlogListTitle = styled.h3`
     font-size: 2rem;
-    margin-bottom: 24px;
+    margin-bottom: 5px;
     text-align: center;
     color: ${({ theme }) => theme.colors.text.primary};
   `;
@@ -199,21 +213,17 @@ const BlogsList: React.FC = () => {
         <BlogGrid>
           {blogs.map((blog, index) => (
             <BlogCard key={index}>
-              {/* Blog Image */}
               <BlogImage src={blog.imageUrl} alt={blog.title} />
-              {/* Meta Information (Date & Category) */}
               <MetaInfo>
                 <DateText>"March,2023"</DateText>
                 <CategoryBadge>{blog.category}</CategoryBadge>
               </MetaInfo>
-              {/* Blog Content */}
               <BlogContent>
                 <BlogTitle>{blog.title}</BlogTitle>
                 <BlogExcerpt>
                   {`${blog.content.substring(0, 120)}...`}
                 </BlogExcerpt>
               </BlogContent>
-              {/* Read More Button */}
               <ReadMoreButton onClick={() => handleDisplayBlogs(blog.id)}>
                 Read More
               </ReadMoreButton>
