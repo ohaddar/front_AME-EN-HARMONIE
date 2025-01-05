@@ -8,14 +8,11 @@ import "../CreateBlogPage.css";
 export const CreateFeedbackPage: React.FC = () => {
   const {
     title,
-    rating,
     content,
     warningMessage,
     successMessage,
     createNewFeedback,
-    handleFileChange,
     setTitle,
-    setRating,
     setContent,
   } = useCreateFeedbackContext();
   const quillRef = useRef(null);
@@ -49,19 +46,6 @@ export const CreateFeedbackPage: React.FC = () => {
           onChange={(e) => setTitle(e.target.value)}
           className="create-blog-input"
         />
-        <input
-          type="number"
-          placeholder="Rating"
-          value={rating.toString()}
-          onChange={(e) => setRating(parseInt(e.target.value))}
-          className="create-blog-input"
-        />
-        <input
-          type="file"
-          onChange={handleFileChange}
-          className="create-blog-file-input"
-        />
-
         <ReactQuill
           ref={quillRef}
           value={content}

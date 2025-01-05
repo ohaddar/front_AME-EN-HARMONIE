@@ -26,11 +26,9 @@ export interface Feedback {
   id?: number;
   title: string;
   content: string;
-  rating: number;
-  image?: string;
+
   publicationDate?: Date;
   user?: User;
-  imageUrl?: string;
 }
 export interface Blog {
   id?: number;
@@ -60,17 +58,13 @@ export interface FeedbackType {
 
 export interface FeedbackContextProps {
   title: string;
-  rating: number;
+
   content: string;
-  file: File | null;
   warningMessage: string;
   successMessage: string;
   createNewFeedback: () => Promise<void>;
-  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
   setTitle: (title: string) => void;
-  setRating: (rating: number) => void;
   setContent: (content: string) => void;
-  setFile: (file: File | null) => void;
   setWarningMessage: React.Dispatch<React.SetStateAction<string>>;
   setSuccessMessage: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -90,6 +84,7 @@ export interface AuthContextType {
     lastname: string,
     email: string,
     password: string,
+    avatar: string,
   ) => Promise<void>;
   signOut: () => void;
 }

@@ -26,22 +26,14 @@ export const FeedbackProvider: React.FC<FeedbackProviderProps> = ({
   children,
 }) => {
   const [title, setTitle] = useState("");
-  const [rating, setRating] = useState<number>(0);
   const [content, setContent] = useState("");
-  const [file, setFile] = useState<File | null>(null);
   const { currentUser } = useAuth();
   const token = localStorage.getItem("token");
   const [warningMessage, setWarningMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
-    } else {
-      setFile(null);
-    }
-  };
+
   const validateForm = () => {
-    if (!title.trim() || !rating.toString().trim() || !content.trim()) {
+    if (!title.trim() || !content.trim()) {
       setWarningMessage(
         "Please fill in all fields. Empty inputs are not allowed.",
       );
@@ -57,17 +49,14 @@ export const FeedbackProvider: React.FC<FeedbackProviderProps> = ({
 
     const feedbackData = JSON.stringify({
       title,
-      rating,
       content: plainText,
       publicationDate: new Date().toISOString(),
-      user: { firstname: currentUser?.firstname },
+      user: { firstname: currentUser?.firstname, avatar: currentUser?.avatar },
     });
 
     const data = new FormData();
     data.append("feedback", feedbackData);
-    if (file) {
-      data.append("image", file);
-    }
+    console.log(feedbackData);
 
     try {
       const response = await axios.post(
@@ -86,9 +75,7 @@ export const FeedbackProvider: React.FC<FeedbackProviderProps> = ({
           "Feedback created successfully! You can now go to the feedback list.",
         );
         setTitle("");
-        setRating(0);
         setContent("");
-        setFile(null);
       } else {
         console.error(
           "Feedback creation failed: Unexpected status",
@@ -103,17 +90,12 @@ export const FeedbackProvider: React.FC<FeedbackProviderProps> = ({
     <CreateFeedbackContext.Provider
       value={{
         title,
-        rating,
         content,
-        file,
         warningMessage,
         successMessage,
         createNewFeedback,
-        handleFileChange,
         setTitle,
-        setRating,
         setContent,
-        setFile,
         setWarningMessage,
         setSuccessMessage,
       }}
