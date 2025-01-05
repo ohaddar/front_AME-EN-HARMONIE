@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import BlogsList from "../../pages/BlogsList";
 import { useAuth } from "../../contexts/AuthContext";
 import { CreateBlogPage } from "../../pages/CreateBlogPage";
-import FeedbacksList from "../../pages/FeedbacksList";
-import FeedbackDetails from "../../pages/FeedbackDetails";
 import BlogDetails from "../../pages/BlogDetails";
 import ResetPasswordPage from "../../pages/ResetPasswordPage";
 import { CreateFeedbackPage } from "../../pages/CreateFeedbackPage";
@@ -14,6 +12,7 @@ import Home from "../../pages/Home";
 import Root from "./Root";
 import TestCard from "../../components/TestCard";
 import SignUpPage from "../../pages/SignUpPage";
+import RetourExperienceSection from "../../components/sections/RetourExperienceSection";
 
 const RoutesConfig: React.FC = () => {
   const { currentUser } = useAuth();
@@ -46,10 +45,9 @@ const RoutesConfig: React.FC = () => {
         <Route path="/admin" element={<Root />}>
           <Route path="" element={<Home />} />
           <Route path="blog" element={<BlogsList />} />
-          <Route path="feedback" element={<FeedbacksList />} />
+          <Route path="feedback" element={<RetourExperienceSection />} />
           <Route path="create-blog" element={<CreateBlogPage />} />
           <Route path="blog-details/:id" element={<BlogDetails />} />
-          <Route path="feedback-details/:id" element={<FeedbackDetails />} />
         </Route>
       )}
       {/* User Routes - Only accessible if logged in as User */}
@@ -57,10 +55,9 @@ const RoutesConfig: React.FC = () => {
         <Route path="/user" element={<Root />}>
           <Route path="" element={<Home />} />
           <Route path="blog" element={<BlogsList />} />
-          <Route path="feedback" element={<FeedbacksList />} />
+          <Route path="feedback" element={<RetourExperienceSection />} />
           <Route path="create-feedback" element={<CreateFeedbackPage />} />
           <Route path="blog-details/:id" element={<BlogDetails />} />
-          <Route path="feedback-details/:id" element={<FeedbackDetails />} />
           <Route path="reset-password" element={<ResetPasswordPage />} />
           <Route path="test" element={<TestCard />} />
         </Route>
