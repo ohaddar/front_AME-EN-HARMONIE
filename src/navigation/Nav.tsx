@@ -3,13 +3,14 @@ import styled from "styled-components";
 import { useAuth } from "../contexts/AuthContext";
 import MenuItemLink from "../components/MenuItemLink";
 import Logo from "../components/Logo";
+import { Avatar } from "@mui/material";
 
 const AppBar = styled.header`
-  background-color: white; /* Matches the rest of the page */
+  background-color: white;
   position: static;
   border: none;
-  box-shadow: none; /* Remove shadow */
-  padding: 1rem 0; /* Optional: Adds a slight vertical spacing for consistency */
+  box-shadow: none;
+  padding: 1rem 0;
 `;
 
 const Container = styled.div`
@@ -34,21 +35,21 @@ const NavMenuButton = styled.button`
   display: none;
   align-items: center;
   justify-content: center;
-  background: rgb(215, 195, 255); /* Ton mauve clair */
-  border: none; /* Pas de bordure */
-  border-radius: 8px; /* Coins légèrement arrondis */
-  color: #4b0082; /* Texte ou icône violet foncé */
+  background: rgb(215, 195, 255);
+  border: none;
+  border-radius: 8px;
+  color: #4b0082;
   cursor: pointer;
   padding: 0.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Ombrage subtil */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 960px) {
     display: flex;
   }
 
   &:hover {
-    background-color: rgb(180, 160, 230); /* Légèrement plus foncé au survol */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* Ombrage plus prononcé */
+    background-color: rgb(180, 160, 230);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   }
 `;
 
@@ -57,21 +58,21 @@ const Menu = styled.div`
   top: 64px;
   left: 0;
   width: 100%;
-  background: white; /* Fond blanc pour correspondre au reste de la page */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Ombrage subtil */
+  background: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 10;
 
   & > a {
     display: block;
     padding: 0.75rem 1rem;
-    color: #333; /* Texte sombre pour contraste */
+    color: #333;
     text-decoration: none;
     font-size: 1rem;
     font-weight: 500;
     transition: background-color 0.3s ease, color 0.3s ease;
 
     &:hover {
-      background-color: #f9f9f9; /* Fond clair au survol */
+      background-color: #f9f9f9;
     }
   }
 `;
@@ -88,13 +89,13 @@ const MenuIcon = styled.div`
     display: block;
     width: 100%;
     height: 0.2rem;
-    background-color: #4b0082; /* Couleur violet foncé */
+    background-color: #4b0082;
     border-radius: 2px;
     transition: transform 0.3s ease, background-color 0.3s ease;
   }
 
   &:hover > span {
-    background-color: rgb(80, 60, 245); /* Couleur violet-indigo au survol */
+    background-color: rgb(80, 60, 245);
   }
 `;
 
@@ -111,15 +112,15 @@ const DesktopMenu = styled.nav`
     margin: 0 1rem;
     font-size: 0.9rem;
     font-weight: 500;
-    font-family: "Inter", sans-serif; /* Nouvelle police */
-    color: #1f2937; /* Couleur sombre élégante */
+    font-family: "Inter", sans-serif;
+    color: #1f2937;
     text-decoration: none;
     position: relative;
     transition: color 0.3s ease, transform 0.3s ease;
 
     &:hover {
-      color: rgb(80, 60, 245); /* Couleur violet-indigo au survol */
-      transform: translateY(-2px); /* Légère montée pour l'effet hover */
+      color: rgb(80, 60, 245);
+      transform: translateY(-2px);
     }
 
     &:after {
@@ -135,7 +136,7 @@ const DesktopMenu = styled.nav`
     }
 
     &:hover:after {
-      width: 100%; /* Ligne qui s'étend au survol */
+      width: 100%;
     }
   }
 `;
@@ -206,7 +207,10 @@ export default function Nav() {
 
           <Actions>
             {currentUser ? (
-              <MenuItemLink name="Logout" path="" onClick={signOut} />
+              <>
+                <Avatar src={currentUser.avatar} />
+                <MenuItemLink name="Logout" path="" onClick={signOut} />
+              </>
             ) : (
               <MenuItemLink name="Se Connecter" path="connect" />
             )}
