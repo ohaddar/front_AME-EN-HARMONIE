@@ -31,35 +31,52 @@ const UserAvatar = styled.img`
     height: 40px;
   }
 `;
-
+const FeedbackTitle = styled(Typography)`
+  font-size: 2rem !important;
+  font-weight: bold !important;
+  color: #4f46e5; /* Indigo */
+  text-align: center;
+  margin-bottom: 20px !important;
+  @media (max-width: 768px) {
+    font-size: 1.6rem;
+    margin-bottom: 12px;
+  }
+  @media (max-width: 600px) {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+  }
+`;
 const FeedbackContent = styled(Typography)`
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   line-height: 1.8;
   color: #333;
-  text-align: center;
-  margin-bottom: 12px;
+  text-align: justify;
+  margin: 16px 0;
+  margin-bottom: 3rem;
   @media (max-width: 768px) {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    margin: 12px 0;
   }
   @media (max-width: 600px) {
     font-size: 1rem;
     line-height: 1.5;
-    margin-bottom: 8px;
+    margin: 8px 0;
   }
 `;
 
 const FeedbackFooter = styled(Box)`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 12px;
   margin-top: auto;
-  padding-top: 12px;
+  padding-top: 16px;
   font-size: 0.85rem;
+  border-top: 1px solid #e5e7eb;
   @media (max-width: 600px) {
     gap: 8px;
     font-size: 0.75rem;
-    padding-top: 8px;
+    padding-top: 12px;
   }
 `;
 
@@ -185,21 +202,24 @@ const RetourExperienceSection: React.FC = () => {
         <NavButtonLeft onClick={handlePrevious}>
           <ArrowBack />
         </NavButtonLeft>
+        <FeedbackTitle>{currentFeedback.title}</FeedbackTitle>
 
         <FeedbackContent>{currentFeedback.content}</FeedbackContent>
 
         <FeedbackFooter>
           <UserInfo>
             <UserAvatar
-              src={currentFeedback.imageUrl}
-              alt={currentFeedback.imageUrl}
+              src={currentFeedback.user?.avatar}
+              alt={currentFeedback.user?.avatar}
             />
             <Typography variant="body1" fontWeight="bold">
               {currentFeedback.user?.firstname}
             </Typography>
           </UserInfo>
           <FeedbackDate variant="body2" color="textSecondary">
-            12 mars
+            {currentFeedback.publicationDate
+              ? new Date(currentFeedback.publicationDate).toLocaleDateString()
+              : "No date available"}{" "}
           </FeedbackDate>
         </FeedbackFooter>
 
