@@ -175,7 +175,11 @@ const BlogComponent: React.FC = () => {
                     <BlogTitle>{blog.title}</BlogTitle>
                     <BlogExcerpt>{blog.content}</BlogExcerpt>
                     <BlogMeta>
-                      <DateText>{"Unknown Date"}</DateText>
+                      <DateText>
+                        {blog.creationDate
+                          ? new Date(blog.creationDate).toLocaleDateString()
+                          : "No date available"}
+                      </DateText>
                       <CategoryBadge>{blog.category}</CategoryBadge>
                     </BlogMeta>
                   </BlogContent>
