@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -14,6 +12,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { AvatarGroup } from "@mui/material";
+import { Error as ErrorIcon } from "@mui/icons-material";
 
 function Copyright(props: any) {
   return (
@@ -35,7 +35,7 @@ function Copyright(props: any) {
 
 const defaultTheme = createTheme();
 
-const SignUpPage: React.FC = () => {
+const SignUpPage = () => {
   const {
     signUp,
     successMessage,
@@ -47,17 +47,37 @@ const SignUpPage: React.FC = () => {
   const [password, setPassword] = React.useState<string>("");
   const [firstname, setFirstname] = React.useState<string>("");
   const [lastname, setLastname] = React.useState<string>("");
+  const [avatarValue, setAvatarValue] = React.useState<string | undefined>(
+    undefined,
+  );
+  const [error, setError] = React.useState<string>("");
+
   const navigate = useNavigate();
+  const avatars: string[] = [
+    "src/assets/images/avatar1.webp",
+    "src/assets/images/avatar2.webp",
+    "src/assets/images/avatar3.webp",
+    "src/assets/images/avatar4.webp",
+    "src/assets/images/avatar5.webp",
+    "src/assets/images/avatar6.webp",
+  ];
+
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!firstname || !lastname || !email || !password || !avatarValue) {
+      setError("Please fill in all fields and select an avatar.");
+      return;
+    }
+
     try {
-      await signUp(firstname, lastname, email, password);
+      await signUp(firstname, lastname, email, password, avatarValue);
       setSuccessMessage("Sign-up successful!");
       navigate("/user");
     } catch (err) {
-      setErrorMessage("Error during sign up. Please try again.");
+      setErrorMessage("Error during sign-up. Please try again.");
     }
   };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -77,10 +97,22 @@ const SignUpPage: React.FC = () => {
             Sign up
           </Typography>
           {errorMessage && (
-            <Typography color="error">{errorMessage}</Typography>
+            <Typography
+              color="error"
+              variant="body2"
+              sx={{ marginBottom: "10px" }}
+            >
+              {errorMessage}
+            </Typography>
           )}
           {successMessage && (
-            <Typography color="success">{successMessage}</Typography>
+            <Typography
+              color="success"
+              variant="body2"
+              sx={{ marginBottom: "10px" }}
+            >
+              {successMessage}
+            </Typography>
           )}
           <Box
             component="form"
@@ -140,14 +172,35 @@ const SignUpPage: React.FC = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
+                <AvatarGroup max={avatars.length}>
+                  {avatars.map((avatar, index) => (
+                    <Avatar
+                      key={index}
+                      src={avatar}
+                      onClick={() => setAvatarValue(avatar)}
+                      sx={{
+                        width: avatarValue === avatar ? 65 : 60,
+                        height: avatarValue === avatar ? 65 : 60,
+                        border:
+                          avatarValue === avatar
+                            ? "3px solid rgb(70,38,228)"
+                            : "0px",
+                        cursor: "pointer",
+                      }}
+                    />
+                  ))}
+                </AvatarGroup>
               </Grid>
             </Grid>
+            {error && (
+              <Typography
+                color="error"
+                variant="body2"
+                sx={{ marginBottom: "1rem" }}
+              >
+                <ErrorIcon fontSize="small" /> {error}
+              </Typography>
+            )}
             <Button
               type="submit"
               fullWidth
