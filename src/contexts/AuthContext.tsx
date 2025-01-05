@@ -42,11 +42,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setToken(response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data));
       localStorage.setItem("token", response.data.token);
-
-      // Log the response for debugging
-      console.log("Login successful:", response.data);
-
-      setErrorMessage(""); // Clear previous errors
     } catch (err) {
       setErrorMessage("Login failed. Please check your email and password.");
       console.error("Login error:", err);
@@ -60,26 +55,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     lastname: string,
     email: string,
     password: string,
+    avatar: string,
   ) => {
     if (
       !firstname.trim() ||
       !lastname.trim() ||
       !email.trim() ||
-      !password.trim()
+      !password.trim() ||
+      !avatar.trim()
     ) {
       setErrorMessage("All fields are required.");
       return;
     }
-    const isValidEmail = /\S+@\S+\.\S+/.test(email);
-    const isValidPassword =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-        password,
-      );
+    // const isValidEmail = /\S+@\S+\.\S+/.test(email);
+    // const isValidPassword =
+    //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+    //     password,
+    //   );
 
-    if (!isValidEmail || !isValidPassword) {
-      setErrorMessage("Invalid email or password format.");
-      return;
-    }
+    // if (!isValidEmail || !isValidPassword) {
+    //   setErrorMessage("Invalid email or password format.");
+    //   return;
+    // }
     setIsLoading(true);
 
     try {
@@ -88,6 +85,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         lastname,
         email,
         password,
+        avatar,
       });
       setSuccessMessage("Account created successfully!");
       setErrorMessage("");
