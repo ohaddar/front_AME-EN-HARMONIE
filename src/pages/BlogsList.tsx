@@ -215,7 +215,12 @@ const BlogsList: React.FC = () => {
             <BlogCard key={index}>
               <BlogImage src={blog.imageUrl} alt={blog.title} />
               <MetaInfo>
-                <DateText>"March,2023"</DateText>
+                <DateText>
+                  {" "}
+                  {blog.creationDate
+                    ? new Date(blog.creationDate).toLocaleDateString()
+                    : "No date available"}
+                </DateText>
                 <CategoryBadge>{blog.category}</CategoryBadge>
               </MetaInfo>
               <BlogContent>
