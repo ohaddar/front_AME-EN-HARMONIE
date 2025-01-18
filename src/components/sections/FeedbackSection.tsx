@@ -5,7 +5,7 @@ import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import axios from "axios";
 import { Feedback } from "../../types/types";
 
-const FeedbackSection = styled(Box)`
+const StyledFeedbackSection = styled(Box)`
   position: relative;
   margin: 15px auto;
   max-width: 1200px;
@@ -34,7 +34,7 @@ const UserAvatar = styled.img`
 const FeedbackTitle = styled(Typography)`
   font-size: 2rem !important;
   font-weight: bold !important;
-  color: #4f46e5; /* Indigo */
+  color: #4f46e5;
   text-align: center;
   margin-bottom: 20px !important;
   @media (max-width: 768px) {
@@ -103,7 +103,6 @@ const NavButton = styled(IconButton)`
   transform: translateY(-50%);
   background: #4f46e5;
   color: white;
-  z-index: 10;
   &:hover {
     background: #4338ca;
   }
@@ -149,12 +148,13 @@ const FeedbackCard = styled(Box)`
     padding: 32px;
   }
   @media (max-width: 600px) {
-    width: 90%;
     padding: 24px;
+    width: min-content;
+    margin: 8px auto;
   }
 `;
 
-const RetourExperienceSection: React.FC = () => {
+const FeedbackSection: React.FC = () => {
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -186,18 +186,18 @@ const RetourExperienceSection: React.FC = () => {
 
   if (feedbacks.length === 0) {
     return (
-      <FeedbackSection>
+      <StyledFeedbackSection>
         <Typography variant="h6" color="textPrimary">
           No feedback available at the moment.
         </Typography>
-      </FeedbackSection>
+      </StyledFeedbackSection>
     );
   }
 
   const currentFeedback = feedbacks[currentIndex];
 
   return (
-    <FeedbackSection>
+    <StyledFeedbackSection>
       <FeedbackCard>
         <NavButtonLeft onClick={handlePrevious}>
           <ArrowBack />
@@ -227,8 +227,8 @@ const RetourExperienceSection: React.FC = () => {
           <ArrowForward />
         </NavButtonRight>
       </FeedbackCard>
-    </FeedbackSection>
+    </StyledFeedbackSection>
   );
 };
 
-export default RetourExperienceSection;
+export default FeedbackSection;
