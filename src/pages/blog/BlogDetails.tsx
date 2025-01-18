@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Blog } from "../types/types";
-import { useAuth } from "../contexts/AuthContext";
+
 import styled from "styled-components";
 import { Box, Typography } from "@mui/material";
+import { Blog } from "../../types/types";
+import { useAuth } from "../../contexts/AuthContext";
 
 const defaultTheme = {
   colors: {

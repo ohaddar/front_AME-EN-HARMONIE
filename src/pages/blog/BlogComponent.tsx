@@ -3,8 +3,8 @@ import styled, { ThemeProvider } from "styled-components";
 import { Box, Grid, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Blog } from "../types/types";
-import { useAuth } from "../contexts/AuthContext";
+import { Blog } from "../../types/types";
+import { useAuth } from "../../contexts/AuthContext";
 
 const defaultTheme = {
   colors: {

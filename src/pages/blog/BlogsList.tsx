@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-
 import styled, { ThemeProvider } from "styled-components";
-import { CssBaseline } from "@mui/material";
+import { Box, CssBaseline, IconButton } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import "../BlogsList.css";
-import { Blog } from "../types/types";
+import { Delete, Edit } from "@mui/icons-material";
+import { Blog } from "../../types/types";
+import { useAuth } from "../../contexts/AuthContext";
 
 const BlogsList: React.FC = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+
   const handleDisplayBlogs = (blogId: number | undefined) => {
     if (blogId) {
       const path =
@@ -19,6 +19,79 @@ const BlogsList: React.FC = () => {
           ? `/admin/blog-details/${blogId}`
           : `/user/blog-details/${blogId}`;
       navigate(path);
+    }
+  };
+
+  const handleDelete = async (blogId: number) => {
+    if (window.confirm("Are you sure you want to delete this blog?")) {
+      try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          console.warn("No token found. Redirecting to login.");
+          navigate("/login");
+          return;
+        }
+
+        const response = await axios.delete(
+          `http://localhost:8080/Blogs/${blogId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          },
+        );
+
+        if (response.status === 204) {
+          console.log(`Successfully deleted blog with ID: ${blogId}`);
+        } else {
+          console.error(
+            `Failed to delete blog with ID: ${blogId}. Response:`,
+            response,
+          );
+        }
+      } catch (error) {
+        console.error("An error occurred while deleting the blog:", error);
+      }
+    }
+  };
+
+  const handleEdit = (blogId: number) => {
+    console.log(`Editing blog with ID: ${blogId}`);
+    navigate(`/admin/edit-blog/${blogId}`);
+  };
+  const handleFilterBlog = async (blogCategory: string | undefined) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.warn("No token found. Redirecting to login.");
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/Blogs/category/${blogCategory}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      if (response.status === 200) {
+        setBlogs(response.data);
+        console.log(`Successfully filtered blogs by category: ${blogCategory}`);
+      } else {
+        console.error(
+          `Failed to filter blogs by category: ${blogCategory}. Response:`,
+          response,
+        );
+      }
+    } catch (error) {
+      console.error("An error occurred while filtering blogs:", error);
     }
   };
 
@@ -159,6 +232,34 @@ const BlogsList: React.FC = () => {
     text-align: justify;
   `;
 
+  const IconContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    width: 100%;
+    position: absolute;
+    top: 28px;
+    right: 8px;
+    z-index: 10;
+
+    @media (max-width: 600px) {
+      gap: 6px;
+    }
+  `;
+
+  const ManageData = styled(Box)`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    position: relative;
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  `;
+
   const BlogContent = styled.div`
     padding: 16px;
     display: flex;
@@ -189,6 +290,7 @@ const BlogsList: React.FC = () => {
       background-color: #f3f4f6;
     }
   `;
+
   const defaultTheme = {
     colors: {
       background: {
@@ -216,18 +318,42 @@ const BlogsList: React.FC = () => {
               <BlogImage src={blog.imageUrl} alt={blog.title} />
               <MetaInfo>
                 <DateText>
-                  {" "}
                   {blog.creationDate
                     ? new Date(blog.creationDate).toLocaleDateString()
                     : "No date available"}
                 </DateText>
-                <CategoryBadge>{blog.category}</CategoryBadge>
+                <CategoryBadge onClick={() => handleFilterBlog(blog.category)}>
+                  {blog.category}
+                </CategoryBadge>
               </MetaInfo>
               <BlogContent>
-                <BlogTitle>{blog.title}</BlogTitle>
-                <BlogExcerpt>
-                  {`${blog.content.substring(0, 120)}...`}
-                </BlogExcerpt>
+                <ManageData>
+                  <BlogTitle>{blog.title}</BlogTitle>
+                  {currentUser?.role === "ADMIN" && (
+                    <IconContainer>
+                      <IconButton
+                        onClick={() => handleEdit(blog.id!)}
+                        aria-label="edit"
+                        size="small"
+                        style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}
+                      >
+                        <Edit fontSize="small" />
+                      </IconButton>
+                      <IconButton
+                        onClick={() => handleDelete(blog.id!)}
+                        aria-label="delete"
+                        size="small"
+                        style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}
+                      >
+                        <Delete fontSize="small" color="error" />
+                      </IconButton>
+                    </IconContainer>
+                  )}
+                </ManageData>
+                <BlogExcerpt>{`${blog.content.substring(
+                  0,
+                  120,
+                )}...`}</BlogExcerpt>
               </BlogContent>
               <ReadMoreButton onClick={() => handleDisplayBlogs(blog.id)}>
                 Read More
