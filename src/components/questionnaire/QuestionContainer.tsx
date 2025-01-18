@@ -42,19 +42,25 @@ const QuestionContainer: React.FC = () => {
   const { currentQuestion, handleAnswer, resultMessage, loading, error } =
     useQuestionnaire();
 
-  useEffect(() => {
-    const deb = async () => {
-      await console.log(currentQuestion);
-    };
-    deb();
-  }, [currentQuestion]);
-
   return (
     <StyledContainer>
       <StyledStack>
         {loading && <CircularProgress />}
         {error && <Alert severity="error">{error}</Alert>}
-        {resultMessage && <Alert severity="info">{resultMessage}</Alert>}
+        {resultMessage && (
+          <Alert severity="info">
+            {resultMessage}
+            <Typography variant="h6" gutterBottom>
+              Savoir plus en lisant nos blogs
+            </Typography>
+            <a
+              href="/user/blog"
+              style={{ color: "#7c3aed", textDecoration: "underline" }}
+            >
+              Lire les blogs
+            </a>
+          </Alert>
+        )}
         {!loading && currentQuestion && (
           <>
             <Typography variant="h6" gutterBottom>
