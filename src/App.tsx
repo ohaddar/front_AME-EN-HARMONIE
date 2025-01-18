@@ -1,9 +1,16 @@
-import Layout from "./layouts/Layout";
-import "./index.css";
+import Layout from "./components/layouts/Layout";
+import FloatingChatIcon from "./components/bot/FloatingChatIcon";
+import { AuthProvider } from "./contexts/AuthContext";
+
 function App() {
-  return <Layout />;
+  return (
+    <AuthProvider>
+      <div style={{ position: "relative" }}>
+        <Layout />
+        <FloatingChatIcon />
+      </div>
+    </AuthProvider>
+  );
 }
 
 export default App;
-/**<FloatingChatIcon /> import FloatingChatIcon from "./components/botComponent/FloatingChatIcon";
- **/
