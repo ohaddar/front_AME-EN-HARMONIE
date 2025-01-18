@@ -1,9 +1,9 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { useAuth } from "../contexts/AuthContext";
-import MenuItemLink from "../components/MenuItemLink";
-import Logo from "../components/Logo";
+import Logo from "../components/common/Logo";
 import { Avatar } from "@mui/material";
+import MenuItemLink from "../components/common/MenuItemLink";
 
 const AppBar = styled.header`
   background-color: white;
@@ -56,23 +56,31 @@ const NavMenuButton = styled.button`
 const Menu = styled.div`
   position: absolute;
   top: 64px;
-  left: 0;
-  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  z-index: 10;
   background: white;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 10;
+  border-radius: 8px;
 
   & > a {
     display: block;
-    padding: 0.75rem 1rem;
+    padding: 0.5rem 1rem;
     color: #333;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 0.875rem;
     font-weight: 500;
     transition: background-color 0.3s ease, color 0.3s ease;
+    text-align: center;
 
     &:hover {
       background-color: #f9f9f9;
+    }
+
+    &.active {
+      background-color: rgb(180, 160, 230);
+      color: #4b0082;
     }
   }
 `;
@@ -150,8 +158,19 @@ const Actions = styled.div`
   }
 `;
 
+const AvatarContainer = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    margin-left: 4rem;
+  }
+`;
+
 export default function Nav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeMenuItem, setActiveMenuItem] = useState<string | null>(null);
   const { currentUser, signOut } = useAuth();
 
   const adminPages = [
@@ -167,7 +186,7 @@ export default function Nav() {
     { name: "Blog", path: "/user/blog" },
     { name: "Feedback", path: "/user/feedback" },
     { name: "Create a new feedback", path: "/user/create-feedback" },
-    { name: "Your Tests", path: "/user/test" },
+    { name: "Your Tests", path: "/user/results" },
   ];
 
   const pages = [
@@ -187,8 +206,19 @@ export default function Nav() {
         : pages;
 
     return menuItems.map((page) => (
-      <MenuItemLink key={page.name} name={page.name} path={page.path} />
+      <MenuItemLink
+        key={page.name}
+        name={page.name}
+        path={page.path}
+        className={activeMenuItem === page.name ? "active" : ""}
+        onClick={() => handleMenuItemClick(page.name)}
+      />
     ));
+  };
+
+  const handleMenuItemClick = (name: string) => {
+    setActiveMenuItem(name);
+    setMobileMenuOpen(false);
   };
 
   return (
@@ -198,11 +228,16 @@ export default function Nav() {
           <LogoContainer>
             <Logo />
           </LogoContainer>
-
-          <NavMenuButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            <MenuIcon />
-          </NavMenuButton>
-
+          <>
+            {currentUser && (
+              <AvatarContainer>
+                <Avatar src={currentUser.avatar} />
+              </AvatarContainer>
+            )}
+            <NavMenuButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+              <MenuIcon />
+            </NavMenuButton>
+          </>
           <DesktopMenu>{renderMenuItems()}</DesktopMenu>
 
           <Actions>
