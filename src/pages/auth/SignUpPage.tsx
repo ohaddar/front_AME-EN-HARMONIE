@@ -10,7 +10,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { AvatarGroup } from "@mui/material";
 import { Error as ErrorIcon } from "@mui/icons-material";
@@ -25,7 +25,7 @@ function Copyright(props: any) {
     >
       {"Copyright © "}
       <Link color="inherit" href="">
-        My Website
+        ÂmeEnHarmonie
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
