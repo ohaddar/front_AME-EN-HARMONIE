@@ -11,7 +11,8 @@ const defaultTheme = createTheme({
 
 const StyledSection = styled.div`
   background-image: url("src/assets/images/test-background.jpg");
-  background-color: rgba(0, 0, 0, 0.2);
+
+  background-color: rgba(192, 173, 194, 0.2);
   background-blend-mode: color;
   background-size: cover;
   background-repeat: no-repeat;
@@ -29,7 +30,6 @@ const StyledSection = styled.div`
 
   > * {
     position: relative;
-    z-index: 2;
     max-width: 800px;
     text-align: center;
   }
@@ -42,7 +42,6 @@ const StyledSection = styled.div`
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.6);
-    z-index: 1;
   }
 
   @keyframes moveBackground {
