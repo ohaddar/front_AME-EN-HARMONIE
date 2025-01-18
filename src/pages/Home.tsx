@@ -1,9 +1,9 @@
 import React from "react";
-import BlogComponent from "./BlogComponent";
+import BlogComponent from "./blog/BlogComponent";
 import { Box, createTheme, CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
-import RetourExperienceSection from "../components/sections/RetourExperienceSection";
-import TestComponent from "../components/TestComponent";
+import RetourExperienceSection from "../components/sections/FeedbackSection";
+import TestComponent from "../components/sections/TestComponent";
 const defaultTheme = createTheme();
 
 const Home: React.FC = () => {
