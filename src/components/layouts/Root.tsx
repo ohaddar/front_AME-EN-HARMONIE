@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Footer from "../footer/Footer";
+import Footer from "./Footer";
 import Nav from "../../navigation/Nav";
 
 const Root: React.FC = () => {

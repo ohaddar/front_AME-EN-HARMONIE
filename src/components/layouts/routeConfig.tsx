@@ -1,18 +1,20 @@
 import React, { useEffect } from "react";
-import BlogsList from "../../pages/BlogsList";
 import { useAuth } from "../../contexts/AuthContext";
-import { CreateBlogPage } from "../../pages/CreateBlogPage";
-import BlogDetails from "../../pages/BlogDetails";
-import ResetPasswordPage from "../../pages/ResetPasswordPage";
-import { CreateFeedbackPage } from "../../pages/CreateFeedbackPage";
-import SignInPage from "../../pages/SignInPage";
+import ResetPasswordPage from "../../pages/auth/ResetPasswordPage";
+import { CreateFeedbackPage } from "../../pages/feedback/CreateFeedbackPage";
 import About from "../../pages/About";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Home from "../../pages/Home";
 import Root from "./Root";
-import TestCard from "../../components/TestCard";
-import SignUpPage from "../../pages/SignUpPage";
-import RetourExperienceSection from "../../components/sections/RetourExperienceSection";
+import SignUpPage from "../../pages/auth/SignUpPage";
+import RetourExperienceSection from "../sections/FeedbackSection";
+import SignInPage from "../../pages/auth/SignInPage";
+import BlogsList from "../../pages/blog/BlogsList";
+import { CreateBlogPage } from "../../pages/blog/CreateBlogPage";
+import BlogDetails from "../../pages/blog/BlogDetails";
+import { EditBlogPage } from "../../pages/blog/EditBlogPage";
+import TestCard from "../common/TestCard";
+import TestResultPage from "../../pages/TestResultPage";
 
 const RoutesConfig: React.FC = () => {
   const { currentUser } = useAuth();
@@ -48,6 +50,7 @@ const RoutesConfig: React.FC = () => {
           <Route path="feedback" element={<RetourExperienceSection />} />
           <Route path="create-blog" element={<CreateBlogPage />} />
           <Route path="blog-details/:id" element={<BlogDetails />} />
+          <Route path="edit-blog/:blogId" element={<EditBlogPage />}></Route>
         </Route>
       )}
       {/* User Routes - Only accessible if logged in as User */}
@@ -59,7 +62,9 @@ const RoutesConfig: React.FC = () => {
           <Route path="create-feedback" element={<CreateFeedbackPage />} />
           <Route path="blog-details/:id" element={<BlogDetails />} />
           <Route path="reset-password" element={<ResetPasswordPage />} />
+
           <Route path="test" element={<TestCard />} />
+          <Route path="results" element={<TestResultPage />} />
         </Route>
       )}
       {/* Default Route for Unauthorized Users */}
