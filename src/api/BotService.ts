@@ -1,54 +1,48 @@
-import { Section, Topic } from "../types/Discussion";
-import { botData } from "../utils/constants/botData";
+import responses from "../utils/data.json";
+
 export default class BotService {
-  private sections: Section[] | null = null;
+  public getBotResponse = (input: string): Promise<string> => {
+    return new Promise((resolve) => {
+      const clarifyingResponses = responses.clarifyingQuestions
+        .map((clarifying) => `${clarifying.question} ${clarifying.response}`)
+        .join(" ");
 
-  public loadBotData(): void {
-    this.sections = botData;
-    console.log("botMessages loaded successfully");
-  }
+      let response =
+        responses.defaultResponse.replace("{input}", input) +
+        " " +
+        clarifyingResponses;
 
-  public botTopicSuggestion = (): Topic[] => {
-    this.ensureBotDataLoaded();
-    return (
-      this.sections?.map((section) => ({
-        question: section.name,
-        code: section.code,
-      })) || []
-    );
+      //setTimeout to simulate bot's response time
+      const nbSeconds = Math.floor(Math.random() * 2) + 1;
+      setTimeout(() => {
+        const lowerInput = input.toLowerCase();
+
+        // Check for follow-up keywords in responses
+        for (const question of responses.questions) {
+          const followUpMatch = question.followUpQuestion?.keywords?.some(
+            (keyword: string) => lowerInput.includes(keyword.toLowerCase()),
+          );
+          if (followUpMatch) {
+            response = question.followUpQuestion.response;
+            break;
+          }
+        }
+
+        // Check for a matching response
+        const foundResponse = responses.questions.find((q) =>
+          q.keywords.some((keyword: string) =>
+            lowerInput.includes(keyword.toLowerCase()),
+          ),
+        );
+
+        if (foundResponse) {
+          const followUpSuggestions =
+            foundResponse.followUpQuestion?.question || "";
+          response = `${foundResponse.response}\n\n${followUpSuggestions}`;
+        }
+
+        resolve(response);
+      }, nbSeconds * 1000);
+    });
   };
-
-  public getThemes(sectionCode: string): Topic[] {
-    const themes =
-      this.sections?.find((s) => s.code === sectionCode)?.themes || [];
-    return (
-      themes?.map((theme) => ({
-        question: theme.name,
-        code: theme.code,
-      })) || []
-    );
-  }
-
-  // public getThemeResponse(themeCode: string): string | null {
-  //   const theme = this.sections?.flatMap(section => section.themes)
-  //     .find(t => t.code === themeCode);
-
-  //   return theme ? `Response: ${theme.response}\nMore info: ${theme.link}` : null;
-  // }
-
-  public getThemeResponse(themeCode: string): string | null {
-    for (const section of this.sections || []) {
-      const theme = section.themes.find((t) => t.code === themeCode);
-      if (theme) {
-        return `Response: ${theme.response}\nMore info: ${theme.link}`;
-      }
-    }
-    return null;
-  }
-
-  private ensureBotDataLoaded(): void {
-    if (!this.loadBotData) {
-      throw new Error("Questionnaire not loaded.");
-    }
-  }
 }
