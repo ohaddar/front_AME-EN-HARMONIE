@@ -4,7 +4,7 @@ import { Typography, useMediaQuery, useTheme } from "@mui/material";
 
 const Logo: React.FC = () => {
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm")); // Vérifie si l'écran est petit
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Link
@@ -16,7 +16,6 @@ const Logo: React.FC = () => {
         color: "inherit",
       }}
     >
-      {/* Première partie du logo */}
       <Typography
         variant="h4"
         noWrap
@@ -25,21 +24,20 @@ const Logo: React.FC = () => {
           fontFamily: "'Great Vibes', cursive",
           fontWeight: 400,
           letterSpacing: ".1rem",
-          fontSize: isSmallScreen ? "1.8rem" : "2.2rem", // Taille ajustée pour petits écrans
+          fontSize: isSmallScreen ? "1.8rem" : "2.2rem",
           color: "black",
         }}
       >
         Âme
       </Typography>
 
-      {/* Deuxième partie du logo */}
       <Typography
         variant="h5"
         noWrap
         sx={{
           fontFamily: "'Great Vibes', cursive",
           fontWeight: 600,
-          fontSize: isSmallScreen ? "1.4rem" : "1.8rem", // Taille ajustée pour petits écrans
+          fontSize: isSmallScreen ? "1.4rem" : "1.8rem",
           marginLeft: isSmallScreen ? "0.2rem" : "0.3rem",
           background:
             "linear-gradient(90deg, rgb(80, 60, 245), rgb(60, 130, 245))",
