@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Typography, Divider } from "@mui/material";
-import QuestionContainer from "./questionContainer/QuestionContainer";
+import QuestionContainer from "../questionnaire/QuestionContainer";
 
 const StyledPaper = styled.div`
   padding: 24px;
