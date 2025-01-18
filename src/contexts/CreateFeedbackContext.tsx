@@ -1,8 +1,8 @@
 import React, { ReactNode, createContext, useContext, useState } from "react";
-import { FeedbackContextProps } from "../../types/types";
 import sanitizeHtml from "sanitize-html";
-import { useAuth } from "../AuthContext";
 import axios from "axios";
+import { useAuth } from "./AuthContext";
+import { FeedbackContextProps } from "../types/types";
 
 const CreateFeedbackContext = createContext<FeedbackContextProps | undefined>(
   undefined,
