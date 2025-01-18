@@ -17,6 +17,7 @@ export interface Messages {
 }
 
 export interface Questionnaire {
+  id: string;
   questions: Question[];
   results: Messages;
   defaultMessage: string;
@@ -42,6 +43,7 @@ export interface Blog {
 export interface MenuItemLinkProps {
   name: string;
   path: string;
+  className?: string;
   onClick?: () => void;
 }
 

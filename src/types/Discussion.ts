@@ -4,11 +4,8 @@ export interface Discussion {
 
 export interface Message {
   Content: string;
-  Sender: Sender;
-}
-
-export interface Sender {
-  Name: "User" | "Bot";
+  Sender: "User" | "Bot";
+  Avatar: string | undefined;
 }
 
 export interface Theme {
