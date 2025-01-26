@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import QuestionService from "../api/QuestionService";
 import { Question } from "../types/types";
-import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
+import { useAuth } from "../contexts/AuthContext";
 
 export const useQuestionnaire = () => {
   const [questionService] = useState(new QuestionService());
@@ -23,7 +23,6 @@ export const useQuestionnaire = () => {
         setCurrentQuestion(firstQuestion || null);
       } catch (err) {
         setError("Failed to load questionnaire");
-        console.error(err);
       } finally {
         setLoading(false);
       }

@@ -44,7 +44,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       localStorage.setItem("token", response.data.token);
     } catch (err) {
       setErrorMessage("Login failed. Please check your email and password.");
-      console.error("Login error:", err);
     } finally {
       setIsLoading(false);
     }

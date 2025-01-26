@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import ResetPasswordPage from "../../pages/auth/ResetPasswordPage";
 import { CreateFeedbackPage } from "../../pages/feedback/CreateFeedbackPage";
@@ -7,7 +7,6 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import Home from "../../pages/Home";
 import Root from "./Root";
 import SignUpPage from "../../pages/auth/SignUpPage";
-import RetourExperienceSection from "../sections/FeedbackSection";
 import SignInPage from "../../pages/auth/SignInPage";
 import BlogsList from "../../pages/blog/BlogsList";
 import { CreateBlogPage } from "../../pages/blog/CreateBlogPage";
@@ -47,7 +46,7 @@ const RoutesConfig: React.FC = () => {
         <Route path="/admin" element={<Root />}>
           <Route path="" element={<Home />} />
           <Route path="blog" element={<BlogsList />} />
-          <Route path="feedback" element={<RetourExperienceSection />} />
+
           <Route path="create-blog" element={<CreateBlogPage />} />
           <Route path="blog-details/:id" element={<BlogDetails />} />
           <Route path="edit-blog/:blogId" element={<EditBlogPage />}></Route>
@@ -58,7 +57,6 @@ const RoutesConfig: React.FC = () => {
         <Route path="/user" element={<Root />}>
           <Route path="" element={<Home />} />
           <Route path="blog" element={<BlogsList />} />
-          <Route path="feedback" element={<RetourExperienceSection />} />
           <Route path="create-feedback" element={<CreateFeedbackPage />} />
           <Route path="blog-details/:id" element={<BlogDetails />} />
           <Route path="reset-password" element={<ResetPasswordPage />} />

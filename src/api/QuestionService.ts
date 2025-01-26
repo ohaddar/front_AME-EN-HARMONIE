@@ -7,12 +7,11 @@ export default class QuestionService {
   public async loadQuestionnaire(): Promise<Questionnaire> {
     try {
       const response = await axios.get<Questionnaire>(
-        "http://localhost:8080/questionnaire/show"
+        "http://localhost:8080/questionnaire/show",
       );
       this.questionnaire = response.data;
       return this.questionnaire;
     } catch (error) {
-      console.error("Error fetching data:", error);
       throw new Error("Failed to load questionnaire data.");
     }
   }
@@ -26,7 +25,7 @@ export default class QuestionService {
 
   public getNextQuestionById(
     id: string,
-    answer: string
+    answer: string,
   ): Question | string | undefined {
     const currentQuestion = this.getQuestionById(id);
     if (!currentQuestion) {

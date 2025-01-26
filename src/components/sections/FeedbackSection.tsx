@@ -209,7 +209,7 @@ const FeedbackSection: React.FC = () => {
         <FeedbackFooter>
           <UserInfo>
             <UserAvatar
-              src={currentFeedback.user?.avatar}
+              src={`${currentFeedback.user?.avatar}`}
               alt={currentFeedback.user?.avatar}
             />
             <Typography variant="body1" fontWeight="bold">

@@ -176,7 +176,6 @@ export default function Nav() {
   const adminPages = [
     { name: "Home", path: "/admin" },
     { name: "Blog", path: "/admin/blog" },
-    { name: "Feedback", path: "/admin/feedback" },
     { name: "Tests", path: "/admin/test" },
     { name: "Create a new blog", path: "/admin/create-blog" },
   ];
@@ -184,7 +183,6 @@ export default function Nav() {
   const userPages = [
     { name: "Accueil", path: "/user" },
     { name: "Blog", path: "/user/blog" },
-    { name: "Feedback", path: "/user/feedback" },
     { name: "Create a new feedback", path: "/user/create-feedback" },
     { name: "Your Tests", path: "/user/results" },
   ];
@@ -193,7 +191,6 @@ export default function Nav() {
     { name: "Accueil", path: "/" },
     { name: "About", path: "/about" },
     { name: "Blogs", path: "/blog" },
-    { name: "Feedbacks", path: "/feedback" },
     { name: "Test", path: "/test" },
   ];
 

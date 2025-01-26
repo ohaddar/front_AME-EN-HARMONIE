@@ -250,7 +250,7 @@ export const CreateFeedbackPage: React.FC = () => {
             <FeedbackFooter>
               <UserInfo>
                 <UserAvatar
-                  src={userFeedback.user?.avatar || ""}
+                  src={`../${userFeedback.user?.avatar}`}
                   alt="User Avatar"
                 />
                 <Typography variant="body1" fontWeight="bold">

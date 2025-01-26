@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Typography, Alert, CircularProgress } from "@mui/material";
 import { useQuestionnaire } from "../../hooks/useQuestionnaire";

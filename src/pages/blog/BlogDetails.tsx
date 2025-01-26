@@ -95,6 +95,8 @@ const BlogContent = styled(Box)`
 const BlogDetails = () => {
   const { id } = useParams();
   const [blog, setBlog] = useState<Blog | null>(null);
+  const [error, setError] = useState<string | null>(null); // State to track errors
+
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
@@ -119,6 +121,7 @@ const BlogDetails = () => {
         setBlog(response.data);
       } catch (error) {
         console.error("Error fetching blog details:", error);
+        setError("Error fetching blog details");
       }
     };
 
@@ -128,7 +131,9 @@ const BlogDetails = () => {
       fetchBlogDetails();
     }
   }, [currentUser]);
-
+  if (error) {
+    return <div>{error}</div>; // Display error message
+  }
   if (!blog) return <div>Loading...</div>;
 
   return (
