@@ -106,7 +106,7 @@ const FooterCopyright = styled.div`
 
 const Footer: React.FC = () => {
   return (
-    <FooterContainer>
+    <FooterContainer data-testid="footer">
       <FooterInnerContainer>
         <FooterGrid>
           <div>
@@ -120,7 +120,6 @@ const Footer: React.FC = () => {
             <FooterLink href="/">Home</FooterLink>
             <FooterLink href="/blog">Blog</FooterLink>
             <FooterLink href="/connect">Connecter</FooterLink>
-            <FooterLink href="/about">About Us</FooterLink>
           </div>
           <div>
             <FooterHeading>Contact</FooterHeading>
