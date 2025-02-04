@@ -199,7 +199,7 @@ const FeedbackSection: React.FC = () => {
   return (
     <StyledFeedbackSection>
       <FeedbackCard>
-        <NavButtonLeft onClick={handlePrevious}>
+        <NavButtonLeft data-testid="arrow-back" onClick={handlePrevious}>
           <ArrowBack />
         </NavButtonLeft>
         <FeedbackTitle>{currentFeedback.title}</FeedbackTitle>
@@ -223,7 +223,7 @@ const FeedbackSection: React.FC = () => {
           </FeedbackDate>
         </FeedbackFooter>
 
-        <NavButtonRight onClick={handleNext}>
+        <NavButtonRight data-testid="arrow-next" onClick={handleNext}>
           <ArrowForward />
         </NavButtonRight>
       </FeedbackCard>
