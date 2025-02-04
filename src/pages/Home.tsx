@@ -10,7 +10,7 @@ const Home: React.FC = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <Box sx={{ p: 2, borderRadius: 1 }}>
+      <Box sx={{ p: 2, borderRadius: 1 }} data-testid="Box">
         <TestComponent />
         <BlogComponent />
         <RetourExperienceSection />
