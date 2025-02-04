@@ -124,7 +124,7 @@ const TestResultPage: React.FC = () => {
       ) : (
         <Alert severity="info">You have no test results yet.</Alert>
       )}
-      <StyledButton onClick={() => (window.location.href = "/user/test")}>
+      <StyledButton onClick={() => navigate("/user/test")}>
         Take Another Test
       </StyledButton>
     </StyledContainer>
