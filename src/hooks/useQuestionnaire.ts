@@ -1,4 +1,3 @@
-// useQuestionnaire.ts
 import { useEffect, useState } from "react";
 import QuestionService from "../api/QuestionService";
 import { Question } from "../types/types";
@@ -8,7 +7,7 @@ import { useAuth } from "../contexts/AuthContext";
 export const useQuestionnaire = () => {
   const [questionService] = useState(new QuestionService());
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
-  const [questionnaireId, setQuestionnaireId] = useState<string | null>(null); // State to store the questionnaire ID
+  const [questionnaireId, setQuestionnaireId] = useState<string | null>(null);
 
   const [resultMessage, setResultMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -31,6 +30,7 @@ export const useQuestionnaire = () => {
     loadQuestionnaire();
   }, [questionService]);
 
+  //handle diagnostic result and save them
   const handleAnswer = async (answer: string) => {
     if (!currentQuestion) return;
 
