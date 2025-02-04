@@ -95,7 +95,7 @@ const BlogContent = styled(Box)`
 const BlogDetails = () => {
   const { id } = useParams();
   const [blog, setBlog] = useState<Blog | null>(null);
-  const [error, setError] = useState<string | null>(null); // State to track errors
+  const [error, setError] = useState<string | null>(null);
 
   const { currentUser } = useAuth();
   const navigate = useNavigate();
@@ -132,7 +132,7 @@ const BlogDetails = () => {
     }
   }, [currentUser]);
   if (error) {
-    return <div>{error}</div>; // Display error message
+    return <div>{error}</div>;
   }
   if (!blog) return <div>Loading...</div>;
 
