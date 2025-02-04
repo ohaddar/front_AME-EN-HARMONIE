@@ -14,6 +14,7 @@ import BlogDetails from "../../pages/blog/BlogDetails";
 import { EditBlogPage } from "../../pages/blog/EditBlogPage";
 import TestCard from "../common/TestCard";
 import TestResultPage from "../../pages/TestResultPage";
+import PrivacyPolicy from "../common/privacy-policy";
 
 const RoutesConfig: React.FC = () => {
   const { currentUser } = useAuth();
@@ -31,14 +32,14 @@ const RoutesConfig: React.FC = () => {
 
   return (
     <Routes>
-      {/* Routes for when the user is not logged in */}
+      {/* Routes for non logged in users*/}
       <Route path="/" element={<Root />}>
         <Route path="" element={<Home />} />
         <Route path="/connect" element={<SignInPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />{" "}
-        {/* Replace with actual Sign Up Page */}
         <Route path="/about" element={<About />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       </Route>
 
       {/* Admin Routes - Only accessible if logged in as Admin */}
