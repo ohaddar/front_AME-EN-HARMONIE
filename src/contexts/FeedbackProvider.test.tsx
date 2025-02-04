@@ -8,18 +8,15 @@ import {
 } from "./CreateFeedbackContext";
 import { useAuth } from "./AuthContext";
 
-// Mock axios
 jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-// Mock AuthContext
 jest.mock("../contexts/AuthContext", () => ({
   useAuth: jest.fn(),
 }));
 
 const mockUseAuth = useAuth as jest.Mock;
 
-// Test component to consume FeedbackProvider context
 const TestComponent = () => {
   const {
     title,

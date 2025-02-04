@@ -44,11 +44,12 @@ export const FeedbackProvider: React.FC<FeedbackProviderProps> = ({
   };
   const createNewFeedback = async () => {
     if (!validateForm()) return;
-
+    //add the sanitizeHtml functionality to wrap the feedback content and title before submission
     const plainText = sanitizeHtml(content, { allowedTags: [] });
+    const sanitizedTitle = sanitizeHtml(title, { allowedTags: [] });
 
     const feedbackData = JSON.stringify({
-      title,
+      title: sanitizedTitle,
       content: plainText,
       publicationDate: new Date().toISOString(),
       user: { firstname: currentUser?.firstname, avatar: currentUser?.avatar },
@@ -56,7 +57,6 @@ export const FeedbackProvider: React.FC<FeedbackProviderProps> = ({
 
     const data = new FormData();
     data.append("feedback", feedbackData);
-    console.log(feedbackData);
 
     try {
       const response = await axios.post(
