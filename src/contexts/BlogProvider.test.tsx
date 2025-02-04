@@ -3,11 +3,9 @@ import axios from "axios";
 import "@testing-library/jest-dom";
 import { BlogProvider, useCreateBlogContext } from "./CreateBlogContext";
 
-// Mock axios
 jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-// Test component to consume the BlogProvider context
 const TestComponent = () => {
   const {
     title,
@@ -150,7 +148,6 @@ describe("BlogProvider", () => {
     });
 
     expect(screen.getByTestId("success-message")).toBeEmptyDOMElement();
-    // Check console.error has been called (mock it if needed)
   });
 
   it("handles file input change", () => {
@@ -168,7 +165,6 @@ describe("BlogProvider", () => {
     act(() => {
       fireEvent.change(fileInput, { target: { files: [file] } });
     });
-    //! indique à TypeScript que on est sûr que files existe
     expect(fileInput.files![0]).toBe(file);
     expect(fileInput.files!.length).toBe(1);
   });

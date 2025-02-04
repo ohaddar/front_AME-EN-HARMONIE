@@ -49,8 +49,10 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
     if (!validateForm()) return;
 
     const plainText = sanitizeHtml(content, { allowedTags: [] });
+    const sanitizedTitle = sanitizeHtml(title, { allowedTags: [] });
+
     const blogData = JSON.stringify({
-      title,
+      title: sanitizedTitle,
       category,
       content: plainText,
       creationDate: new Date().toISOString(),
