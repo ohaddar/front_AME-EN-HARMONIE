@@ -12,6 +12,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import axios from "axios";
 
 function Copyright(props: any) {
   return (
@@ -38,11 +39,23 @@ const SignInPage: React.FC = () => {
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const navigate = useNavigate();
+  const [isBlocked, setIsBlocked] = React.useState<boolean>(false);
 
   const handleAuth = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      const blockResponse = await axios.get(
+        `http://localhost:8080/auth/isBlocked/${email}`,
+      );
+      if (blockResponse.data) {
+        setIsBlocked(true);
+        setErrorMessage("Too many failed attempts. Try again later.");
+        return;
+      }
+      setIsBlocked(false);
+
       await signIn(email, password);
+      setIsBlocked(false);
     } catch (err) {
       setErrorMessage("Invalid credentials, please try again.");
     }
@@ -82,13 +95,25 @@ const SignInPage: React.FC = () => {
           {errorMessage && (
             <Typography color="error">{errorMessage}</Typography>
           )}
-          <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleAuth}>
+          {isBlocked && (
+            <Typography color="error">
+              Too many failed attempts. Please try again later.
+            </Typography>
+          )}
+
+          <Box
+            component="form"
+            noValidate
+            sx={{ mt: 1 }}
+            onSubmit={handleAuth}
+            data-testid="sign-in-form"
+          >
             <TextField
               margin="normal"
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Email"
               name="email"
               autoComplete="email"
               autoFocus
