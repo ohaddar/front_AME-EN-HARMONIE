@@ -4,7 +4,6 @@ module.exports = {
   moduleNameMapper: {
     "\\.(css|scss|less)$": "identity-obj-proxy",
     "^src/(.*)$": "<rootDir>/src/$1",
-    "react-quill-new": "<rootDir>/__mocks__/react-quill-new.js",
   },
   transform: {
     "^.+\\.(ts|tsx)$": "ts-jest",
