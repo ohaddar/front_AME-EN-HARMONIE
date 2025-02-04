@@ -172,7 +172,7 @@ const TestComponent: React.FC = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <StyledSection>
+      <StyledSection data-testid="styled-section">
         <ContentWrapper>
           <StyledTypography>Passez le Test Aujourd'hui !</StyledTypography>
           <StyledParagraph>
