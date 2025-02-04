@@ -15,6 +15,8 @@ export default class QuestionService {
       throw new Error("Failed to load questionnaire data.");
     }
   }
+
+  // Method to get a question by its ID from the loaded questionnaire
   public getQuestionById(id: string): Question | undefined {
     if (!this.questionnaire) {
       throw new Error("Questionnaire not loaded.");
@@ -23,6 +25,7 @@ export default class QuestionService {
     return this.questionnaire?.questions?.find((q) => q.id === id);
   }
 
+  // Method to retrieve the next question based on the current question's ID and the user's answer
   public getNextQuestionById(
     id: string,
     answer: string,
