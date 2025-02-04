@@ -12,7 +12,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { AvatarGroup } from "@mui/material";
+import { AvatarGroup, Checkbox, FormControlLabel } from "@mui/material";
 import { Error as ErrorIcon } from "@mui/icons-material";
 
 function Copyright(props: any) {
@@ -43,16 +43,19 @@ const SignUpPage = () => {
     setErrorMessage,
     setSuccessMessage,
   } = useAuth();
-  const [email, setEmail] = React.useState<string>("");
-  const [password, setPassword] = React.useState<string>("");
-  const [firstname, setFirstname] = React.useState<string>("");
-  const [lastname, setLastname] = React.useState<string>("");
+
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [firstname, setFirstname] = React.useState("");
+  const [lastname, setLastname] = React.useState("");
   const [avatarValue, setAvatarValue] = React.useState<string | undefined>(
     undefined,
   );
-  const [error, setError] = React.useState<string>("");
+  const [acceptedTerms, setAcceptedTerms] = React.useState(false);
+  const [error, setError] = React.useState("");
 
   const navigate = useNavigate();
+
   const avatars: string[] = [
     "src/assets/images/avatar1.webp",
     "src/assets/images/avatar2.webp",
@@ -64,8 +67,14 @@ const SignUpPage = () => {
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (!firstname || !lastname || !email || !password || !avatarValue) {
       setError("Please fill in all fields and select an avatar.");
+      return;
+    }
+
+    if (!acceptedTerms) {
+      setError("You must accept the privacy policy to sign up.");
       return;
     }
 
@@ -166,7 +175,7 @@ const SignUpPage = () => {
                   label="Password"
                   type="password"
                   id="password"
-                  autoComplete="password"
+                  autoComplete="new-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -176,6 +185,7 @@ const SignUpPage = () => {
                   {avatars.map((avatar, index) => (
                     <Avatar
                       key={index}
+                      alt={`avatar${index}`}
                       src={avatar}
                       onClick={() => setAvatarValue(avatar)}
                       sx={{
@@ -192,6 +202,26 @@ const SignUpPage = () => {
                 </AvatarGroup>
               </Grid>
             </Grid>
+            <Grid item xs={12} sx={{ mt: 2 }}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={acceptedTerms}
+                    onChange={(e) => setAcceptedTerms(e.target.checked)}
+                    color="primary"
+                  />
+                }
+                label={
+                  <Typography variant="body2">
+                    I agree to the{" "}
+                    <Link href="/privacy-policy" target="_blank" rel="noopener">
+                      Privacy Policy
+                    </Link>
+                  </Typography>
+                }
+              />
+            </Grid>
+
             {error && (
               <Typography
                 color="error"
@@ -201,14 +231,17 @@ const SignUpPage = () => {
                 <ErrorIcon fontSize="small" /> {error}
               </Typography>
             )}
+
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={!acceptedTerms}
             >
               Sign Up
             </Button>
+
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/connect" variant="body2">
