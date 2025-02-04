@@ -219,7 +219,7 @@ export default function Nav() {
   };
 
   return (
-    <AppBar>
+    <AppBar data-testid="nav">
       <Container>
         <Toolbar>
           <LogoContainer>
