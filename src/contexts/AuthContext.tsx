@@ -25,14 +25,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const signIn = async (email: string, password: string) => {
     setIsLoading(true);
+    setErrorMessage("");
 
     if (!email.trim() || !password.trim()) {
       setErrorMessage("Both email and password are required.");
       setIsLoading(false);
       return;
     }
-
     try {
+      const blockResponse = await axios.get(
+        `http://localhost:8080/auth/isBlocked/${email}`,
+      );
+      if (blockResponse.data) {
+        setErrorMessage("Too many failed attempts. Try again later.");
+        setIsLoading(false);
+        return;
+      }
       const response = await axios.post("http://localhost:8080/auth/login", {
         email,
         password,

@@ -3,11 +3,9 @@ import { AuthProvider, useAuth } from "../contexts/AuthContext";
 import axios from "axios";
 import "@testing-library/jest-dom";
 
-// Mock axios
 jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-// Test component to consume the AuthContext
 const TestComponent = () => {
   const {
     currentUser,
