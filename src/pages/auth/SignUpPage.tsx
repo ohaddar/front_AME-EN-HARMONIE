@@ -36,23 +36,14 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 const SignUpPage = () => {
-  const {
-    signUp,
-    successMessage,
-    errorMessage,
-    setErrorMessage,
-    setSuccessMessage,
-  } = useAuth();
+  const { signUp, successMessage, errorMessage, setErrorMessage } = useAuth();
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [firstname, setFirstname] = React.useState<string>("");
   const [lastname, setLastname] = React.useState<string>("");
-  const [avatarValue, setAvatarValue] = React.useState<string | undefined>(
-    undefined,
-  );
+  const [avatarValue, setAvatarValue] = React.useState<string>("");
   const [error, setError] = React.useState<string>("");
 
-  const navigate = useNavigate();
   const avatars: string[] = [
     "src/assets/images/avatar1.webp",
     "src/assets/images/avatar2.webp",
@@ -64,15 +55,10 @@ const SignUpPage = () => {
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!firstname || !lastname || !email || !password || !avatarValue) {
-      setError("Please fill in all fields and select an avatar.");
-      return;
-    }
-
     try {
-      await signUp(firstname, lastname, email, password, avatarValue);
-      setSuccessMessage("Sign-up successful!");
-      navigate("/user");
+      if (errorMessage === "") {
+        await signUp(firstname, lastname, email, password, avatarValue);
+      }
     } catch (err) {
       setErrorMessage("Error during sign-up. Please try again.");
     }
@@ -202,10 +188,10 @@ const SignUpPage = () => {
               </Typography>
             )}
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              type="submit"
             >
               Sign Up
             </Button>
