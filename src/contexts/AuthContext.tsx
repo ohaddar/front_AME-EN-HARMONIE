@@ -56,6 +56,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     password: string,
     avatar: string,
   ) => {
+    setErrorMessage("");
+    setSuccessMessage("");
     if (
       !firstname.trim() ||
       !lastname.trim() ||
@@ -66,16 +68,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setErrorMessage("All fields are required.");
       return;
     }
-    // const isValidEmail = /\S+@\S+\.\S+/.test(email);
-    // const isValidPassword =
-    //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-    //     password,
-    //   );
+    const emailRegex = /\S+@\S+\.\S+/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!emailRegex.test(email)) {
+      setErrorMessage(
+        "Invalid email format. Please enter a valid email address.",
+      );
+      return;
+    }
+    if (!passwordRegex.test(password)) {
+      setErrorMessage(
+        "Invalid password. Must be at least 8 characters long, contain one uppercase letter, one lowercase letter, one number, and one special character.",
+      );
+      return;
+    }
 
-    // if (!isValidEmail || !isValidPassword) {
-    //   setErrorMessage("Invalid email or password format.");
-    //   return;
-    // }
     setIsLoading(true);
 
     try {
@@ -88,7 +96,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       });
       setSuccessMessage("Account created successfully!");
       setErrorMessage("");
-
       setCurrentUser(response.data);
     } catch (err) {
       setErrorMessage("An error occurred while creating your account.");
