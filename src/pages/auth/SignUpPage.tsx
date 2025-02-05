@@ -11,7 +11,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useAuth } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
 import { AvatarGroup } from "@mui/material";
 import { Error as ErrorIcon } from "@mui/icons-material";
 
@@ -42,7 +41,6 @@ const SignUpPage = () => {
   const [firstname, setFirstname] = React.useState<string>("");
   const [lastname, setLastname] = React.useState<string>("");
   const [avatarValue, setAvatarValue] = React.useState<string>("");
-  const [error, setError] = React.useState<string>("");
 
   const avatars: string[] = [
     "src/assets/images/avatar1.webp",
@@ -178,13 +176,13 @@ const SignUpPage = () => {
                 </AvatarGroup>
               </Grid>
             </Grid>
-            {error && (
+            {errorMessage && (
               <Typography
                 color="error"
                 variant="body2"
                 sx={{ marginBottom: "1rem" }}
               >
-                <ErrorIcon fontSize="small" /> {error}
+                <ErrorIcon fontSize="small" /> {errorMessage}
               </Typography>
             )}
             <Button
