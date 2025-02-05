@@ -28,7 +28,7 @@ const BlogSection = styled(Box)`
   text-align: center;
 `;
 
-const BlogCard = styled(Box)`
+const BlogCard = styled(Box).attrs({ className: "blog-card" })`
   display: flex;
   flex-direction: column;
   background: white;
@@ -53,7 +53,7 @@ const BlogContent = styled(Box)`
   gap: 12px;
 `;
 
-const BlogTitle = styled(Typography)`
+const BlogTitle = styled(Typography).attrs({ className: "blog-title" })`
   font-size: 1.2rem;
   font-weight: bold;
   color: ${({ theme }) => theme.colors.text.primary};
@@ -65,7 +65,7 @@ const BlogTitle = styled(Typography)`
   text-align: left;
 `;
 
-const BlogExcerpt = styled(Typography)`
+const BlogExcerpt = styled(Typography).attrs({ className: "blog-excerpt" })`
   font-size: 0.9rem;
   color: ${({ theme }) => theme.colors.text.secondary};
   line-height: 1.6;
@@ -173,7 +173,9 @@ const BlogComponent: React.FC = () => {
                   <BlogImage src={blog.imageUrl} alt={blog.title} />
                   <BlogContent>
                     <BlogTitle>{blog.title}</BlogTitle>
-                    <BlogExcerpt>{blog.content}</BlogExcerpt>
+                    <BlogExcerpt>
+                      {blog.content.split(" ").slice(0, 30).join(" ")}...
+                    </BlogExcerpt>
                     <BlogMeta>
                       <DateText>
                         {blog.creationDate
