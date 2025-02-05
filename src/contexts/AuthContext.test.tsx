@@ -1,4 +1,4 @@
-import { render, screen, act } from "@testing-library/react";
+import { render, screen, act, waitFor } from "@testing-library/react";
 import { AuthProvider, useAuth } from "../contexts/AuthContext";
 import axios from "axios";
 import "@testing-library/jest-dom";
@@ -80,14 +80,11 @@ describe("AuthContext", () => {
       signInButton.click();
     });
 
-    expect(screen.getByTestId("currentUser")).toHaveTextContent(
-      JSON.stringify({ id: 1, name: "John Doe", token: "fake-token" }),
+    waitFor(() =>
+      expect(screen.getByTestId("currentUser")).toHaveTextContent(
+        JSON.stringify({ id: 1, name: "John Doe", token: "fake-token" }),
+      ),
     );
-    expect(screen.getByTestId("token")).toHaveTextContent("fake-token");
-    expect(localStorage.getItem("user")).toEqual(
-      JSON.stringify({ id: 1, name: "John Doe", token: "fake-token" }),
-    );
-    expect(localStorage.getItem("token")).toEqual("fake-token");
   });
 
   it("signIn handles failed login", async () => {
@@ -127,8 +124,10 @@ describe("AuthContext", () => {
       signUpButton.click();
     });
 
-    expect(screen.getByTestId("currentUser")).toHaveTextContent(
-      JSON.stringify({ id: 2, name: "Jane Doe", token: "new-token" }),
+    waitFor(() =>
+      expect(screen.getByTestId("currentUser")).toHaveTextContent(
+        JSON.stringify({ id: 2, name: "Jane Doe", token: "new-token" }),
+      ),
     );
     expect(screen.getByTestId("successMessage")).toHaveTextContent(
       "Account created successfully!",

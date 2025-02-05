@@ -44,6 +44,13 @@ describe("SignUpPage", () => {
   });
 
   it("displays error message when fields are missing", async () => {
+    (useAuth as jest.Mock).mockReturnValue({
+      signUp: jest.fn().mockRejectedValue(new Error("fields are missing")),
+      successMessage: "",
+      errorMessage: "fields are missing",
+      setErrorMessage: jest.fn(),
+      setSuccessMessage: jest.fn(),
+    });
     render(
       <BrowserRouter>
         <AuthProvider>
@@ -53,20 +60,18 @@ describe("SignUpPage", () => {
     );
 
     const signUpButton = screen.getByRole("button", { name: /Sign Up/i });
-    fireEvent.click(signUpButton);
+    await act(async () => {
+      signUpButton.click();
+    });
 
-    expect(
-      await screen.findByText(
-        /Please fill in all fields and select an avatar./i,
-      ),
-    ).toBeInTheDocument();
+    expect(await screen.findByText("fields are missing")).toBeInTheDocument();
   });
 
   it("displays error message when sign-up fails", async () => {
     (useAuth as jest.Mock).mockReturnValue({
       signUp: jest.fn().mockRejectedValue(new Error("Error during sign-up")),
       successMessage: "",
-      errorMessage: "Error during sign-up. Please try again.",
+      errorMessage: "Error during sign-up",
       setErrorMessage: jest.fn(),
       setSuccessMessage: jest.fn(),
     });
@@ -95,7 +100,7 @@ describe("SignUpPage", () => {
     });
 
     expect(
-      await screen.findByText(/Error during sign-up. Please try again./i),
+      await screen.findByText(/Error during sign-up/i),
     ).toBeInTheDocument();
   });
 

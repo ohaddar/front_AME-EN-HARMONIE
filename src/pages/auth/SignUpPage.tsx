@@ -110,6 +110,7 @@ const SignUpPage = () => {
               color="error"
               variant="body2"
               sx={{ marginBottom: "10px" }}
+              data-testid="error-message"
             >
               {errorMessage}
             </Typography>
