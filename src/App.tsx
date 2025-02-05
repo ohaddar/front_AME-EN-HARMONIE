@@ -1,13 +1,13 @@
 import Layout from "./components/layouts/Layout";
-import FloatingChatIcon from "./components/bot/FloatingChatIcon";
 import { AuthProvider } from "./contexts/AuthContext";
+import SpeechReader from "./components/common/SpeechReader";
 
 function App() {
   return (
     <AuthProvider>
       <div style={{ position: "relative" }}>
         <Layout />
-        <FloatingChatIcon />
+        <SpeechReader />
       </div>
     </AuthProvider>
   );
