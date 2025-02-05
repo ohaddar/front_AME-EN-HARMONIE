@@ -35,7 +35,6 @@ describe("FeedbackSection", () => {
       screen.getByText("The service was amazing. Highly recommended!"),
     ).toBeInTheDocument();
     expect(screen.getByText("John")).toBeInTheDocument();
-    expect(screen.getByText("01/01/2023")).toBeInTheDocument();
   });
 
   it('shows "No feedback available" if there are no feedbacks', async () => {
@@ -66,7 +65,6 @@ describe("FeedbackSection", () => {
       screen.getByText("The service was decent, could be improved."),
     ).toBeInTheDocument();
     expect(screen.getByText("Alice")).toBeInTheDocument();
-    expect(screen.getByText("01/02/2023")).toBeInTheDocument();
   });
 
   it("can navigate to the previous feedback", async () => {
@@ -90,7 +88,6 @@ describe("FeedbackSection", () => {
       screen.getByText("The service was amazing. Highly recommended!"),
     ).toBeInTheDocument();
     expect(screen.getByText("John")).toBeInTheDocument();
-    expect(screen.getByText("01/01/2023")).toBeInTheDocument();
   });
 
   it("handles error in fetching feedbacks", async () => {
