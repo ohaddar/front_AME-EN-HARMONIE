@@ -18,6 +18,9 @@ import PrivacyPolicy from "../common/privacy-policy";
 
 const RoutesConfig: React.FC = () => {
   const { currentUser } = useAuth();
+
+  console.log("Current user from route-config", currentUser);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,7 +50,6 @@ const RoutesConfig: React.FC = () => {
         <Route path="/admin" element={<Root />}>
           <Route path="" element={<Home />} />
           <Route path="blog" element={<BlogsList />} />
-
           <Route path="create-blog" element={<CreateBlogPage />} />
           <Route path="blog-details/:id" element={<BlogDetails />} />
           <Route path="edit-blog/:blogId" element={<EditBlogPage />}></Route>
@@ -64,12 +66,6 @@ const RoutesConfig: React.FC = () => {
 
           <Route path="test" element={<TestCard />} />
           <Route path="results" element={<TestResultPage />} />
-        </Route>
-      )}
-      {/* Default Route for Unauthorized Users */}
-      {!currentUser && (
-        <Route path="/" element={<Root />}>
-          <Route path="*" element={<SignInPage />} />
         </Route>
       )}
     </Routes>
