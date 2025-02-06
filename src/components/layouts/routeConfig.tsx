@@ -14,9 +14,13 @@ import BlogDetails from "../../pages/blog/BlogDetails";
 import { EditBlogPage } from "../../pages/blog/EditBlogPage";
 import TestCard from "../common/TestCard";
 import TestResultPage from "../../pages/TestResultPage";
+import PrivacyPolicy from "../common/privacy-policy";
 
 const RoutesConfig: React.FC = () => {
   const { currentUser } = useAuth();
+
+  console.log("Current user from route-config", currentUser);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,14 +35,14 @@ const RoutesConfig: React.FC = () => {
 
   return (
     <Routes>
-      {/* Routes for when the user is not logged in */}
+      {/* Routes for non logged in users*/}
       <Route path="/" element={<Root />}>
         <Route path="" element={<Home />} />
         <Route path="/connect" element={<SignInPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />{" "}
-        {/* Replace with actual Sign Up Page */}
         <Route path="/about" element={<About />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       </Route>
 
       {/* Admin Routes - Only accessible if logged in as Admin */}
@@ -46,7 +50,6 @@ const RoutesConfig: React.FC = () => {
         <Route path="/admin" element={<Root />}>
           <Route path="" element={<Home />} />
           <Route path="blog" element={<BlogsList />} />
-
           <Route path="create-blog" element={<CreateBlogPage />} />
           <Route path="blog-details/:id" element={<BlogDetails />} />
           <Route path="edit-blog/:blogId" element={<EditBlogPage />}></Route>
@@ -63,12 +66,6 @@ const RoutesConfig: React.FC = () => {
 
           <Route path="test" element={<TestCard />} />
           <Route path="results" element={<TestResultPage />} />
-        </Route>
-      )}
-      {/* Default Route for Unauthorized Users */}
-      {!currentUser && (
-        <Route path="/" element={<Root />}>
-          <Route path="*" element={<SignInPage />} />
         </Route>
       )}
     </Routes>

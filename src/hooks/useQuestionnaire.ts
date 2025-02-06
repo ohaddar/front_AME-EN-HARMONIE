@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import QuestionService from "../api/QuestionService";
-import { Question } from "../types/types";
-import axios from "axios";
+import { Question, Result } from "../types/types";
 import { useAuth } from "../contexts/AuthContext";
+import ApiClient from "../api/api-client";
 
 export const useQuestionnaire = () => {
   const [questionService] = useState(new QuestionService());
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
   const [questionnaireId, setQuestionnaireId] = useState<string | null>(null);
+  const apiClient = ApiClient();
 
   const [resultMessage, setResultMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -42,7 +43,7 @@ export const useQuestionnaire = () => {
       if (typeof next === "string") {
         const resultMessage = next;
         const testResult = {
-          id: 123,
+          id: 13,
           description: resultMessage,
           datetime: new Date().toISOString(),
           user: {
@@ -50,22 +51,13 @@ export const useQuestionnaire = () => {
           },
           questionnaireId: questionnaireId,
         };
-
-        const token = localStorage.getItem("token");
-
-        if (!token) {
+        if (!currentUser) {
           setError("Authentication token is missing or expired.");
           return;
         }
 
         try {
-          await axios.post("http://localhost:8080/results/save", testResult, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          console.log("Result successfully sent to the server");
+          await apiClient.post<Result, Result>("/results/save", testResult);
         } catch (apiError) {
           console.error("Error saving result to the server:", apiError);
         }

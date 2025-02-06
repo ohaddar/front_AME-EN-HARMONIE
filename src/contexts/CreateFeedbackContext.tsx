@@ -1,8 +1,8 @@
 import React, { ReactNode, createContext, useContext, useState } from "react";
 import sanitizeHtml from "sanitize-html";
-import axios from "axios";
 import { useAuth } from "./AuthContext";
 import { FeedbackContextProps } from "../types/types";
+import ApiClient from "../api/api-client";
 
 const CreateFeedbackContext = createContext<FeedbackContextProps | undefined>(
   undefined,
@@ -28,9 +28,9 @@ export const FeedbackProvider: React.FC<FeedbackProviderProps> = ({
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const { currentUser } = useAuth();
-  const token = localStorage.getItem("token");
   const [warningMessage, setWarningMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const apiClient = ApiClient();
 
   const validateForm = () => {
     if (!title.trim() || !content.trim()) {
@@ -59,15 +59,9 @@ export const FeedbackProvider: React.FC<FeedbackProviderProps> = ({
     data.append("feedback", feedbackData);
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/feedback/save",
+      const response = await apiClient.post<FormData, FormData>(
+        "/feedback/save",
         data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        },
       );
 
       if (response.status === 200) {

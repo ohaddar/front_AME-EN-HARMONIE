@@ -13,7 +13,6 @@ const TestComponent = () => {
     signIn,
     signUp,
     signOut,
-    token,
     errorMessage,
     successMessage,
   } = useAuth();
@@ -24,7 +23,6 @@ const TestComponent = () => {
         {currentUser ? JSON.stringify(currentUser) : "null"}
       </p>
       <p data-testid="isLoading">{isLoading.toString()}</p>
-      <p data-testid="token">{token || "null"}</p>
       <p data-testid="errorMessage">{errorMessage}</p>
       <p data-testid="successMessage">{successMessage}</p>
       <button onClick={() => signIn("test@example.com", "password")}>

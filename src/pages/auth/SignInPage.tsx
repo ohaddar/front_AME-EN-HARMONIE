@@ -63,14 +63,10 @@ const SignInPage: React.FC = () => {
 
   // Handle redirection based on the user's role
   React.useEffect(() => {
-    if (currentUser) {
-      console.log("Redirecting user:", currentUser);
-
-      if (currentUser.role === "ADMIN") {
-        navigate("/admin", { replace: true });
-      } else if (currentUser.role === "USER") {
-        navigate("/user", { replace: true });
-      }
+    if (currentUser && currentUser.role === "ADMIN") {
+      navigate("/admin", { replace: true });
+    } else if (currentUser && currentUser.role === "USER") {
+      navigate("/user", { replace: true });
     }
   }, [currentUser, navigate]);
 

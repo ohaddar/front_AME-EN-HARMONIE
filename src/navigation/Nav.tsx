@@ -170,7 +170,6 @@ const AvatarContainer = styled.div`
 
 export default function Nav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeMenuItem, setActiveMenuItem] = useState<string | null>(null);
   const { currentUser, signOut } = useAuth();
 
   const adminPages = [
@@ -207,17 +206,18 @@ export default function Nav() {
         key={page.name}
         name={page.name}
         path={page.path}
-        className={activeMenuItem === page.name ? "active" : ""}
-        onClick={() => handleMenuItemClick(page.name)}
+        onClick={() => handleMenuItemClick()}
       />
     ));
   };
 
-  const handleMenuItemClick = (name: string) => {
-    setActiveMenuItem(name);
+  const handleMenuItemClick = () => {
     setMobileMenuOpen(false);
   };
-
+  const handleMobileLogout = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+    signOut();
+  };
   return (
     <AppBar data-testid="nav">
       <Container>
@@ -253,9 +253,15 @@ export default function Nav() {
       {mobileMenuOpen && (
         <Menu>
           {renderMenuItems()}
-          {!currentUser && <MenuItemLink name="Se Connecter" path="connect" />}
+          {!currentUser && (
+            <MenuItemLink
+              name="Se Connecter"
+              path="connect"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            />
+          )}
           {currentUser && (
-            <MenuItemLink name="Logout" path="" onClick={signOut} />
+            <MenuItemLink name="Logout" path="" onClick={handleMobileLogout} />
           )}
         </Menu>
       )}

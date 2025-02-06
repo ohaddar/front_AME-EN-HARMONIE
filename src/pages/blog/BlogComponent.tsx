@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { Box, Grid, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Blog } from "../../types/types";
 import { useAuth } from "../../contexts/AuthContext";
+import ApiClient from "../../api/api-client";
 
 const defaultTheme = {
   colors: {
@@ -28,7 +28,7 @@ const BlogSection = styled(Box)`
   text-align: center;
 `;
 
-const BlogCard = styled(Box)`
+const BlogCard = styled(Box).attrs({ className: "blog-card" })`
   display: flex;
   flex-direction: column;
   background: white;
@@ -53,7 +53,7 @@ const BlogContent = styled(Box)`
   gap: 12px;
 `;
 
-const BlogTitle = styled(Typography)`
+const BlogTitle = styled(Typography).attrs({ className: "blog-title" })`
   font-size: 1.2rem;
   font-weight: bold;
   color: ${({ theme }) => theme.colors.text.primary};
@@ -65,7 +65,7 @@ const BlogTitle = styled(Typography)`
   text-align: left;
 `;
 
-const BlogExcerpt = styled(Typography)`
+const BlogExcerpt = styled(Typography).attrs({ className: "blog-excerpt" })`
   font-size: 0.9rem;
   color: ${({ theme }) => theme.colors.text.secondary};
   line-height: 1.6;
@@ -136,11 +136,11 @@ const BlogComponent: React.FC = () => {
   const { currentUser } = useAuth();
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const navigate = useNavigate();
-
+  const apiClient = ApiClient();
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/Blogs/public");
+        const response = await apiClient.get<Blog[]>("/Blogs/public");
         setBlogs(response.data);
       } catch (error) {
         console.error("Error fetching blogs:", error);
@@ -151,7 +151,9 @@ const BlogComponent: React.FC = () => {
 
   const handleReadMore = (id: number | undefined) => {
     const path =
-      currentUser?.role === "ADMIN" ? `/admin/blog/${id}` : `/user/blog/${id}`;
+      currentUser?.role === "ADMIN"
+        ? `/admin/blog-details/${id}`
+        : `/user/blog-details/${id}`;
     navigate(path);
   };
 
@@ -173,7 +175,9 @@ const BlogComponent: React.FC = () => {
                   <BlogImage src={blog.imageUrl} alt={blog.title} />
                   <BlogContent>
                     <BlogTitle>{blog.title}</BlogTitle>
-                    <BlogExcerpt>{blog.content}</BlogExcerpt>
+                    <BlogExcerpt>
+                      {blog.content.split(" ").slice(0, 30).join(" ")}...
+                    </BlogExcerpt>
                     <BlogMeta>
                       <DateText>
                         {blog.creationDate

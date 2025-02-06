@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
-
 import { useAuth } from "../../contexts/AuthContext";
-import axios from "axios";
-
 import styled from "styled-components";
 import { Box, Typography } from "@mui/material";
 import { useCreateFeedbackContext } from "../../contexts/CreateFeedbackContext";
+import ApiClient from "../../api/api-client";
+import { Feedback } from "src/types/types";
 
 interface MessageProps {
   type: "warning" | "success";
@@ -201,27 +200,22 @@ export const CreateFeedbackPage: React.FC = () => {
     setContent,
   } = useCreateFeedbackContext();
 
-  const { currentUser, token } = useAuth();
+  const { currentUser } = useAuth();
   const quillRef = useRef(null);
-
+  const apiClient = ApiClient();
   const [userFeedback, setUserFeedback] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (currentUser && token) {
+    if (currentUser) {
       fetchUserFeedback();
     }
-  }, [currentUser, token]);
+  }, [currentUser]);
 
   const fetchUserFeedback = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:8080/feedback/user", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await apiClient.get<Feedback>("/feedback/user");
       setUserFeedback(response.data);
     } catch (error) {
       console.error("Error fetching user feedback:", error);
