@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-
 import styled from "styled-components";
 import { Box, Typography } from "@mui/material";
 import { Blog } from "../../types/types";
 import { useAuth } from "../../contexts/AuthContext";
+import ApiClient from "../../api/api-client";
 
 const defaultTheme = {
   colors: {
@@ -95,29 +94,20 @@ const BlogContent = styled(Box)`
 const BlogDetails = () => {
   const { id } = useParams();
   const [blog, setBlog] = useState<Blog | null>(null);
-  const [error, setError] = useState<string | null>(null); // State to track errors
-
+  const [error, setError] = useState<string | null>(null);
+  const apiClient = ApiClient();
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBlogDetails = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
+      if (!currentUser) {
         console.warn("No token found. Redirecting to login.");
         navigate("/login");
         return;
       }
       try {
-        const response = await axios.get<Blog>(
-          `http://localhost:8080/Blogs/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          },
-        );
+        const response = await apiClient.get<Blog>(`/Blogs/${id}`);
         setBlog(response.data);
       } catch (error) {
         console.error("Error fetching blog details:", error);
@@ -132,7 +122,7 @@ const BlogDetails = () => {
     }
   }, [currentUser]);
   if (error) {
-    return <div>{error}</div>; // Display error message
+    return <div>{error}</div>;
   }
   if (!blog) return <div>Loading...</div>;
 

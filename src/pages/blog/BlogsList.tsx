@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { Box, CssBaseline, IconButton } from "@mui/material";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Delete, Edit } from "@mui/icons-material";
 import { Blog } from "../../types/types";
 import { useAuth } from "../../contexts/AuthContext";
+import ApiClient from "../../api/api-client";
 
 const BlogsList: React.FC = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
-
+  const apiClient = ApiClient();
   const handleDisplayBlogs = (blogId: number | undefined) => {
     if (blogId) {
       const path =
@@ -25,93 +25,62 @@ const BlogsList: React.FC = () => {
   const handleDelete = async (blogId: number) => {
     if (window.confirm("Are you sure you want to delete this blog?")) {
       try {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
+        if (!currentUser) {
           console.warn("No token found. Redirecting to login.");
           navigate("/login");
           return;
         }
 
-        const response = await axios.delete(
-          `http://localhost:8080/Blogs/${blogId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          },
-        );
+        const response = await apiClient.delete<Blog>(`/Blogs/${blogId}`);
 
         if (response.status === 204) {
-          console.log(`Successfully deleted blog with ID: ${blogId}`);
-        } else {
-          console.error(
-            `Failed to delete blog with ID: ${blogId}. Response:`,
-            response,
+          setBlogs((prevBlogs) =>
+            prevBlogs.filter((blog) => blog.id !== blogId),
           );
+        } else {
+          console.error("Failed to delete blog");
         }
       } catch (error) {
-        console.error("An error occurred while deleting the blog:", error);
+        console.error("An error occurred while deleting the blog:");
       }
     }
   };
 
   const handleEdit = (blogId: number) => {
-    console.log(`Editing blog with ID: ${blogId}`);
     navigate(`/admin/edit-blog/${blogId}`);
   };
   const handleFilterBlog = async (blogCategory: string | undefined) => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
+    if (!currentUser) {
       console.warn("No token found. Redirecting to login.");
       navigate("/login");
       return;
     }
 
     try {
-      const response = await axios.get(
-        `http://localhost:8080/Blogs/category/${blogCategory}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        },
+      const response = await apiClient.get<Blog[]>(
+        `/Blogs/category/${blogCategory}`,
       );
 
       if (response.status === 200) {
         setBlogs(response.data);
-        console.log(`Successfully filtered blogs by category: ${blogCategory}`);
       } else {
-        console.error(
-          `Failed to filter blogs by category: ${blogCategory}. Response:`,
-          response,
-        );
+        console.error("Failed to filter blogs by category");
       }
     } catch (error) {
-      console.error("An error occurred while filtering blogs:", error);
+      console.error("An error occurred while filtering blogs");
     }
   };
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
+        if (!currentUser) {
           console.warn("No token found. Redirecting to login.");
           navigate("/login");
           return;
         }
 
-        const response = await axios.get("http://localhost:8080/Blogs/blogs", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await apiClient.get<Blog[]>("/Blogs/blogs");
 
         setBlogs(response.data);
       } catch (error: any) {

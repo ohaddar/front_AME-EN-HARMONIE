@@ -1,10 +1,10 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import ReactQuill from "react-quill-new";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Select from "react-select";
 import { useCreateBlogContext } from "../../contexts/CreateBlogContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 interface MessageProps {
   type: "warning" | "success";
@@ -26,92 +26,30 @@ export const EditBlogPage: React.FC = () => {
     setCategory,
     setContent,
     file,
-    setFile,
+    fetchBlogDetails,
+    updatePost,
+    warningMessage,
+    successMessage,
   } = useCreateBlogContext();
 
   const quillRef = useRef<ReactQuill | null>(null);
-  const [warningMessage, setWarningMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const { currentUser } = useAuth();
 
   const navigate = useNavigate();
   const { blogId } = useParams<{ blogId: string }>();
 
   useEffect(() => {
-    const fetchBlogDetails = async () => {
-      if (!blogId) {
-        console.error("No blog ID found in URL.");
-        return;
-      }
-
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          console.warn("No token found. Redirecting to login.");
-          navigate("/login");
-          return;
-        }
-
-        const url = `http://localhost:8080/Blogs/${blogId}`;
-        console.log("Fetching blog details from:", url);
-
-        const response = await axios.get(url, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-
-        const { title, category, content, imageUrl } = response.data;
-        setTitle(title || "");
-        setCategory(category || "");
-        setContent(content || "");
-        setFile(imageUrl || "");
-      } catch (error) {
-        console.error("Error fetching blog details:", error);
-      }
-    };
-
-    fetchBlogDetails();
-  }, [blogId, navigate, setTitle, setCategory, setContent, setFile]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.warn("No token found. Redirecting to login.");
-        navigate("/login");
-        return;
-      }
-
-      const updatedFields: Record<string, any> = {};
-      if (title) updatedFields.title = title;
-      if (category) updatedFields.category = category;
-      if (content) updatedFields.content = content;
-
-      const formData = new FormData();
-      formData.append("blog", JSON.stringify(updatedFields));
-
-      if (file) {
-        formData.append("image", file);
-      }
-
-      await axios.put(
-        `http://localhost:8080/Blogs/update/${blogId}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        },
-      );
-      setSuccessMessage("Blog updated succesufully");
-      navigate("/blog");
-    } catch (error) {
-      setWarningMessage("Error updating blog:");
+    if (!currentUser) {
+      navigate("/login");
+      return;
     }
+    if (blogId) fetchBlogDetails(blogId);
+  }, [blogId]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    updatePost(blogId as string);
+    navigate("/admin/blog");
   };
   const categories = [
     "DEPRESSION",

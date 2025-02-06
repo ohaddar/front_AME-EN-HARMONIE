@@ -1,7 +1,7 @@
 import React, { ReactNode, createContext, useContext, useState } from "react";
-import { BlogContextProps } from "../types/types";
+import { BlogContextProps, blogData } from "../types/types";
 import sanitizeHtml from "sanitize-html";
-import axios from "axios";
+import ApiClient from "../api/api-client";
 
 const CreateBlogContext = createContext<BlogContextProps | undefined>(
   undefined,
@@ -26,6 +26,8 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
   const [file, setFile] = useState<File | null>(null);
   const [warningMessage, setWarningMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+
+  const apiClient = ApiClient();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -63,14 +65,9 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/Blogs/save",
+      const response = await apiClient.post<FormData, FormData>(
+        "/Blogs/save",
         data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        },
       );
       if (response.status === 200) {
         setSuccessMessage(
@@ -97,6 +94,54 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
     }
   };
 
+  const updatePost = async (blogId: string) => {
+    if (!validateForm()) return;
+
+    const updatedFields: Record<string, any> = {
+      title,
+      category,
+      content,
+    };
+
+    const formData = new FormData();
+    formData.append("blog", JSON.stringify(updatedFields));
+
+    if (file) {
+      formData.append("image", file);
+    }
+
+    try {
+      const response = await apiClient.put<FormData, FormData>(
+        `/Blogs/update/${blogId}`,
+        formData,
+      );
+
+      if (response.status === 200) {
+        setSuccessMessage("Blog updated successfully!");
+      }
+      setWarningMessage("");
+      setSuccessMessage("");
+    } catch (error) {
+      setWarningMessage("Error updating blog.");
+    }
+  };
+
+  const fetchBlogDetails = async (blogId: string) => {
+    try {
+      const response = await apiClient.get<blogData>(`/Blogs/${blogId}`);
+
+      const { title, category, content, imageUrl } = response.data;
+      setTitle(title || "");
+      setCategory(category || "");
+      setContent(content || "");
+      setFile(imageUrl || null);
+      setSuccessMessage("");
+      setWarningMessage("");
+    } catch (error) {
+      console.error("Error fetching blog:", error);
+    }
+  };
+
   return (
     <CreateBlogContext.Provider
       value={{
@@ -116,6 +161,8 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
         setSuccessMessage,
         handleFileChange,
         validateForm,
+        updatePost,
+        fetchBlogDetails,
       }}
     >
       {children}

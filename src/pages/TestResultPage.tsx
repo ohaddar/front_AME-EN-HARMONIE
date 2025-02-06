@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Typography, Alert } from "@mui/material";
 import { useAuth } from "../contexts/AuthContext";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Result } from "src/types/types";
+import ApiClient from "../api/api-client";
 
 const StyledContainer = styled.div`
   padding: 24px;
@@ -71,25 +72,17 @@ const TestResultPage: React.FC = () => {
   const { currentUser } = useAuth();
   const [results, setResults] = useState<TestResult[]>([]);
   const navigate = useNavigate();
-
+  const apiClient = ApiClient();
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
+    if (!currentUser) {
       console.warn("No token found. Redirecting to login.");
       navigate("/login");
       return;
     }
     const fetchResults = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/results/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await apiClient.get<Result[]>("/results/user");
         setResults(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching test results:", error);
       }

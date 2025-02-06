@@ -1,13 +1,15 @@
 import { Questionnaire, Question } from "../types/types";
-import axios from "axios";
+import ApiClient from "./api-client";
+
+const apiClient = ApiClient();
 
 export default class QuestionService {
   private questionnaire: Questionnaire | null = null;
 
   public async loadQuestionnaire(): Promise<Questionnaire> {
     try {
-      const response = await axios.get<Questionnaire>(
-        "http://localhost:8080/questionnaire/show",
+      const response = await apiClient.get<Questionnaire>(
+        "/questionnaire/show",
       );
       this.questionnaire = response.data;
       return this.questionnaire;

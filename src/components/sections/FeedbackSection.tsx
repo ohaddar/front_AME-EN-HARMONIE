@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Box, Typography, IconButton } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import axios from "axios";
 import { Feedback } from "../../types/types";
+import ApiClient from "../../api/api-client";
 
 const StyledFeedbackSection = styled(Box)`
   position: relative;
@@ -157,13 +157,11 @@ const FeedbackCard = styled(Box)`
 const FeedbackSection: React.FC = () => {
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-
+  const apiClient = ApiClient();
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/feedback/public",
-        );
+        const response = await apiClient.get<Feedback[]>("/feedback/public");
         setFeedbacks(response.data);
       } catch (error) {
         console.error("Error fetching feedbacks:", error);

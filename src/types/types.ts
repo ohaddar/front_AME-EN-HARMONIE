@@ -1,6 +1,12 @@
 import { User } from "./classes/User";
 
-// types.ts
+export interface UserSignUp {
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+  avatar: string;
+}
 export interface NextStep {
   [key: string]: string;
 }
@@ -11,7 +17,15 @@ export interface Question {
   responses: string[];
   next: NextStep;
 }
-
+export interface Result {
+  id?: number;
+  description: string;
+  datetime: string;
+  user: {
+    id: number | undefined;
+  };
+  questionnaireId: string | null;
+}
 export interface Messages {
   [key: string]: string;
 }
@@ -72,14 +86,13 @@ export interface FeedbackContextProps {
 }
 export interface AuthContextType {
   currentUser: User | null;
-  token: string | null;
   setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
   errorMessage: string;
   successMessage: string;
   setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
   setSuccessMessage: React.Dispatch<React.SetStateAction<string>>;
   isLoading: boolean;
-  //setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (
     firstname: string,
@@ -117,8 +130,20 @@ export interface BlogContextProps {
   handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   validateForm: () => boolean;
   createNewPost: () => Promise<void>;
+  fetchBlogDetails: (blogId: string) => Promise<void>;
+  updatePost: (blogId: string) => Promise<void>;
 }
 export interface Error {
   statusText?: string;
   message?: string;
+}
+export interface useremailAndPassword {
+  email: string;
+  password: string;
+}
+export interface blogData {
+  title: string;
+  category: string;
+  content: string;
+  imageUrl: File | null;
 }

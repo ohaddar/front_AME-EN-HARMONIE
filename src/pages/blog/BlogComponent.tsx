@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { Box, Grid, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Blog } from "../../types/types";
 import { useAuth } from "../../contexts/AuthContext";
+import ApiClient from "../../api/api-client";
 
 const defaultTheme = {
   colors: {
@@ -136,11 +136,11 @@ const BlogComponent: React.FC = () => {
   const { currentUser } = useAuth();
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const navigate = useNavigate();
-
+  const apiClient = ApiClient();
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/Blogs/public");
+        const response = await apiClient.get<Blog[]>("/Blogs/public");
         setBlogs(response.data);
       } catch (error) {
         console.error("Error fetching blogs:", error);
@@ -151,7 +151,9 @@ const BlogComponent: React.FC = () => {
 
   const handleReadMore = (id: number | undefined) => {
     const path =
-      currentUser?.role === "ADMIN" ? `/admin/blog/${id}` : `/user/blog/${id}`;
+      currentUser?.role === "ADMIN"
+        ? `/admin/blog-details/${id}`
+        : `/user/blog-details/${id}`;
     navigate(path);
   };
 

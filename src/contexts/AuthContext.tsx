@@ -1,7 +1,18 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { User } from "../types/classes/User";
-import { AuthContextType } from "../types/types";
+import {
+  AuthContextType,
+  useremailAndPassword,
+  UserSignUp,
+} from "../types/types";
+import Cookies from "js-cookie";
+import ApiClient from "../api/api-client";
+import {
+  decryptToken,
+  getTokenEmail,
+  getTokenFromCookie,
+  setTokenCookie,
+} from "../utils/token-helper";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -11,17 +22,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [errorMessage, setErrorMessage] = React.useState<string>("");
   const [successMessage, setSuccessMessage] = React.useState<string>("");
-  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    const storedToken = localStorage.getItem("token");
 
-    if (storedUser && storedToken) {
-      setCurrentUser(JSON.parse(storedUser));
-      setToken(storedToken);
-    }
-  }, []);
+  const apiClient = ApiClient(false);
 
   const signIn = async (email: string, password: string) => {
     setIsLoading(true);
@@ -31,17 +34,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setIsLoading(false);
       return;
     }
-
+    const useremailPass: useremailAndPassword = {
+      email,
+      password,
+    };
     try {
-      const response = await axios.post("http://localhost:8080/auth/login", {
-        email,
-        password,
-      });
-
-      setCurrentUser(response.data);
-      setToken(response.data.token);
-      localStorage.setItem("user", JSON.stringify(response.data));
-      localStorage.setItem("token", response.data.token);
+      const response = await apiClient.post<User, useremailAndPassword>(
+        "/auth/login",
+        useremailPass,
+      );
+      if (response.data.token) {
+        setTokenCookie(response.data.token);
+        setCurrentUser({ ...response.data });
+      } else {
+        setErrorMessage("Login failed. No token received.");
+      }
     } catch (err) {
       setErrorMessage("Login failed. Please check your email and password.");
     } finally {
@@ -87,16 +94,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setIsLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:8080/auth/register", {
+      const userdata: UserSignUp = {
         firstname,
         lastname,
         email,
         password,
         avatar,
-      });
-      setSuccessMessage("Account created successfully!");
-      setErrorMessage("");
-      setCurrentUser(response.data);
+      };
+      const response = await apiClient.post<User, UserSignUp>(
+        "/auth/register",
+        userdata,
+      );
+
+      if (response.data.token) {
+        setTokenCookie(response.data.token);
+        setCurrentUser({ ...response.data });
+        setSuccessMessage("Account created successfully!");
+      } else {
+        setErrorMessage("Sign-up failed. No token received.");
+      }
     } catch (err) {
       setErrorMessage("An error occurred while creating your account.");
     } finally {
@@ -105,11 +121,38 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
   const signOut = () => {
     setCurrentUser(null);
-    setToken(null);
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
+    Cookies.remove("auth_token");
   };
+  useEffect(() => {
+    try {
+      const encryptedToken = getTokenFromCookie();
+      if (encryptedToken) {
+        const token = decryptToken();
+        if (token) {
+          if (currentUser == undefined) {
+            const email = getTokenEmail(token);
+            console.log("EMMMMMQQQQQIIIKLLL", email);
 
+            apiClient
+              .get<User>(`/auth/profile/${email}`)
+              .then((res) => {
+                setCurrentUser(res.data);
+              })
+              .catch(() => {
+                setCurrentUser(null);
+                Cookies.remove("auth_token");
+              });
+          }
+          setCurrentUser((prevUser) => ({ ...prevUser, token } as User));
+          console.log(currentUser);
+        } else {
+          setCurrentUser(null);
+        }
+      }
+    } catch (error) {
+      console.error("Error retrieving token:", error);
+    }
+  }, []);
   return (
     <AuthContext.Provider
       value={{
@@ -118,11 +161,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         signIn,
         signUp,
         signOut,
-        token,
         errorMessage,
         setErrorMessage,
         successMessage,
         setSuccessMessage,
+        setIsLoading,
         setCurrentUser,
       }}
     >
