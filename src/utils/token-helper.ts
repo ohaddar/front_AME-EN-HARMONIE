@@ -9,26 +9,22 @@ export const encryptToken = (token: string): string => {
 };
 
 export const decryptToken = (): string | undefined => {
-  try {
-    const encryptedToken = getTokenFromCookie();
-    if (encryptedToken == undefined) {
-      return undefined;
-    }
-
-    const bytes = CryptoJS.AES.decrypt(encryptedToken, SECRET_KEY);
-    const decrypted = bytes.toString(CryptoJS.enc.Utf8);
-
-    const exp = getTokenExpiration(decrypted);
-    const dateExp = new Date(exp * 1000);
-    if (dateExp < new Date()) {
-      Cookies.remove("auth_token");
-      return undefined;
-    }
-
-    return decrypted;
-  } catch (error) {
-    throw error;
+  const encryptedToken = getTokenFromCookie();
+  if (encryptedToken == undefined) {
+    return undefined;
   }
+
+  const bytes = CryptoJS.AES.decrypt(encryptedToken, SECRET_KEY);
+  const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+
+  const exp = getTokenExpiration(decrypted);
+  const dateExp = new Date(exp * 1000);
+  if (dateExp < new Date()) {
+    Cookies.remove("auth_token");
+    return undefined;
+  }
+
+  return decrypted;
 };
 
 const getTokenExpiration = (token: string): number => {

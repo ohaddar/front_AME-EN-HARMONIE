@@ -7,6 +7,27 @@ on:
     branches: ["main"]
 
 jobs:
+  code_review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Fetch source
+        uses: actions/checkout@v4
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: "npm"
+      - name: Install dependencies
+        run: npm ci
+      - name: Run ESLint
+        run: npm run lint
+      - name: Run tests
+        run: npm test -- --passWithNoTests
+        env:
+          VITE_SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          VITE_API_BASE_URL: ${{ vars.API_BASE_URL }}
+
   build:
     runs-on: ubuntu-latest
 
@@ -22,5 +43,3 @@ jobs:
         run: npm ci
       - name: Run build
         run: npm run build --if-present
-      - name: Run tests
-        run: npm test -- --passWithNoTests

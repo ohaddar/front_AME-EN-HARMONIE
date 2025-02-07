@@ -2,6 +2,7 @@ import React, { ReactNode, createContext, useContext, useState } from "react";
 import { BlogContextProps, blogData } from "../types/types";
 import sanitizeHtml from "sanitize-html";
 import ApiClient from "../api/api-client";
+import axios from "axios";
 
 const CreateBlogContext = createContext<BlogContextProps | undefined>(
   undefined,
@@ -83,13 +84,17 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
           response.status,
         );
       }
-    } catch (error: any) {
-      if (error.response) {
-        console.error("Error response:", error.response.data);
-      } else if (error.request) {
-        console.error("No response received:", error.request);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          console.error("Error response:", error.response.data);
+        } else if (error.request) {
+          console.error("No response received:", error.request);
+        } else {
+          console.error("Error setting up request:", error.message);
+        }
       } else {
-        console.error("Error setting up request:", error.message);
+        console.error("Unexpected error:", error);
       }
     }
   };
@@ -97,11 +102,12 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
   const updatePost = async (blogId: string) => {
     if (!validateForm()) return;
 
-    const updatedFields: Record<string, any> = {
-      title,
-      category,
-      content,
-    };
+    const updatedFields: { title: string; category: string; content: string } =
+      {
+        title,
+        category,
+        content,
+      };
 
     const formData = new FormData();
     formData.append("blog", JSON.stringify(updatedFields));

@@ -1,7 +1,9 @@
+import React from "react";
 import styled from "styled-components";
 import { Typography, Alert, CircularProgress } from "@mui/material";
 import { useQuestionnaire } from "../../hooks/useQuestionnaire";
 
+// Styled components
 const StyledContainer = styled.div`
   padding: 24px;
   border-radius: 16px;
@@ -37,6 +39,18 @@ const StyledButton = styled.button`
   }
 `;
 
+const StyledTypography = styled(Typography)`
+  margin-bottom: 16px;
+`;
+
+const BlogLink = styled.a`
+  color: #7c3aed;
+  text-decoration: underline;
+  &:hover {
+    color: #5b21b6;
+  }
+`;
+
 const QuestionContainer: React.FC = () => {
   const { currentQuestion, handleAnswer, resultMessage, loading, error } =
     useQuestionnaire();
@@ -49,22 +63,17 @@ const QuestionContainer: React.FC = () => {
         {resultMessage && (
           <Alert severity="info">
             {resultMessage}
-            <Typography variant="h6" gutterBottom>
+            <StyledTypography variant="h6" gutterBottom>
               Savoir plus en lisant nos blogs
-            </Typography>
-            <a
-              href="/user/blog"
-              style={{ color: "#7c3aed", textDecoration: "underline" }}
-            >
-              Lire les blogs
-            </a>
+            </StyledTypography>
+            <BlogLink href="/user/blog">Lire les blogs</BlogLink>
           </Alert>
         )}
         {!loading && currentQuestion && (
           <>
-            <Typography variant="h6" gutterBottom>
+            <StyledTypography variant="h6" gutterBottom>
               {currentQuestion.text}
-            </Typography>
+            </StyledTypography>
             <StyledStack>
               {currentQuestion.responses.map((value, index) => (
                 <StyledButton

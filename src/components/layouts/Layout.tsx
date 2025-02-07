@@ -11,7 +11,7 @@ const Layout: React.FC = () => {
       <BlogProvider>
         <FeedbackProvider>
           <BrowserRouter>
-            <RoutesConfig />
+            <RoutesConfig data-testid="routes-config" />
           </BrowserRouter>
         </FeedbackProvider>
       </BlogProvider>

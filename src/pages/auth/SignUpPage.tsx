@@ -14,7 +14,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { AvatarGroup } from "@mui/material";
 import { Error as ErrorIcon } from "@mui/icons-material";
 
-function Copyright(props: any) {
+const Copyright = (props: React.ComponentProps<typeof Typography>) => {
   return (
     <Typography
       variant="body2"
@@ -30,7 +30,7 @@ function Copyright(props: any) {
       {"."}
     </Typography>
   );
-}
+};
 
 const defaultTheme = createTheme();
 

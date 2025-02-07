@@ -168,7 +168,7 @@ const AvatarContainer = styled.div`
   }
 `;
 
-export default function Nav() {
+const Nav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { currentUser, signOut } = useAuth();
 
@@ -214,10 +214,12 @@ export default function Nav() {
   const handleMenuItemClick = () => {
     setMobileMenuOpen(false);
   };
+
   const handleMobileLogout = () => {
     setMobileMenuOpen(!mobileMenuOpen);
     signOut();
   };
+
   return (
     <AppBar>
       <Container>
@@ -267,4 +269,6 @@ export default function Nav() {
       )}
     </AppBar>
   );
-}
+};
+
+export default Nav;

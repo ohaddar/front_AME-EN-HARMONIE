@@ -1,8 +1,14 @@
 import React, { useRef } from "react";
 import ReactQuill from "react-quill-new";
-import Select from "react-select";
+import Select, { SingleValue } from "react-select";
 import styled from "styled-components";
 import { useCreateBlogContext } from "../../contexts/CreateBlogContext";
+
+interface Option {
+  value: string;
+  label: string;
+}
+
 interface MessageProps {
   type: "warning" | "success";
 }
@@ -40,7 +46,8 @@ const Input = styled.input`
   }
 `;
 
-const StyledReactSelect = styled(Select)`
+// Use generic parameters on the styled component for react-select.
+const StyledReactSelect = styled(Select<Option, false>)`
   .react-select__control {
     border-color: #ccc;
     &:hover {
@@ -101,7 +108,7 @@ export const CreateBlogPage: React.FC = () => {
     setContent,
     createNewPost,
   } = useCreateBlogContext();
-  const quillRef = useRef(null);
+  const quillRef = useRef<ReactQuill | null>(null);
 
   const handleRedirect = (route: string) => {
     window.location.href = route === "bloglist" ? "blog" : "";
@@ -127,12 +134,14 @@ export const CreateBlogPage: React.FC = () => {
     "CONSULTATION_PROFESSIONNELLE_RECOMMANDEE",
   ];
 
-  const categoryOptions = categories.map((cat) => ({
+  // Map the category strings to Option objects
+  const categoryOptions: Option[] = categories.map((cat) => ({
     value: cat,
     label: cat.replace(/_/g, " "),
   }));
 
-  const handleCategoryChange = (selectedOption: any) => {
+  // Update the onChange handler to accept a SingleValue<Option>
+  const handleCategoryChange = (selectedOption: SingleValue<Option>) => {
     setCategory(selectedOption?.value || "");
   };
 

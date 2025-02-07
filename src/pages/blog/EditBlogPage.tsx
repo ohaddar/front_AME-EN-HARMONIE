@@ -3,12 +3,20 @@ import ReactQuill from "react-quill-new";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Select from "react-select";
+import { SingleValue } from "react-select";
 import { useCreateBlogContext } from "../../contexts/CreateBlogContext";
 import { useAuth } from "../../contexts/AuthContext";
+
+// Define your option type
+interface Option {
+  value: string;
+  label: string;
+}
 
 interface MessageProps {
   type: "warning" | "success";
 }
+
 const BlogImage = styled.img`
   height: 100px;
   padding: 13px;
@@ -34,7 +42,6 @@ export const EditBlogPage: React.FC = () => {
 
   const quillRef = useRef<ReactQuill | null>(null);
   const { currentUser } = useAuth();
-
   const navigate = useNavigate();
   const { blogId } = useParams<{ blogId: string }>();
 
@@ -43,14 +50,17 @@ export const EditBlogPage: React.FC = () => {
       navigate("/login");
       return;
     }
-    if (blogId) fetchBlogDetails(blogId);
-  }, [blogId]);
+    if (blogId) {
+      fetchBlogDetails(blogId);
+    }
+  }, [blogId, currentUser, fetchBlogDetails, navigate]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     updatePost(blogId as string);
     navigate("/admin/blog");
   };
+
   const categories = [
     "DEPRESSION",
     "TROUBLE_INSOMNIE_ANXIETE",
@@ -66,17 +76,26 @@ export const EditBlogPage: React.FC = () => {
     "CONSULTATION_PROFESSIONNELLE_RECOMMANDEE",
   ];
 
-  const categoryOptions = categories.map((cat) => ({
+  // Ensure that the options conform to the Option interface
+  const categoryOptions: Option[] = categories.map((cat) => ({
     value: cat,
     label: cat.replace(/_/g, " "),
   }));
 
-  const handleCategoryChange = (selectedOption: any) => {
-    setCategory(selectedOption.value);
+  // Update the onChange handler to accept both the selected option and the action meta
+  const handleCategoryChange = (selectedOption: SingleValue<Option>) => {
+    if (selectedOption) {
+      setCategory(selectedOption.value);
+    } else {
+      // When the selection is cleared
+      setCategory("");
+    }
   };
+
   const handleRedirect = (route: string) => {
     window.location.href = route === "bloglist" ? "blog" : "";
   };
+
   return (
     <Container>
       <Form onSubmit={handleSubmit} className="create-blog-form">
@@ -99,6 +118,8 @@ export const EditBlogPage: React.FC = () => {
           onChange={(e) => setTitle(e.target.value)}
           className="create-blog-input"
         />
+
+        {/* Pass generic types to the select component */}
         <StyledReactSelect
           options={categoryOptions}
           value={categoryOptions.find((option) => option.value === category)}
@@ -141,6 +162,7 @@ export const EditBlogPage: React.FC = () => {
     </Container>
   );
 };
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -174,7 +196,8 @@ const Input = styled.input`
   }
 `;
 
-const StyledReactSelect = styled(Select)`
+// This styled component wraps react-select. It remains unchanged.
+const StyledReactSelect = styled(Select<Option, false>)`
   .react-select__control {
     border-color: #ccc;
     &:hover {
@@ -215,6 +238,7 @@ const Button = styled.button`
     background-color: #805ad5;
   }
 `;
+
 const Message = styled.p<MessageProps>`
   font-size: 14px;
   color: ${(props) => (props.type === "warning" ? "#e53e3e" : "#38a169")};
