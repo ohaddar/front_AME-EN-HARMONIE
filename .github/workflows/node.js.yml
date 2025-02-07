@@ -26,7 +26,7 @@ jobs:
         run: npm test -- --passWithNoTests
         env:
           VITE_SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          VITE_BASE_URL: ${{ vars.VITE_BASE_URL }}
+          VITE_API_BASE_URL: ${{ vars.API_BASE_URL }}
 
   build:
     runs-on: ubuntu-latest
