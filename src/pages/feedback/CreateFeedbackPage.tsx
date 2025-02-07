@@ -203,7 +203,7 @@ export const CreateFeedbackPage: React.FC = () => {
   const { currentUser } = useAuth();
   const quillRef = useRef(null);
   const apiClient = ApiClient();
-  const [userFeedback, setUserFeedback] = useState<any | null>(null);
+  const [userFeedback, setUserFeedback] = useState<Feedback | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

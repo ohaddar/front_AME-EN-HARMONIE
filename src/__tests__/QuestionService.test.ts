@@ -1,7 +1,5 @@
 import { expect, it, vi, beforeEach } from "vitest";
-import ApiClient from "../api/api-client";
 import QuestionService from "../api/QuestionService";
-import { useAuth } from "../contexts/AuthContext";
 import { Questionnaire } from "../types/types";
 
 vi.mock("../contexts/AuthContext", () => ({

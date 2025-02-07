@@ -19,8 +19,6 @@ import PrivacyPolicy from "../common/privacy-policy";
 const RoutesConfig: React.FC = () => {
   const { currentUser } = useAuth();
 
-  console.log("Current user from route-config", currentUser);
-
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -11,17 +11,18 @@
     "jsx": "react-jsx",
     "declaration": true,
     "emitDeclarationOnly": true,
-    "outDir": "./dist", 
     "target": "esnext",
     "baseUrl": "./",
     "paths": {
       "src/*": ["src/*"]
-    }
+    },
+    "outDir": "./dist"
   },
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
+  "include": ["src"],
   "exclude": [
     "node_modules",
     "dist"

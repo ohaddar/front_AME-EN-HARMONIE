@@ -1,5 +1,4 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import axios from "axios";
 import { describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom";
 import FeedbackSection from "../components/sections/FeedbackSection";

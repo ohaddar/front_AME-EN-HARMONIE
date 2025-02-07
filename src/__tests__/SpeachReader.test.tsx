@@ -46,7 +46,7 @@ it("should stop reading when the stop button is clicked", () => {
   expect(global.speechSynthesis.cancel).toHaveBeenCalledTimes(1);
 });
 
-it("should correctly toggle between start and stop states", async () => {
+it("should correctly toggle between start and stop states", () => {
   render(<SpeechReader />);
 
   expect(screen.getByTestId("micro")).toBeInTheDocument();

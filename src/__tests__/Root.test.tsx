@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import Root from "../components/layouts/Root";
-import { describe, expect, it, test } from "vitest";
+import { describe, expect, it } from "vitest";
 import { AuthProvider } from "../contexts/AuthContext";
 import { BrowserRouter } from "react-router-dom";
 

@@ -13,7 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
-function Copyright(props: any) {
+const Copyright = (props: React.ComponentProps<typeof Typography>) => {
   return (
     <Typography
       variant="body2"
@@ -29,7 +29,7 @@ function Copyright(props: any) {
       {"."}
     </Typography>
   );
-}
+};
 
 const defaultTheme = createTheme();
 

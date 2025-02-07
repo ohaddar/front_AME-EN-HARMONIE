@@ -1,12 +1,15 @@
 import { render, screen } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
 import Layout from "../components/layouts/Layout";
 import { AuthProvider } from "../contexts/AuthContext";
 import { BlogProvider } from "../contexts/CreateBlogContext";
 import { FeedbackProvider } from "../contexts/CreateFeedbackContext";
 import { describe, expect, it, vi } from "vitest";
 
-vi.mock("./routeConfig", () => () => <div data-testid="routes-config" />);
+vi.mock("./routeConfig", () => {
+  const MockRouteConfig = () => <div data-testid="routes-config" />;
+  MockRouteConfig.displayName = "MockRouteConfig";
+  return MockRouteConfig;
+});
 
 describe("Layout Component", () => {
   it("should render the layout with all providers", () => {

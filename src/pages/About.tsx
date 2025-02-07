@@ -1,22 +1,32 @@
 import React from "react";
+import styled from "styled-components";
+
+const AboutContainer = styled.div`
+  display: flex;
+  margin: 4rem;
+  flex-direction: column;
+`;
+
+const AboutParagraph = styled.p`
+  margin-bottom: 1.5rem;
+`;
 
 const About: React.FC = () => {
   return (
-    <div
-      className="about"
-      style={{ display: "flex", margin: "4rem", flexDirection: "column" }}
-    >
-      <p>
+    <AboutContainer>
+      <AboutParagraph>
         Bienvenue sur la page "À Propos". Ici, vous trouverez des informations
         sur notre entreprise, notre histoire et notre mission.
-      </p>
-      <p>
+      </AboutParagraph>
+      <AboutParagraph>
         Nous sommes une équipe dédiée à fournir les meilleurs services possibles
         à nos clients. Notre vision est de transformer les défis en opportunités
         et de toujours chercher à améliorer nos pratiques.
-      </p>
-      <p>Pour plus d'informations, n'hésitez pas à nous contacter</p>
-    </div>
+      </AboutParagraph>
+      <AboutParagraph>
+        Pour plus d'informations, n'hésitez pas à nous contacter.
+      </AboutParagraph>
+    </AboutContainer>
   );
 };
 

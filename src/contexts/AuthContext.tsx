@@ -131,7 +131,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         if (token) {
           if (currentUser == undefined) {
             const email = getTokenEmail(token);
-            console.log("EMMMMMQQQQQIIIKLLL", email);
 
             apiClient
               .get<User>(`/auth/profile/${email}`)
@@ -144,7 +143,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
               });
           }
           setCurrentUser((prevUser) => ({ ...prevUser, token } as User));
-          console.log(currentUser);
         } else {
           setCurrentUser(null);
         }

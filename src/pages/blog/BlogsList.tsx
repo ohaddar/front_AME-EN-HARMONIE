@@ -83,11 +83,9 @@ const BlogsList: React.FC = () => {
         const response = await apiClient.get<Blog[]>("/Blogs/blogs");
 
         setBlogs(response.data);
-      } catch (error: any) {
+      } catch (error) {
         console.error("Error fetching blogs:", error);
-        if (error.response && error.response.status === 403) {
-          alert("Access denied. You do not have the required permissions.");
-        }
+        alert("Access denied. You do not have the required permissions.");
       }
     };
 
