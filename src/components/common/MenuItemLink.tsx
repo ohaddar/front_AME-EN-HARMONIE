@@ -9,6 +9,7 @@ const MenuItemLink: React.FC<MenuItemLinkProps> = ({ name, path, onClick }) => (
     sx={{ my: 2, color: "black", display: "block" }}
     component={Link}
     to={path}
+    data-testid={"test-menu"}
   >
     {name}
   </Button>
