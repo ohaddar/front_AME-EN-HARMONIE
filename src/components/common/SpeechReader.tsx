@@ -86,13 +86,18 @@ const SpeechReader: React.FC = () => {
   return (
     <ContentReader>
       {!lectureEnCours ? (
-        <Button onClick={lirePage}>🎤</Button>
+        <Button onClick={lirePage} data-testid="micro">
+          🎤
+        </Button>
       ) : (
-        <Button onClick={arreterLecture}>⏹️ </Button>
+        <Button onClick={arreterLecture} data-testid="pause">
+          ⏹️{" "}
+        </Button>
       )}
     </ContentReader>
   );
 };
+
 const ContentReader = styled.div`
   position: fixed;
   bottom: 50px;
