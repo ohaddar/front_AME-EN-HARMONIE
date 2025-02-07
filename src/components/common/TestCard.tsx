@@ -31,7 +31,7 @@ const StyledParagraph = styled.p`
 
 const TestCard: React.FC = () => {
   return (
-    <StyledPaper>
+    <StyledPaper data-testid="test-card">
       <Typography variant="h4" gutterBottom>
         Test
       </Typography>
