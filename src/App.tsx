@@ -4,10 +4,10 @@ import SpeechReader from "./components/common/SpeechReader";
 
 function App() {
   return (
-    <AuthProvider>
+    <AuthProvider data-testid="auth-provider">
       <div style={{ position: "relative" }}>
-        <Layout />
-        <SpeechReader />
+        <Layout data-testid="layout-component" />
+        <SpeechReader data-testid="speech-reader" />
       </div>
     </AuthProvider>
   );
