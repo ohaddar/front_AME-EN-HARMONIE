@@ -7,8 +7,10 @@ const Root: React.FC = () => {
   return (
     <main
       style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+      data-testid="main"
     >
       <Nav />
+
       <div style={{ flexGrow: 1 }}>
         <Outlet />
       </div>
