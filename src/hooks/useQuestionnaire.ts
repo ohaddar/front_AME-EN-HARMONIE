@@ -1,27 +1,40 @@
 import { useEffect, useState } from "react";
-import QuestionService from "../api/QuestionService";
 import { Question, Result } from "../types/types";
 import { useAuth } from "../contexts/AuthContext";
 import ApiClient from "../api/api-client";
+import { QuestionnaireApi } from "../api/questionnaire";
 
 export const useQuestionnaire = () => {
-  const [questionService] = useState(new QuestionService());
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
   const [questionnaireId, setQuestionnaireId] = useState<string | null>(null);
   const apiClient = ApiClient();
 
+  const {
+    questionnaire,
+    error,
+    fetchNextQuestionById,
+    findQuestionById,
+    setError,
+  } = QuestionnaireApi();
+
   const [resultMessage, setResultMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const { currentUser } = useAuth();
   useEffect(() => {
-    const loadQuestionnaire = async () => {
+    const loadQuestionnaire = () => {
       try {
-        const response = await questionService.loadQuestionnaire();
-        setQuestionnaireId(response.id);
-        const firstQuestion = questionService.getQuestionById("0.1");
-        setCurrentQuestion(firstQuestion || null);
+        if (questionnaire) {
+          setQuestionnaireId(questionnaire.id);
+        } else {
+          setError("Questionnaire is null");
+        }
+        const firstQuestion = findQuestionById("0.1");
+        if (!firstQuestion) {
+          throw new Error("First question not found");
+        }
+        setCurrentQuestion(firstQuestion);
       } catch (err) {
+        console.error("Error loading questionnaire:", err);
         setError("Failed to load questionnaire");
       } finally {
         setLoading(false);
@@ -29,16 +42,13 @@ export const useQuestionnaire = () => {
     };
 
     loadQuestionnaire();
-  }, [questionService]);
+  }, [questionnaire]);
 
   const handleAnswer = async (answer: string) => {
     if (!currentQuestion) return;
 
     try {
-      const next = questionService.getNextQuestionById(
-        currentQuestion.id,
-        answer,
-      );
+      const next = fetchNextQuestionById(currentQuestion.id, answer);
       if (typeof next === "string") {
         const resultMessage = next;
         const testResult = {

@@ -1,59 +1,87 @@
-import { expect, it, vi, beforeEach } from "vitest";
-import QuestionService from "../api/QuestionService";
-import { Questionnaire } from "../types/types";
-
-vi.mock("../contexts/AuthContext", () => ({
-  useAuth: vi.fn(() => ({ user: null })),
-}));
+import { renderHook, act } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+import { QuestionnaireApi } from "../api/questionnaire";
 
 vi.mock("../api/api-client", () => ({
   default: vi.fn(() => ({
-    get: vi.fn(() => Promise.resolve({ data: mockQuestionnaire })),
+    get: vi.fn(() =>
+      Promise.resolve({
+        data: {
+          questions: [
+            {
+              id: "q1",
+              text: "Question 1",
+              next: { yes: "q2", no: "q3", default: "q3" },
+            },
+            {
+              id: "q2",
+              text: "Question 2",
+              next: {},
+            },
+            {
+              id: "q3",
+              text: "Question 3",
+              next: {},
+            },
+          ],
+          results: {},
+        },
+      }),
+    ),
   })),
 }));
 
-const mockQuestionnaire: Questionnaire = {
-  id: "test-questionnaire",
-  questions: [
-    {
-      id: "q1",
-      text: "What is your favorite color?",
-      next: { Red: "q2", Blue: "q3", default: "q2" },
-      responses: ["Red", "Blue"],
-    },
-    {
-      id: "q2",
-      text: "Do you like apples?",
-      next: { Yes: "result1", No: "result2", default: "result1" },
-      responses: ["Red", "Blue"],
-    },
-  ],
-  results: {
-    result1: "You like apples!",
-    result2: "You don't like apples.",
-  },
-  defaultMessage: "No next question available.",
-};
+describe("QuestionnaireApi", () => {
+  it("fetches questionnaire data successfully", async () => {
+    const { result } = renderHook(() => QuestionnaireApi());
 
-let questionService: QuestionService;
+    await act(async () => {
+      await result.current.fetchQuestionnaireData();
+    });
 
-beforeEach(() => {
-  questionService = new QuestionService();
-});
+    expect(result.current.questionnaire).not.toBeNull();
+    expect(result.current.questionnaire?.questions).toHaveLength(3);
+  });
 
-it("should load questionnaire data", async () => {
-  const questionnaire = await questionService.loadQuestionnaire();
-  expect(questionnaire).toBeDefined();
-  expect(questionnaire.id).toBe("test-questionnaire");
-  expect(questionnaire.questions.length).toBeGreaterThan(0);
-});
-it("retrieve the next question based on the current question's ID and the user's answer", async () => {
-  await questionService.loadQuestionnaire();
-  const nextQuestion = questionService.getNextQuestionById("q1", "Red");
-  expect(nextQuestion).toBeDefined();
-  if (typeof nextQuestion === "object" && nextQuestion !== null) {
-    expect(nextQuestion.id).toBe("q2");
-  } else {
-    throw new Error("Expected nextQuestion to be an object with an id");
-  }
+  it("finds a question by ID", async () => {
+    const { result } = renderHook(() => QuestionnaireApi());
+
+    await act(async () => {
+      await result.current.fetchQuestionnaireData();
+    });
+
+    const question = result.current.findQuestionById("q1");
+    expect(question).toBeDefined();
+    expect(question?.text).toBe("Question 1");
+  });
+
+  it("fetches the next question based on answer", async () => {
+    const { result } = renderHook(() => QuestionnaireApi());
+
+    await act(async () => {
+      await result.current.fetchQuestionnaireData();
+    });
+
+    const nextQuestion = result.current.fetchNextQuestionById("q1", "yes");
+    expect(nextQuestion).toBeDefined();
+    if (
+      nextQuestion &&
+      typeof nextQuestion !== "string" &&
+      "text" in nextQuestion
+    ) {
+      expect(nextQuestion.text).toBe("Question 2");
+    }
+  });
+
+  it("throws an error if fetching next question is invalid", async () => {
+    const { result } = renderHook(() => QuestionnaireApi());
+
+    await act(async () => {
+      await result.current.fetchQuestionnaireData();
+    });
+
+    expect(() =>
+      result.current.fetchNextQuestionById("q2", "unknown"),
+    ).toThrowError("No next question available for answer: unknown");
+  });
 });
