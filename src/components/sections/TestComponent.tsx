@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 
 const defaultTheme = createTheme({
   typography: {
-    fontFamily: `'Poppins', sans-serif`,
+    fontFamily: "'Poppins', sans-serif",
   },
 });
 
 const StyledSection = styled.div`
-  background-image: url("src/assets/images/test-background.jpg");
+  background-image: url("src/assets/images/background-test.jpeg");
 
   background-color: rgba(192, 173, 194, 0.2);
   background-blend-mode: color;
@@ -41,7 +41,7 @@ const StyledSection = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(43, 42, 43, 0.6);
   }
 
   @keyframes moveBackground {

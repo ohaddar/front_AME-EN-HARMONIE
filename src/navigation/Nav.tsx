@@ -1,9 +1,9 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { useAuth } from "../contexts/AuthContext";
-import Logo from "../components/common/Logo";
 import { Avatar } from "@mui/material";
 import MenuItemLink from "../components/common/MenuItemLink";
+import logo from "../assets/logo.svg";
 
 const AppBar = styled.header`
   background-color: white;
@@ -24,11 +24,6 @@ const Toolbar = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 64px;
-`;
-
-const LogoContainer = styled.div`
-  display: flex;
-  align-items: center;
 `;
 
 const NavMenuButton = styled.button`
@@ -168,6 +163,19 @@ const AvatarContainer = styled.div`
   }
 `;
 
+const LogoStyled = styled.img`
+  height: 70px;
+  cursor: pointer;
+
+  @media (max-width: 960px) {
+    height: 60px;
+  }
+
+  @media (max-width: 480px) {
+    height: 50px;
+  }
+`;
+
 const Nav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { currentUser, signOut } = useAuth();
@@ -224,9 +232,7 @@ const Nav = () => {
     <AppBar>
       <Container>
         <Toolbar>
-          <LogoContainer>
-            <Logo />
-          </LogoContainer>
+          <LogoStyled src={logo} alt="logo" />
           <>
             {currentUser && (
               <AvatarContainer>
@@ -234,7 +240,11 @@ const Nav = () => {
               </AvatarContainer>
             )}
             <NavMenuButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-              <MenuIcon />
+              <MenuIcon>
+                <span />
+                <span />
+                <span />
+              </MenuIcon>
             </NavMenuButton>
           </>
           <DesktopMenu>{renderMenuItems()}</DesktopMenu>
@@ -250,23 +260,26 @@ const Nav = () => {
             )}
           </Actions>
         </Toolbar>
+        {mobileMenuOpen && (
+          <Menu>
+            {renderMenuItems()}
+            {!currentUser && (
+              <MenuItemLink
+                name="Se Connecter"
+                path="connect"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              />
+            )}
+            {currentUser && (
+              <MenuItemLink
+                name="Logout"
+                path=""
+                onClick={handleMobileLogout}
+              />
+            )}
+          </Menu>
+        )}
       </Container>
-
-      {mobileMenuOpen && (
-        <Menu>
-          {renderMenuItems()}
-          {!currentUser && (
-            <MenuItemLink
-              name="Se Connecter"
-              path="connect"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            />
-          )}
-          {currentUser && (
-            <MenuItemLink name="Logout" path="" onClick={handleMobileLogout} />
-          )}
-        </Menu>
-      )}
     </AppBar>
   );
 };
