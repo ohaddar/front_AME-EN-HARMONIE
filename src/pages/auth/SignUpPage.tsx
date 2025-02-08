@@ -1,7 +1,6 @@
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
@@ -9,7 +8,6 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useAuth } from "../../contexts/AuthContext";
 import { AvatarGroup } from "@mui/material";
 import { Error as ErrorIcon } from "@mui/icons-material";
@@ -31,8 +29,6 @@ const Copyright = (props: React.ComponentProps<typeof Typography>) => {
     </Typography>
   );
 };
-
-const defaultTheme = createTheme();
 
 const SignUpPage = () => {
   const { signUp, successMessage, errorMessage, setErrorMessage } = useAuth();
@@ -63,148 +59,145 @@ const SignUpPage = () => {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign up
+        </Typography>
+        {errorMessage && (
+          <Typography
+            color="error"
+            variant="body2"
+            sx={{ marginBottom: "10px" }}
+          >
+            {errorMessage}
           </Typography>
+        )}
+        {successMessage && (
+          <Typography
+            color="success"
+            variant="body2"
+            sx={{ marginBottom: "10px" }}
+          >
+            {successMessage}
+          </Typography>
+        )}
+        <Box
+          component="form"
+          noValidate
+          sx={{ mt: 3 }}
+          onSubmit={handleRegister}
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="given-name"
+                name="firstName"
+                required
+                fullWidth
+                id="firstName"
+                label="First Name"
+                autoFocus
+                value={firstname}
+                onChange={(e) => setFirstname(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="lastName"
+                autoComplete="family-name"
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <AvatarGroup max={avatars.length}>
+                {avatars.map((avatar, index) => (
+                  <Avatar
+                    key={index}
+                    src={avatar}
+                    onClick={() => setAvatarValue(avatar)}
+                    sx={{
+                      width: avatarValue === avatar ? 65 : 60,
+                      height: avatarValue === avatar ? 65 : 60,
+                      border:
+                        avatarValue === avatar
+                          ? "3px solid rgb(70,38,228)"
+                          : "0px",
+                      cursor: "pointer",
+                    }}
+                  />
+                ))}
+              </AvatarGroup>
+            </Grid>
+          </Grid>
           {errorMessage && (
             <Typography
               color="error"
               variant="body2"
-              sx={{ marginBottom: "10px" }}
+              sx={{ marginBottom: "1rem" }}
             >
-              {errorMessage}
+              <ErrorIcon fontSize="small" /> {errorMessage}
             </Typography>
           )}
-          {successMessage && (
-            <Typography
-              color="success"
-              variant="body2"
-              sx={{ marginBottom: "10px" }}
-            >
-              {successMessage}
-            </Typography>
-          )}
-          <Box
-            component="form"
-            noValidate
-            sx={{ mt: 3 }}
-            onSubmit={handleRegister}
+          <Button
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            type="submit"
           >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                  value={firstname}
-                  onChange={(e) => setFirstname(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                  value={lastname}
-                  onChange={(e) => setLastname(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <AvatarGroup max={avatars.length}>
-                  {avatars.map((avatar, index) => (
-                    <Avatar
-                      key={index}
-                      src={avatar}
-                      onClick={() => setAvatarValue(avatar)}
-                      sx={{
-                        width: avatarValue === avatar ? 65 : 60,
-                        height: avatarValue === avatar ? 65 : 60,
-                        border:
-                          avatarValue === avatar
-                            ? "3px solid rgb(70,38,228)"
-                            : "0px",
-                        cursor: "pointer",
-                      }}
-                    />
-                  ))}
-                </AvatarGroup>
-              </Grid>
+            Sign Up
+          </Button>
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <Link href="/connect" variant="body2">
+                Already have an account? Sign in
+              </Link>
             </Grid>
-            {errorMessage && (
-              <Typography
-                color="error"
-                variant="body2"
-                sx={{ marginBottom: "1rem" }}
-              >
-                <ErrorIcon fontSize="small" /> {errorMessage}
-              </Typography>
-            )}
-            <Button
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              type="submit"
-            >
-              Sign Up
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/connect" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
+          </Grid>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
-      </Container>
-    </ThemeProvider>
+      </Box>
+      <Copyright sx={{ mt: 5 }} />
+    </Container>
   );
 };
 export default SignUpPage;

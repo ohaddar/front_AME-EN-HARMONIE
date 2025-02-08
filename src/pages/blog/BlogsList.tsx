@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import styled, { ThemeProvider } from "styled-components";
-import { Box, CssBaseline, IconButton } from "@mui/material";
+import styled from "styled-components";
+import { Box, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Delete, Edit } from "@mui/icons-material";
 import { Blog } from "../../types/types";
@@ -93,61 +93,58 @@ const BlogsList: React.FC = () => {
   }, []);
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <CssBaseline />
-      <Container>
-        <BlogListTitle>Our Blogs</BlogListTitle>
-        <BlogGrid>
-          {blogs.map((blog, index) => (
-            <BlogCard key={index}>
-              <BlogImage src={blog.imageUrl} alt={blog.title} />
-              <MetaInfo>
-                <DateText>
-                  {blog.creationDate
-                    ? new Date(blog.creationDate).toLocaleDateString()
-                    : "No date available"}
-                </DateText>
-                <CategoryBadge onClick={() => handleFilterBlog(blog.category)}>
-                  {blog.category}
-                </CategoryBadge>
-              </MetaInfo>
-              <BlogContent>
-                <ManageData>
-                  <BlogTitle>{blog.title}</BlogTitle>
-                  {currentUser?.role === "ADMIN" && (
-                    <IconContainer>
-                      <IconButton
-                        onClick={() => handleEdit(blog.id!)}
-                        aria-label="edit"
-                        size="small"
-                        style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}
-                      >
-                        <Edit fontSize="small" />
-                      </IconButton>
-                      <IconButton
-                        onClick={() => handleDelete(blog.id!)}
-                        aria-label="delete"
-                        size="small"
-                        style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}
-                      >
-                        <Delete fontSize="small" color="error" />
-                      </IconButton>
-                    </IconContainer>
-                  )}
-                </ManageData>
-                <BlogExcerpt>{`${blog.content.substring(
-                  0,
-                  120,
-                )}...`}</BlogExcerpt>
-              </BlogContent>
-              <ReadMoreButton onClick={() => handleDisplayBlogs(blog.id)}>
-                Read More
-              </ReadMoreButton>
-            </BlogCard>
-          ))}
-        </BlogGrid>
-      </Container>
-    </ThemeProvider>
+    <Container>
+      <BlogListTitle>Our Blogs</BlogListTitle>
+      <BlogGrid>
+        {blogs.map((blog, index) => (
+          <BlogCard key={index}>
+            <BlogImage src={blog.imageUrl} alt={blog.title} />
+            <MetaInfo>
+              <DateText>
+                {blog.creationDate
+                  ? new Date(blog.creationDate).toLocaleDateString()
+                  : "No date available"}
+              </DateText>
+              <CategoryBadge onClick={() => handleFilterBlog(blog.category)}>
+                {blog.category}
+              </CategoryBadge>
+            </MetaInfo>
+            <BlogContent>
+              <ManageData>
+                <BlogTitle>{blog.title}</BlogTitle>
+                {currentUser?.role === "ADMIN" && (
+                  <IconContainer>
+                    <IconButton
+                      onClick={() => handleEdit(blog.id!)}
+                      aria-label="edit"
+                      size="small"
+                      style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}
+                    >
+                      <Edit fontSize="small" />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => handleDelete(blog.id!)}
+                      aria-label="delete"
+                      size="small"
+                      style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}
+                    >
+                      <Delete fontSize="small" color="error" />
+                    </IconButton>
+                  </IconContainer>
+                )}
+              </ManageData>
+              <BlogExcerpt>{`${blog.content.substring(
+                0,
+                120,
+              )}...`}</BlogExcerpt>
+            </BlogContent>
+            <ReadMoreButton onClick={() => handleDisplayBlogs(blog.id)}>
+              Read More
+            </ReadMoreButton>
+          </BlogCard>
+        ))}
+      </BlogGrid>
+    </Container>
   );
 };
 
@@ -182,7 +179,7 @@ const ReadMoreButton = styled.button`
 `;
 
 const Container = styled.div`
-  background-color: ${({ theme }) => theme.colors.background.default};
+  background-color: default;
   padding: 10px;
   min-height: 100vh;
 `;
@@ -191,7 +188,7 @@ const BlogListTitle = styled.h3`
   font-size: 2rem;
   margin-bottom: 5px;
   text-align: center;
-  color: ${({ theme }) => theme.colors.text.primary};
+  color: primary;
 `;
 
 const BlogGrid = styled.div`
@@ -226,13 +223,13 @@ const MetaInfo = styled.div`
   align-items: center;
   padding: 8px 16px;
   font-size: 0.85rem;
-  color: ${({ theme }) => theme.colors.text.secondary};
+  color: secondary;
 `;
 
 const BlogTitle = styled.h5`
   font-size: 1.1rem;
   margin: 0;
-  color: ${({ theme }) => theme.colors.text.primary};
+  color: primary;
   text-align: left;
   min-height: 48px;
   max-height: 60px;
@@ -245,7 +242,7 @@ const BlogTitle = styled.h5`
 
 const BlogExcerpt = styled.p`
   font-size: 0.85rem;
-  color: ${({ theme }) => theme.colors.text.secondary};
+  color: secondary;
   line-height: 1.4;
   margin: 0;
   min-height: 60px;
@@ -295,7 +292,7 @@ const BlogContent = styled.div`
 `;
 
 const DateText = styled.span`
-  color: ${({ theme }) => theme.colors.text.secondary};
+  color: secondary;
   font-size: 0.875rem;
   font-weight: 400;
 `;
@@ -317,19 +314,3 @@ const CategoryBadge = styled.span`
     background-color: #f3f4f6;
   }
 `;
-
-const defaultTheme = {
-  colors: {
-    background: {
-      default: "#f5f5f5",
-    },
-    text: {
-      primary: "#333",
-      secondary: "#666",
-    },
-    primary: {
-      main: "#007BFF",
-      dark: "#0056b3",
-    },
-  },
-};

@@ -66,7 +66,7 @@ const BlogMeta = styled(Box)`
 
 const DateText = styled(Typography)`
   font-size: 1rem;
-  color: ${({ theme }) => theme.colors.text.secondary};
+  color: secondary;
 `;
 
 const CategoryBadge = styled(Typography)`
@@ -85,7 +85,7 @@ const CategoryBadge = styled(Typography)`
 const BlogContent = styled(Box)`
   font-size: 1.1rem;
   line-height: 1.8;
-  color: ${({ theme }) => theme.colors.text.primary};
+  color: primary;
   margin-top: 30px;
   white-space: pre-line;
   word-wrap: break-word;

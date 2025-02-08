@@ -1,26 +1,10 @@
 import React, { useEffect, useState } from "react";
-import styled, { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 import { Box, Grid, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Blog } from "../../types/types";
 import { useAuth } from "../../contexts/AuthContext";
 import ApiClient from "../../api/api-client";
-
-const defaultTheme = {
-  colors: {
-    background: {
-      default: "#f5f5f5",
-    },
-    text: {
-      primary: "#333",
-      secondary: "#666",
-    },
-    primary: {
-      main: "#007BFF",
-      dark: "#0056b3",
-    },
-  },
-};
 
 const BlogSection = styled(Box)`
   padding: 24px;
@@ -56,7 +40,7 @@ const BlogContent = styled(Box)`
 const BlogTitle = styled(Typography).attrs({ className: "blog-title" })`
   font-size: 1.2rem;
   font-weight: bold;
-  color: ${({ theme }) => theme.colors.text.primary};
+  color: primary;
   margin: 0;
   min-height: 48px;
   max-height: 50px;
@@ -67,7 +51,7 @@ const BlogTitle = styled(Typography).attrs({ className: "blog-title" })`
 
 const BlogExcerpt = styled(Typography).attrs({ className: "blog-excerpt" })`
   font-size: 0.9rem;
-  color: ${({ theme }) => theme.colors.text.secondary};
+  color: secondary;
   line-height: 1.6;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -86,7 +70,7 @@ const BlogMeta = styled(Box)`
 
 const DateText = styled(Typography)`
   font-size: 0.85rem;
-  color: ${({ theme }) => theme.colors.text.secondary};
+  color: secondary;
 `;
 
 const CategoryBadge = styled(Typography)`
@@ -158,45 +142,43 @@ const BlogComponent: React.FC = () => {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <BlogSection>
-        <Typography variant="h2" sx={{ mb: 3, color: "black" }}>
-          Latest Blogs
-        </Typography>
-        <Grid container spacing={3} justifyContent="center">
-          {blogs.length === 0 ? (
-            <Typography variant="h6" color="textPrimary">
-              No blogs available at the moment.
-            </Typography>
-          ) : (
-            blogs.map((blog) => (
-              <Grid item xs={12} sm={6} md={4} key={blog.id}>
-                <BlogCard>
-                  <BlogImage src={blog.imageUrl} alt={blog.title} />
-                  <BlogContent>
-                    <BlogTitle>{blog.title}</BlogTitle>
-                    <BlogExcerpt>
-                      {blog.content.split(" ").slice(0, 30).join(" ")}...
-                    </BlogExcerpt>
-                    <BlogMeta>
-                      <DateText>
-                        {blog.creationDate
-                          ? new Date(blog.creationDate).toLocaleDateString()
-                          : "No date available"}
-                      </DateText>
-                      <CategoryBadge>{blog.category}</CategoryBadge>
-                    </BlogMeta>
-                  </BlogContent>
-                  <ReadMoreButton onClick={() => handleReadMore(blog.id)}>
-                    Read More
-                  </ReadMoreButton>
-                </BlogCard>
-              </Grid>
-            ))
-          )}
-        </Grid>
-      </BlogSection>
-    </ThemeProvider>
+    <BlogSection>
+      <Typography variant="h2" sx={{ mb: 3, color: "black" }}>
+        Latest Blogs
+      </Typography>
+      <Grid container spacing={3} justifyContent="center">
+        {blogs.length === 0 ? (
+          <Typography variant="h6" color="textPrimary">
+            No blogs available at the moment.
+          </Typography>
+        ) : (
+          blogs.map((blog) => (
+            <Grid item xs={12} sm={6} md={4} key={blog.id}>
+              <BlogCard>
+                <BlogImage src={blog.imageUrl} alt={blog.title} />
+                <BlogContent>
+                  <BlogTitle>{blog.title}</BlogTitle>
+                  <BlogExcerpt>
+                    {blog.content.split(" ").slice(0, 30).join(" ")}...
+                  </BlogExcerpt>
+                  <BlogMeta>
+                    <DateText>
+                      {blog.creationDate
+                        ? new Date(blog.creationDate).toLocaleDateString()
+                        : "No date available"}
+                    </DateText>
+                    <CategoryBadge>{blog.category}</CategoryBadge>
+                  </BlogMeta>
+                </BlogContent>
+                <ReadMoreButton onClick={() => handleReadMore(blog.id)}>
+                  Read More
+                </ReadMoreButton>
+              </BlogCard>
+            </Grid>
+          ))
+        )}
+      </Grid>
+    </BlogSection>
   );
 };
 

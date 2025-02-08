@@ -4,6 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { Avatar } from "@mui/material";
 import MenuItemLink from "../components/common/MenuItemLink";
 import logo from "../assets/logo.svg";
+import { useNavigate } from "react-router-dom";
 
 const AppBar = styled.header`
   background-color: white;
@@ -179,6 +180,7 @@ const LogoStyled = styled.img`
 const Nav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { currentUser, signOut } = useAuth();
+  const navigate = useNavigate();
 
   const adminPages = [
     { name: "Home", path: "/admin" },
@@ -232,7 +234,7 @@ const Nav = () => {
     <AppBar>
       <Container>
         <Toolbar>
-          <LogoStyled src={logo} alt="logo" />
+          <LogoStyled src={logo} alt="logo" onClick={() => navigate("/")} />
           <>
             {currentUser && (
               <AvatarContainer>

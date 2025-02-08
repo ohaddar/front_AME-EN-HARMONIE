@@ -1,16 +1,9 @@
 import React from "react";
-import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-const defaultTheme = createTheme({
-  typography: {
-    fontFamily: "'Poppins', sans-serif",
-  },
-});
-
 const StyledSection = styled.div`
-  background-image: url("src/assets/images/background-test.jpeg");
+  background-image: url("src/assets/images/back-test.jpeg");
 
   background-color: rgba(192, 173, 194, 0.2);
   background-blend-mode: color;
@@ -170,23 +163,20 @@ const ContentWrapper = styled.div`
 
 const TestComponent: React.FC = () => {
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <CssBaseline />
-      <StyledSection>
-        <ContentWrapper>
-          <StyledTypography>Passez le Test Aujourd'hui !</StyledTypography>
-          <StyledParagraph>
-            Découvrez des <span>informations précieuses</span> sur vous-même
-            grâce à notre test psychologique <span>rapide</span> et{" "}
-            <span>intuitif</span>. Apprenez à mieux comprendre vos{" "}
-            <span>forces</span>, vos <span>motivations</span> et vos{" "}
-            <span>préférences personnelles</span>.
-          </StyledParagraph>
+    <StyledSection>
+      <ContentWrapper>
+        <StyledTypography>Passez le Test Aujourd'hui !</StyledTypography>
+        <StyledParagraph>
+          Découvrez des <span>informations précieuses</span> sur vous-même grâce
+          à notre test psychologique <span>rapide</span> et{" "}
+          <span>intuitif</span>. Apprenez à mieux comprendre vos{" "}
+          <span>forces</span>, vos <span>motivations</span> et vos{" "}
+          <span>préférences personnelles</span>.
+        </StyledParagraph>
 
-          <StyledButton to="test">Commencez Votre Test</StyledButton>
-        </ContentWrapper>
-      </StyledSection>
-    </ThemeProvider>
+        <StyledButton to="test">Commencez Votre Test</StyledButton>
+      </ContentWrapper>
+    </StyledSection>
   );
 };
 
