@@ -1,11 +1,11 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import ReactQuill from "react-quill-new";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Select from "react-select";
 import { SingleValue } from "react-select";
-import { useCreateBlogContext } from "../../contexts/CreateBlogContext";
-import { useAuth } from "../../contexts/AuthContext";
+import { useBlog } from "../../hooks/useBlog";
+import { Blog } from "../../types/types";
 
 interface Option {
   value: string;
@@ -13,53 +13,24 @@ interface Option {
 }
 
 interface MessageProps {
-  type: "warning" | "success";
+  type: "warning" | "error" | "success";
 }
 
-const BlogImage = styled.img`
-  height: 100px;
-  padding: 13px;
-  border-radius: 29px;
-  object-fit: cover;
-`;
-
-export const EditBlogPage: React.FC = () => {
-  const {
-    title,
-    category,
-    content,
-    handleFileChange,
-    setTitle,
-    setCategory,
-    setContent,
-    file,
-    fetchBlogDetails,
-    updatePost,
-    warningMessage,
-    successMessage,
-  } = useCreateBlogContext();
-
-  const quillRef = useRef<ReactQuill | null>(null);
-  const { currentUser } = useAuth();
-  const navigate = useNavigate();
+const BlogForm = () => {
+  const { fetchBlogDetails, saveBlog, warningMessage, successMessage } =
+    useBlog();
   const { blogId } = useParams<{ blogId: string }>();
 
-  useEffect(() => {
-    if (!currentUser) {
-      navigate("/login");
-      return;
-    }
-    if (blogId) {
-      fetchBlogDetails(blogId);
-    }
-  }, [blogId, currentUser, fetchBlogDetails, navigate]);
+  const [isLoading, setIsLoading] = useState<boolean>(blogId !== undefined);
+  const [blog, setBlog] = useState<Blog>({
+    title: "",
+    category: "",
+    image: undefined,
+    content: "",
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    updatePost(blogId as string);
-    navigate("/admin/blogs");
-  };
-
+  const quillRef = useRef<ReactQuill | null>(null);
+  const navigate = useNavigate();
   const categories = [
     "DEPRESSION",
     "TROUBLE_INSOMNIE_ANXIETE",
@@ -80,79 +51,89 @@ export const EditBlogPage: React.FC = () => {
     label: cat.replace(/_/g, " "),
   }));
 
-  const handleCategoryChange = (selectedOption: SingleValue<Option>) => {
-    if (selectedOption) {
-      setCategory(selectedOption.value);
+  useEffect(() => {
+    if (blogId) {
+      const fetchData = async () => {
+        const response = await fetchBlogDetails(blogId);
+        if (response !== undefined) {
+          setBlog(response);
+        }
+        setIsLoading(false);
+      };
+      fetchData();
     } else {
-      setCategory("");
+      setIsLoading(false);
     }
+  }, [blogId]);
+
+  const handleCategoryChange = (selectedOption: SingleValue<Option>) => {
+    setBlog({ ...blog, category: selectedOption?.value || "" });
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, files } = e.target;
+    if (files) {
+      setBlog({ ...blog, image: files[0] || undefined });
+    } else {
+      setBlog({ ...blog, [name]: value });
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    saveBlog(blog);
+    navigate("/admin/blogs");
   };
 
   const handleRedirect = (route: string) => {
     window.location.href = route === "bloglist" ? "blogs" : "";
   };
 
-  return (
+  return isLoading ? (
+    <div>Loading...</div>
+  ) : (
     <Container>
-      <Form onSubmit={handleSubmit} className="create-blog-form">
+      <Form onSubmit={handleSubmit}>
         {warningMessage && <Message type="warning">{warningMessage}</Message>}
         {successMessage && (
           <div>
             <Message type="success">{successMessage}</Message>
             <Button onClick={() => handleRedirect("bloglist")}>
-              Afficher Blog
+              View Blog
             </Button>
-            <Button onClick={() => handleRedirect("home")}>
-              Go to Home Page
-            </Button>
+            <Button onClick={() => handleRedirect("home")}>Go to Home</Button>
           </div>
         )}
         <Input
           type="text"
+          name="title"
           placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="create-blog-input"
+          value={blog.title}
+          onChange={handleChange}
         />
-
         <StyledReactSelect
           options={categoryOptions}
-          value={categoryOptions.find((option) => option.value === category)}
+          value={categoryOptions.find(
+            (option) => option.value === blog.category,
+          )}
           onChange={handleCategoryChange}
-          className="create-blog-select"
-          classNamePrefix="react-select"
           placeholder="Select Category"
-          isSearchable={true}
-          isClearable={true}
+          isSearchable
+          isClearable
         />
-
-        {file && (
+        {blog.imageUrl && blogId && (
           <>
             <span>Selected File:</span>
-            <BlogImage
-              src={file as unknown as string}
-              alt="Preview"
-              className="blog-preview-image"
-            />
+            <BlogImage src={blog.imageUrl as unknown as string} alt="Preview" />
           </>
         )}
-        <FileInput
-          type="file"
-          name="image"
-          onChange={handleFileChange}
-          className="create-blog-file-input"
-        />
-
+        <FileInput type="file" name="image" onChange={handleChange} />
         <StyledQuill
           ref={quillRef}
-          value={content}
-          onChange={setContent}
-          className="create-blog-quill"
+          value={blog.content}
+          onChange={(value: string) => setBlog({ ...blog, content: value })}
         />
-
-        <Button type="submit" className="create-blog-submit">
-          Update Post
-        </Button>
+        <Button type="submit">{blogId ? "Update Post" : "Create Post"}</Button>
       </Form>
     </Container>
   );
@@ -238,3 +219,12 @@ const Message = styled.p<MessageProps>`
   color: ${(props) => (props.type === "warning" ? "#e53e3e" : "#38a169")};
   text-align: center;
 `;
+
+const BlogImage = styled.img`
+  height: 100px;
+  padding: 13px;
+  border-radius: 29px;
+  object-fit: cover;
+`;
+
+export default BlogForm;

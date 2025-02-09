@@ -4,9 +4,9 @@ import "react-quill-new/dist/quill.snow.css";
 import { useAuth } from "../../contexts/AuthContext";
 import styled from "styled-components";
 import { Box, Typography } from "@mui/material";
-import { useCreateFeedbackContext } from "../../contexts/CreateFeedbackContext";
 import ApiClient from "../../api/api-client";
 import { Feedback } from "src/types/types";
+import { useFeedback } from "../../hooks/useFeedback";
 
 interface MessageProps {
   type: "warning" | "success";
@@ -198,7 +198,7 @@ export const CreateFeedbackPage: React.FC = () => {
     createNewFeedback,
     setTitle,
     setContent,
-  } = useCreateFeedbackContext();
+  } = useFeedback();
 
   const { currentUser } = useAuth();
   const quillRef = useRef(null);

@@ -50,7 +50,7 @@ export interface Blog {
   content: string;
   creationDate?: Date;
   category?: string;
-  image?: string;
+  image?: File;
   imageUrl?: string;
 }
 export interface MenuItemLinkProps {

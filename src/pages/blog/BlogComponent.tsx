@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Box, Grid, Typography, Button } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { Blog } from "../../types/types";
 import { useAuth } from "../../contexts/AuthContext";
-import ApiClient from "../../api/api-client";
+import { useBlog } from "../../hooks/useBlog";
+import Grid from "@mui/material/Grid";
+import { Blog } from "../../types/types";
 
 const BlogSection = styled(Box)`
   padding: 24px;
@@ -118,20 +119,23 @@ const ReadMoreButton = styled(Button)`
 
 const BlogComponent: React.FC = () => {
   const { currentUser } = useAuth();
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const { blogs, fetchBlogs } = useBlog();
+  const [publicBlogs, setPublicBlogs] = useState<Blog[]>();
   const navigate = useNavigate();
-  const apiClient = ApiClient();
+
   useEffect(() => {
-    const fetchBlogs = async () => {
+    const getPublicBlogs = async () => {
       try {
-        const response = await apiClient.get<Blog[]>("/Blogs/public");
-        setBlogs(response.data);
+        await fetchBlogs();
+        if (blogs.length > 0) {
+          setPublicBlogs(blogs.slice(0, 2));
+        }
       } catch (error) {
         console.error("Error fetching blogs:", error);
       }
     };
-    fetchBlogs();
-  }, []);
+    getPublicBlogs();
+  }, [blogs, fetchBlogs]);
 
   const handleReadMore = (id: number | undefined) => {
     const path =
@@ -147,12 +151,12 @@ const BlogComponent: React.FC = () => {
         Latest Blogs
       </Typography>
       <Grid container spacing={3} justifyContent="center">
-        {blogs.length === 0 ? (
+        {publicBlogs?.length === 0 ? (
           <Typography variant="h6" color="textPrimary">
             No blogs available at the moment.
           </Typography>
         ) : (
-          blogs.map((blog) => (
+          publicBlogs?.map((blog) => (
             <Grid item xs={12} sm={6} md={4} key={blog.id}>
               <BlogCard>
                 <BlogImage src={blog.imageUrl} alt={blog.title} />

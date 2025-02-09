@@ -2,7 +2,6 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { expect, vi, it, beforeAll } from "vitest";
 import SpeechReader from "../components/common/SpeechReader";
 
-// Mocking the speechSynthesis API
 beforeAll(() => {
   global.speechSynthesis = {
     getVoices: vi.fn(() => [

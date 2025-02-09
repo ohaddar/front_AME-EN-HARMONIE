@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import ApiClient from "../../api/api-client";
 import DataView from "../../components/common/DataView";
 import { Blog, Feedback, Result } from "../../types/types";
 import { IconButton } from "@mui/material";
@@ -7,8 +6,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { User } from "../../types/classes/User";
+import { useBlog } from "../../hooks/useBlog";
 const AdminBlogs = () => {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const { fetchBlogs, blogs } = useBlog();
   const [cols, setCols] = useState<
     Array<{
       field: string;
@@ -19,12 +19,10 @@ const AdminBlogs = () => {
   >([]);
 
   useEffect(() => {
-    const apiClient = ApiClient();
-    const fetchBlogs = async () => {
+    const fetchBlogsList = async () => {
       try {
-        const response = await apiClient.get<Blog[]>("/Blogs/blogs");
+        await fetchBlogs();
 
-        setBlogs(response.data);
         setCols([
           { field: "id", headerName: "ID", width: "50" },
           { field: "title", headerName: "Titre", width: "500" },
@@ -67,7 +65,7 @@ const AdminBlogs = () => {
       }
     };
 
-    fetchBlogs();
+    fetchBlogsList();
   }, []);
   const handleEdit = (row: Blog | Feedback | Result | User) => {
     console.error("Edit:", row);

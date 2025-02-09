@@ -9,9 +9,7 @@ import Root from "./Root";
 import SignUpPage from "../../pages/auth/SignUpPage";
 import SignInPage from "../../pages/auth/SignInPage";
 import BlogsList from "../../pages/blog/BlogsList";
-import { CreateBlogPage } from "../../pages/blog/CreateBlogPage";
 import BlogDetails from "../../pages/blog/BlogDetails";
-import { EditBlogPage } from "../../pages/blog/EditBlogPage";
 import TestCard from "../common/TestCard";
 import TestResultPage from "../../pages/TestResultPage";
 import PrivacyPolicy from "../common/privacy-policy";
@@ -19,6 +17,7 @@ import RootAdmin from "./RootAdmin";
 import AdminHome from "../../pages/AdminHome";
 import FeedbackSection from "../sections/FeedbackSection";
 import AdminBlogs from "../../pages/blog/AdminBlogs";
+import BlogForm from "../../pages/blog/BlogForm";
 
 const RoutesConfig: React.FC = () => {
   const { currentUser } = useAuth();
@@ -52,9 +51,9 @@ const RoutesConfig: React.FC = () => {
         <Route path="/admin" element={<RootAdmin />}>
           <Route path="dashboard" element={<AdminHome />} />
           <Route path="blogs" element={<BlogsList />} />
-          <Route path="create-blog" element={<CreateBlogPage />} />
+          <Route path="create-blog" element={<BlogForm />} />
           <Route path="blog-details/:id" element={<BlogDetails />} />
-          <Route path="edit-blog/:blogId" element={<EditBlogPage />} />
+          <Route path="edit-blog/:blogId" element={<BlogForm />} />
           <Route path="tests" element={<TestCard />} />
           <Route path="feedbacks" element={<FeedbackSection />} />
           <Route path="users" element={<AdminBlogs />} />

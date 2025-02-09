@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Typography, Alert } from "@mui/material";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Result } from "src/types/types";
+import { Result } from "../types/types";
 import ApiClient from "../api/api-client";
 
 const StyledContainer = styled.div`

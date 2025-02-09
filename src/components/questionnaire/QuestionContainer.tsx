@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Typography, Alert, CircularProgress } from "@mui/material";
 import { useQuestionnaire } from "../../hooks/useQuestionnaire";
 
-// Styled components
 const StyledContainer = styled.div`
   padding: 24px;
   border-radius: 16px;

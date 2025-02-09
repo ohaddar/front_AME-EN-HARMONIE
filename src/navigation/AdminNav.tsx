@@ -156,7 +156,6 @@ const AdminNav = (props: AdminProps) => {
       searchParams: new URLSearchParams(),
       navigate: (path) => {
         setPathname(String(path));
-        console.error("Navigate to", path);
         navigateTo(path);
       },
     };

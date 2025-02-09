@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Box, Typography } from "@mui/material";
-import { Blog } from "../../types/types";
 import { useAuth } from "../../contexts/AuthContext";
-import ApiClient from "../../api/api-client";
+import { useBlog } from "../../hooks/useBlog";
 
 const defaultTheme = {
   colors: {
@@ -93,56 +92,49 @@ const BlogContent = styled(Box)`
 
 const BlogDetails = () => {
   const { id } = useParams();
-  const [blog, setBlog] = useState<Blog | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const apiClient = ApiClient();
   const { currentUser } = useAuth();
+  const { fetchBlogDetails, blogDetails, warningMessage } = useBlog();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchBlogDetails = async () => {
-      if (!currentUser) {
-        console.warn("No token found. Redirecting to login.");
-        navigate("/login");
-        return;
-      }
-      try {
-        const response = await apiClient.get<Blog>(`/Blogs/${id}`);
-        setBlog(response.data);
-      } catch (error) {
-        console.error("Error fetching blog details:", error);
-        setError("Error fetching blog details");
+    const fetchBlog = async () => {
+      if (id) {
+        await fetchBlogDetails(id);
       }
     };
 
     if (!currentUser) {
       navigate("/login");
     } else {
-      fetchBlogDetails();
+      fetchBlog();
     }
   }, [currentUser]);
-  if (error) {
-    return <div>{error}</div>;
+  if (warningMessage) {
+    return <div>{warningMessage}</div>;
   }
-  if (!blog) return <div>Loading...</div>;
+  if (!blogDetails) return <div>Loading...</div>;
 
   return (
     <BlogDetailContainer theme={defaultTheme}>
-      <BlogTitle theme={defaultTheme}>{blog.title}</BlogTitle>
+      <BlogTitle theme={defaultTheme}>{blogDetails.title}</BlogTitle>
 
-      {blog.imageUrl && <BlogImage src={blog.imageUrl} alt={blog.title} />}
+      {blogDetails.imageUrl && (
+        <BlogImage src={blogDetails.imageUrl} alt={blogDetails.title} />
+      )}
 
       <BlogMeta>
         <DateText theme={defaultTheme}>
-          {blog.creationDate
-            ? new Date(blog.creationDate).toLocaleDateString()
+          {blogDetails.creationDate
+            ? new Date(blogDetails.creationDate).toLocaleDateString()
             : "No date available"}
         </DateText>
-        <CategoryBadge theme={defaultTheme}>{blog.category}</CategoryBadge>
+        <CategoryBadge theme={defaultTheme}>
+          {blogDetails.category}
+        </CategoryBadge>
       </BlogMeta>
       <BlogContent
         theme={defaultTheme}
-        dangerouslySetInnerHTML={{ __html: blog.content }}
+        dangerouslySetInnerHTML={{ __html: blogDetails.content }}
       />
     </BlogDetailContainer>
   );
