@@ -41,7 +41,6 @@ export interface Feedback {
   id?: number;
   title: string;
   content: string;
-
   publicationDate?: Date;
   user?: User;
 }

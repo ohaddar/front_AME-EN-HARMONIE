@@ -7,7 +7,6 @@ import { SingleValue } from "react-select";
 import { useCreateBlogContext } from "../../contexts/CreateBlogContext";
 import { useAuth } from "../../contexts/AuthContext";
 
-// Define your option type
 interface Option {
   value: string;
   label: string;
@@ -58,7 +57,7 @@ export const EditBlogPage: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     updatePost(blogId as string);
-    navigate("/admin/blog");
+    navigate("/admin/blogs");
   };
 
   const categories = [
@@ -76,24 +75,21 @@ export const EditBlogPage: React.FC = () => {
     "CONSULTATION_PROFESSIONNELLE_RECOMMANDEE",
   ];
 
-  // Ensure that the options conform to the Option interface
   const categoryOptions: Option[] = categories.map((cat) => ({
     value: cat,
     label: cat.replace(/_/g, " "),
   }));
 
-  // Update the onChange handler to accept both the selected option and the action meta
   const handleCategoryChange = (selectedOption: SingleValue<Option>) => {
     if (selectedOption) {
       setCategory(selectedOption.value);
     } else {
-      // When the selection is cleared
       setCategory("");
     }
   };
 
   const handleRedirect = (route: string) => {
-    window.location.href = route === "bloglist" ? "blog" : "";
+    window.location.href = route === "bloglist" ? "blogs" : "";
   };
 
   return (
@@ -119,7 +115,6 @@ export const EditBlogPage: React.FC = () => {
           className="create-blog-input"
         />
 
-        {/* Pass generic types to the select component */}
         <StyledReactSelect
           options={categoryOptions}
           value={categoryOptions.find((option) => option.value === category)}
@@ -196,7 +191,6 @@ const Input = styled.input`
   }
 `;
 
-// This styled component wraps react-select. It remains unchanged.
 const StyledReactSelect = styled(Select<Option, false>)`
   .react-select__control {
     border-color: #ccc;

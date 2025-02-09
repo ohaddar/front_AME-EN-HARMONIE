@@ -46,7 +46,6 @@ const Input = styled.input`
   }
 `;
 
-// Use generic parameters on the styled component for react-select.
 const StyledReactSelect = styled(Select<Option, false>)`
   .react-select__control {
     border-color: #ccc;
@@ -111,7 +110,7 @@ export const CreateBlogPage: React.FC = () => {
   const quillRef = useRef<ReactQuill | null>(null);
 
   const handleRedirect = (route: string) => {
-    window.location.href = route === "bloglist" ? "blog" : "";
+    window.location.href = route === "bloglist" ? "blogs" : "";
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -134,13 +133,11 @@ export const CreateBlogPage: React.FC = () => {
     "CONSULTATION_PROFESSIONNELLE_RECOMMANDEE",
   ];
 
-  // Map the category strings to Option objects
   const categoryOptions: Option[] = categories.map((cat) => ({
     value: cat,
     label: cat.replace(/_/g, " "),
   }));
 
-  // Update the onChange handler to accept a SingleValue<Option>
   const handleCategoryChange = (selectedOption: SingleValue<Option>) => {
     setCategory(selectedOption?.value || "");
   };
