@@ -91,6 +91,7 @@ export const useBlog = () => {
     fetchBlogs,
     blogDetails,
     blogs,
+    setBlogs,
     warningMessage,
     successMessage,
     saveBlog,

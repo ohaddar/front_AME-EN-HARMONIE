@@ -35,8 +35,7 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          background: "linear-gradient(0deg, rgb(43, 18, 84) 0%, #9f7aea 100%)",
-          color: "#f0f0f0",
+          color: "rgb(79, 37, 146)",
           padding: "0px",
         },
       },

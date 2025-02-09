@@ -1,40 +1,40 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="120" viewBox="0 20 500 100" style="background: transparent;">
   <!-- Text (left of the face) -->
-  <text x="20" y="80" fill="white" font-size="38" font-family="'Poppins', 'Roboto', sans-serif" font-weight="bold">
+  <text x="20" y="80" fill="rgb(79, 37, 146)" font-size="46" font-family="'Poppins', 'Roboto', sans-serif" font-weight="bold">
     ÂmeEnHarmonie
   </text>
   
   <!-- Group for the smiling face, shifted right by 100px -->
   <g transform="translate(100,0)">
     <!-- Left Eye -->
-    <circle cx="270" cy="45" fill="white">
+    <circle cx="340" cy="45" fill="rgb(79, 37, 146)">
       <animate 
         attributeName="r" 
-        values="0;10;10;0" 
+        values="7;5;5;7" 
         keyTimes="0;0.3;0.9;1" 
         dur="5s" 
         repeatCount="indefinite" />
     </circle>
     
     <!-- Right Eye -->
-    <circle cx="330" cy="45" fill="white">
+    <circle cx="380" cy="45" fill="rgb(79, 37, 146)">
       <animate 
         attributeName="r" 
-        values="0;10;10;0" 
+        values="7;5;5;7" 
         keyTimes="0;0.3;0.9;1" 
         dur="5s" 
         repeatCount="indefinite" />
     </circle>
     
     <!-- Smile -->
-    <path d="M 260 90 Q 300 90, 340 90" stroke="white" stroke-width="5" fill="transparent">
+    <path d="M 330 70 Q 365 90, 390 70" stroke="rgb(79, 37, 146)" stroke-width="5" fill="transparent">
       <animate 
         attributeName="d" 
         values="
-          M 260 90 Q 300 90, 340 90;
-          M 260 90 Q 300 120, 340 90;
-          M 260 90 Q 300 120, 340 90;
-          M 260 90 Q 300 90, 340 90" 
+          M 330 70 Q 360 90, 390 70;
+          M 330 70 Q 360 100, 390 70;
+          M 330 70 Q 360 100, 390 70;
+          M 330 70 Q 360 90, 390 70" 
         keyTimes="0;0.2;0.8;1" 
         dur="5s" 
         repeatCount="indefinite" />

@@ -25,10 +25,6 @@ import { useNavigate } from "react-router";
 import logo from "../assets/logo.svg";
 const NAVIGATION: Navigation = [
   {
-    kind: "header",
-    title: "Main items",
-  },
-  {
     segment: "admin/dashboard",
     title: "Dashboard",
     icon: <DashboardIcon />,
