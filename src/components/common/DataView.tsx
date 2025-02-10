@@ -1,21 +1,19 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
-import { Blog, Feedback, Result } from "src/types/types";
-import { User } from "src/types/classes/User";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
-interface DataViewProps {
+interface DataViewProps<T> {
   cols: Array<{
     field: string;
     headerName: string;
     width?: string;
-    renderCell?: (params: { row: Blog }) => JSX.Element;
+    renderCell?: (params: { row: T }) => JSX.Element;
   }>;
-  data: Blog[] | Feedback[] | Result[] | User[];
+  data: T[];
 }
 
-const DataView = ({ cols, data }: DataViewProps) => {
+const DataView = <T,>({ cols, data }: DataViewProps<T>) => {
   const rows = data.map((row, index) => ({ id: index + 1, ...row }));
   const columns: GridColDef[] = cols.map((col) => ({
     field: col.field,
@@ -38,4 +36,5 @@ const DataView = ({ cols, data }: DataViewProps) => {
     </Paper>
   );
 };
+
 export default DataView;
