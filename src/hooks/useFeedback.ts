@@ -2,6 +2,7 @@ import { useState } from "react";
 import sanitizeHtml from "sanitize-html";
 import ApiClient from "../api/api-client";
 import { useAuth } from "../contexts/AuthContext";
+import { Feedback } from "../types/types";
 
 export const useFeedback = () => {
   const [title, setTitle] = useState("");
@@ -10,7 +11,16 @@ export const useFeedback = () => {
   const [warningMessage, setWarningMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const apiClient = ApiClient();
+  const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
 
+  const fetchFeedbacks = async () => {
+    try {
+      const response = await apiClient.get<Feedback[]>("/feedback/public");
+      setFeedbacks(response.data);
+    } catch (error) {
+      console.error("Error fetching feedbacks:", error);
+    }
+  };
   const validateForm = () => {
     if (!title.trim() || !content.trim()) {
       setWarningMessage(
@@ -61,6 +71,8 @@ export const useFeedback = () => {
   return {
     title,
     content,
+    fetchFeedbacks,
+    feedbacks,
     warningMessage,
     successMessage,
     createNewFeedback,
