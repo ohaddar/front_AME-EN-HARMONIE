@@ -15,9 +15,12 @@ import TestResultPage from "../../pages/TestResultPage";
 import PrivacyPolicy from "../common/privacy-policy";
 import RootAdmin from "./RootAdmin";
 import AdminHome from "../../pages/AdminHome";
-import FeedbackSection from "../sections/FeedbackSection";
 import AdminBlogs from "../../pages/blog/AdminBlogs";
 import BlogForm from "../../pages/blog/BlogForm";
+import AdminUsers from "../../pages/users/AdminUsers";
+import AdminFeedback from "../../pages/feedback/AdminFeedback";
+import AdminResults from "../../pages/results/AdminResults";
+import FeedbackDetails from "../../pages/feedback/FeedbackDetails";
 
 const RoutesConfig: React.FC = () => {
   const { currentUser } = useAuth();
@@ -50,13 +53,14 @@ const RoutesConfig: React.FC = () => {
       {currentUser?.role === "ADMIN" && (
         <Route path="/admin" element={<RootAdmin />}>
           <Route path="dashboard" element={<AdminHome />} />
-          <Route path="blogs" element={<BlogsList />} />
+          <Route path="blogs" element={<AdminBlogs />} />
           <Route path="create-blog" element={<BlogForm />} />
           <Route path="blog-details/:id" element={<BlogDetails />} />
+          <Route path="feedback-details/:id" element={<FeedbackDetails />} />
           <Route path="edit-blog/:blogId" element={<BlogForm />} />
-          <Route path="tests" element={<TestCard />} />
-          <Route path="feedbacks" element={<FeedbackSection />} />
-          <Route path="users" element={<AdminBlogs />} />
+          <Route path="tests" element={<AdminResults />} />
+          <Route path="feedbacks" element={<AdminFeedback />} />
+          <Route path="users" element={<AdminUsers />} />
         </Route>
       )}
       {/* User Routes - Only accessible if logged in as User */}
