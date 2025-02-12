@@ -23,6 +23,15 @@ const BlogCard = styled(Box).attrs({ className: "blog-card" })`
   height: 100%;
   min-height: 450px;
   margin: 16px 0;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 45px rgba(31, 38, 135, 0.5);
+    cursor: pointer;
+  }
 `;
 
 const BlogImage = styled.img`
