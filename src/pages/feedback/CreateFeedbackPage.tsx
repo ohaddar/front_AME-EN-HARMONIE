@@ -1,11 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
-import { useAuth } from "../../contexts/AuthContext";
 import styled from "styled-components";
 import { Box, Typography } from "@mui/material";
-import ApiClient from "../../api/api-client";
-import { Feedback } from "src/types/types";
 import { useFeedback } from "../../hooks/useFeedback";
 
 interface MessageProps {
@@ -190,70 +187,47 @@ const FeedbackCard = styled(Box)`
 `;
 
 export const CreateFeedbackPage: React.FC = () => {
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+
   const {
-    title,
-    content,
+    currentUserFeedback,
     warningMessage,
     successMessage,
     createNewFeedback,
-    setTitle,
-    setContent,
   } = useFeedback();
 
-  const { currentUser } = useAuth();
   const quillRef = useRef(null);
-  const apiClient = ApiClient();
-  const [userFeedback, setUserFeedback] = useState<Feedback | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (currentUser) {
-      fetchUserFeedback();
-    }
-  }, [currentUser]);
-
-  const fetchUserFeedback = async () => {
-    try {
-      setLoading(true);
-      const response = await apiClient.get<Feedback>("/feedback/user");
-      setUserFeedback(response.data);
-    } catch (error) {
-      console.error("Error fetching user feedback:", error);
-      setUserFeedback(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    createNewFeedback();
+    await createNewFeedback(title, content);
+    setTitle("");
+    setContent("");
   };
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
 
   return (
     <div>
-      {userFeedback ? (
+      {currentUserFeedback ? (
         <FeedbackSection>
           <FeedbackCard>
-            <FeedbackTitle>{userFeedback.title}</FeedbackTitle>
-            <FeedbackContent>{userFeedback.content}</FeedbackContent>
+            <FeedbackTitle>{currentUserFeedback.title}</FeedbackTitle>
+            <FeedbackContent>{currentUserFeedback.content}</FeedbackContent>
             <FeedbackFooter>
               <UserInfo>
                 <UserAvatar
-                  src={`../${userFeedback.user?.avatar}`}
+                  src={`../${currentUserFeedback.user?.avatar}`}
                   alt="User Avatar"
                 />
                 <Typography variant="body1" fontWeight="bold">
-                  {userFeedback.user?.firstname || "Anonymous"}
+                  {currentUserFeedback.user?.firstname || "Anonymous"}
                 </Typography>
               </UserInfo>
               <FeedbackDate>
-                {userFeedback.publicationDate
-                  ? new Date(userFeedback.publicationDate).toLocaleDateString()
+                {currentUserFeedback.publicationDate
+                  ? new Date(
+                      currentUserFeedback.publicationDate,
+                    ).toLocaleDateString()
                   : "No date available"}
               </FeedbackDate>
             </FeedbackFooter>
