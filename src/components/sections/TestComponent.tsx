@@ -2,28 +2,26 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import theme from "../../theme";
+import { Box } from "@mui/system";
+import { Typography } from "@mui/material";
 
-const StyledSection = styled.div`
+const StyledSection = styled(Box)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   background-color: ${theme.palette.background.default};
   background-image: url("src/assets/images/back-test.jpeg");
   background-size: cover;
   background-position: center;
   position: relative;
-  height: 55vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: "Poppins", sans-serif;
-  padding: 1rem;
-  border-radius: 1rem;
+  height: auto;
+  min-height: 70vh;
+  padding: 24px;
+  background: radial-gradient(circle, #f2ffff);
+  text-align: center;
   animation: moveBackground 50s linear infinite;
-
-  > * {
-    position: relative;
-    max-width: 800px;
-    text-align: center;
-  }
+  overflow-x: hidden;
 
   &::before {
     content: "";
@@ -33,36 +31,38 @@ const StyledSection = styled.div`
     width: 100%;
     height: 100%;
     background: rgba(43, 42, 43, 0.6);
-  }
-
-  @keyframes moveBackground {
-    from {
-      background-position: 0 0;
+    z-index: 0;
+    @keyframes moveBackground {
+      from {
+        background-position: 0 0;
+      }
+      to {
+        background-position: 100% 100%;
+      }
     }
-    to {
-      background-position: 100% 100%;
-    }
   }
 
-  @media (min-width: 768px) {
-    padding: 2rem 4rem;
+  @media (max-width: 768px) {
+    flex-direction: row;
+    min-height: 55vh;
   }
-
-  @media (min-width: 1024px) {
-    height: 82vh;
+  @media (min-width: 768px) and (max-width: 1024px) {
+    flex-direction: row;
+    min-height: 40vh;
   }
 `;
 
-const GlassCard = styled.div`
+const GlassCard = styled(Box)`
   background: ${theme.palette.background.default};
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 1rem;
-  padding: 2.5rem;
+  padding: 2rem;
   box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
   z-index: 1;
   text-align: center;
-  max-width: 800px;
+  width: 90%;
+  max-width: 600px;
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
@@ -73,19 +73,25 @@ const GlassCard = styled.div`
     cursor: pointer;
   }
 
-  @media (min-width: 600px) {
-    padding: 3rem;
+  @media (min-width: 768px) {
+    width: 70%;
+  }
+
+  @media (min-width: 1024px) {
+    width: 50%;
   }
 `;
 
-const StyledTypography = styled.h4`
-  font-size: 1.3rem;
+const StyledTypography = styled(Typography).attrs(() => ({
+  variant: "h6",
+}))`
+  font-size: clamp(1rem, 2.5vw, 2rem);
   font-family: monospace;
   font-weight: 700;
   margin-bottom: 1rem;
   color: ${theme.palette.primary.main};
-  overflow: hidden;
   white-space: nowrap;
+  overflow: hidden;
   border-right: 2px solid #ffffff;
   animation:
     typing 3.5s steps(40, end),
@@ -109,34 +115,26 @@ const StyledTypography = styled.h4`
       border-color: #ffffff;
     }
   }
-
-  @media (min-width: 600px) {
-    font-size: 2.2rem;
-  }
-
-  @media (min-width: 1024px) {
-    font-size: 2.5rem;
-  }
 `;
 
-const StyledParagraph = styled.p`
-  font-size: 1rem;
+const StyledParagraph = styled(Typography)`
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
   margin-bottom: 1.5rem;
   color: #000000;
   line-height: 1.6;
+  padding: 0 1rem;
 
   span {
     color: ${theme.palette.primary.dark};
     font-weight: 600;
-    font-size: 1.1rem;
   }
 
   @media (min-width: 600px) {
-    font-size: 1.125rem;
+    padding: 0 2rem;
   }
 
   @media (min-width: 1024px) {
-    font-size: 1.25rem;
+    padding: 0 3rem;
   }
 `;
 
@@ -147,10 +145,12 @@ const StyledButton = styled(Link)`
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: clamp(0.9rem, 1vw, 1.1rem);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   margin: 1rem;
+  display: inline-block;
+  max-width: 90%;
 
   &:hover {
     background: ${theme.palette.primary.dark};
@@ -159,12 +159,10 @@ const StyledButton = styled(Link)`
 
   @media (min-width: 768px) {
     padding: 0.75rem 1.5rem;
-    font-size: 1rem;
   }
 
   @media (min-width: 1024px) {
     padding: 1rem 2rem;
-    font-size: 1.1rem;
   }
 `;
 
