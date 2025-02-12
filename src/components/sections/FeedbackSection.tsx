@@ -1,23 +1,71 @@
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { Box, Typography, IconButton } from "@mui/material";
-import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import { Box, Typography } from "@mui/material";
 import { Feedback } from "../../types/types";
 import ApiClient from "../../api/api-client";
 
 const StyledFeedbackSection = styled(Box)`
+  margin: 1rem;
   position: relative;
-  margin: 15px auto;
+  margin: 50px auto;
   max-width: 1200px;
   background: #ffffff;
   text-align: center;
   padding: 16px;
   @media (max-width: 768px) {
-    margin: 10px;
+    margin: 10px auto;
+    padding: 16px;
   }
   @media (max-width: 600px) {
-    margin: 8px;
+    margin: 8px auto;
     padding: 16px;
+  }
+`;
+
+// Conteneur visible fixe, de même hauteur que la carte
+const SliderWrapper = styled(Box)`
+  overflow: hidden;
+  width: 100%;
+  height: 500px; /* Vous pouvez adapter cette hauteur si besoin */
+`;
+
+// Conteneur défilant qui passe d'une carte à l'autre
+const SliderContainer = styled(Box)<{ currentIndex: number }>`
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  transform: translateX(-${(props) => props.currentIndex * 100}%);
+`;
+
+// Chaque item occupe 100% de l'espace du conteneur visible
+const SliderItem = styled(Box)`
+  flex: 0 0 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+// La carte a des dimensions fixes qui s'adaptent en responsive.
+// Le contenu sera "clampé" afin d'éviter un débordement et donc aucun scroll.
+const FeedbackCard = styled(Box)`
+  width: 800px;
+  height: 350px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden; /* Pas de scroll */
+  @media (max-width: 768px) {
+    width: 90%;
+    padding: 32px;
+  }
+  @media (max-width: 600px) {
+    width: 90%;
+    padding: 24px;
+    margin: 8px auto;
   }
 `;
 
@@ -31,6 +79,7 @@ const UserAvatar = styled.img`
     height: 40px;
   }
 `;
+
 const FeedbackTitle = styled(Typography)`
   font-size: 2rem !important;
   font-weight: bold !important;
@@ -46,6 +95,8 @@ const FeedbackTitle = styled(Typography)`
     margin-bottom: 15px;
   }
 `;
+
+// On limite le nombre de lignes affichées afin d'éviter un débordement du contenu
 const FeedbackContent = styled(Typography)`
   font-size: 1.2rem;
   line-height: 1.8;
@@ -53,14 +104,20 @@ const FeedbackContent = styled(Typography)`
   text-align: justify;
   margin: 16px 0;
   margin-bottom: 3rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 6; /* Affiche maximum 6 lignes */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   @media (max-width: 768px) {
     font-size: 1.1rem;
     margin: 12px 0;
+    -webkit-line-clamp: 5;
   }
   @media (max-width: 600px) {
     font-size: 1rem;
     line-height: 1.5;
     margin: 8px 0;
+    -webkit-line-clamp: 4;
   }
 `;
 
@@ -97,134 +154,77 @@ const FeedbackDate = styled(Typography)`
   }
 `;
 
-const NavButton = styled(IconButton)`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: #4f46e5;
-  color: white;
-  &:hover {
-    background: #4338ca;
-  }
-  @media (max-width: 768px) {
-    width: 40px;
-    height: 40px;
-  }
-`;
-
-const NavButtonLeft = styled(NavButton)`
-  left: calc(-70px);
-  @media (max-width: 768px) {
-    left: calc(-50px);
-  }
-  @media (max-width: 600px) {
-    left: calc(-50px);
-  }
-`;
-
-const NavButtonRight = styled(NavButton)`
-  right: calc(-70px);
-  @media (max-width: 768px) {
-    right: calc(-50px);
-  }
-  @media (max-width: 600px) {
-    right: calc(-50px);
-  }
-`;
-
-const FeedbackCard = styled(Box)`
-  max-width: 800px;
-  min-height: 350px;
-  margin: 0 auto;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  @media (max-width: 768px) {
-    padding: 32px;
-  }
-  @media (max-width: 600px) {
-    padding: 24px;
-    width: min-content;
-    margin: 8px auto;
-  }
-`;
-
 const FeedbackSection: React.FC = () => {
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const apiClient = ApiClient();
+
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
         const response = await apiClient.get<Feedback[]>("/feedback/public");
         setFeedbacks(response.data);
       } catch (error) {
-        console.error("Error fetching feedbacks:", error);
+        console.error("Erreur lors de la récupération des feedbacks :", error);
       }
     };
     fetchFeedbacks();
   }, []);
 
-  const handlePrevious = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? feedbacks.length - 1 : prevIndex - 1,
-    );
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === feedbacks.length - 1 ? 0 : prevIndex + 1,
-    );
-  };
+  // Défilement automatique toutes les 5 secondes
+  useEffect(() => {
+    if (feedbacks.length === 0) return;
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === feedbacks.length - 1 ? 0 : prevIndex + 1,
+      );
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [feedbacks]);
 
   if (feedbacks.length === 0) {
     return (
       <StyledFeedbackSection>
         <Typography variant="h6" color="textPrimary">
-          No feedback available at the moment.
+          Aucun feedback disponible pour le moment.
         </Typography>
       </StyledFeedbackSection>
     );
   }
 
-  const currentFeedback = feedbacks[currentIndex];
-
   return (
     <StyledFeedbackSection>
-      <FeedbackCard>
-        <NavButtonLeft onClick={handlePrevious} data-testid="arrow-back">
-          <ArrowBack />
-        </NavButtonLeft>
-        <FeedbackTitle>{currentFeedback.title}</FeedbackTitle>
-
-        <FeedbackContent>{currentFeedback.content}</FeedbackContent>
-
-        <FeedbackFooter>
-          <UserInfo>
-            <UserAvatar
-              src={`${currentFeedback.user?.avatar}`}
-              alt={currentFeedback.user?.avatar}
-            />
-            <Typography variant="body1" fontWeight="bold">
-              {currentFeedback.user?.firstname}
-            </Typography>
-          </UserInfo>
-          <FeedbackDate variant="body2" color="textSecondary">
-            {currentFeedback.publicationDate
-              ? new Date(currentFeedback.publicationDate).toLocaleDateString()
-              : "No date available"}{" "}
-          </FeedbackDate>
-        </FeedbackFooter>
-
-        <NavButtonRight onClick={handleNext} data-testid="arrow-next">
-          <ArrowForward />
-        </NavButtonRight>
-      </FeedbackCard>
+      <Typography variant="h4" sx={{ mb: 3, color: "black", mt: "30px" }}>
+        Latest Feedbacks
+      </Typography>
+      <SliderWrapper>
+        <SliderContainer currentIndex={currentIndex}>
+          {feedbacks.map((feedback, index) => (
+            <SliderItem key={index}>
+              <FeedbackCard>
+                <FeedbackTitle>{feedback.title}</FeedbackTitle>
+                <FeedbackContent>{feedback.content}</FeedbackContent>
+                <FeedbackFooter>
+                  <UserInfo>
+                    <UserAvatar
+                      src={feedback.user?.avatar}
+                      alt={feedback.user?.avatar}
+                    />
+                    <Typography variant="body1" fontWeight="bold">
+                      {feedback.user?.firstname}
+                    </Typography>
+                  </UserInfo>
+                  <FeedbackDate variant="body2" color="textSecondary">
+                    {feedback.publicationDate
+                      ? new Date(feedback.publicationDate).toLocaleDateString()
+                      : "Pas de date disponible"}
+                  </FeedbackDate>
+                </FeedbackFooter>
+              </FeedbackCard>
+            </SliderItem>
+          ))}
+        </SliderContainer>
+      </SliderWrapper>
     </StyledFeedbackSection>
   );
 };
