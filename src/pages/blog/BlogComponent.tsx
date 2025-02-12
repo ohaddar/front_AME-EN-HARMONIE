@@ -11,9 +11,22 @@ const BlogSection = styled(Box)`
   padding: 24px;
   background: radial-gradient(circle, #f2ffff);
   text-align: center;
+  position: relative;
+  height: auto;
+  min-height: 70vh;
+  overflow-x: hidden;
+
+  @media (max-width: 768px) {
+    min-height: 55vh;
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    min-height: 40vh;
+  }
 `;
 
 const BlogCard = styled(Box).attrs({ className: "blog-card" })`
+  margin: 1rem;
   display: flex;
   flex-direction: column;
   background: white;
@@ -91,8 +104,25 @@ const CategoryBadge = styled(Typography)`
   font-weight: 500;
   border-radius: 9999px;
   cursor: pointer;
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  display: inline-block;
   &:hover {
     background-color: #f3f4f6;
+  }
+
+  @media (max-width: 768px) {
+    max-width: 100px;
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 480px) {
+    max-width: 80px;
+    font-size: 0.75rem;
+    padding: 4px 8px;
   }
 `;
 
@@ -137,7 +167,7 @@ const BlogComponent: React.FC = () => {
       try {
         await fetchBlogs();
         if (blogs.length > 0) {
-          setPublicBlogs(blogs.slice(0, 2));
+          setPublicBlogs(blogs.slice(0, 3));
         }
       } catch (error) {
         console.error("Error fetching blogs:", error);
@@ -156,12 +186,12 @@ const BlogComponent: React.FC = () => {
 
   return (
     <BlogSection>
-      <Typography variant="h2" sx={{ mb: 3, color: "black" }}>
+      <Typography variant="h4" sx={{ mb: "30px", color: "black", mt: "30px" }}>
         Latest Blogs
       </Typography>
       <Grid container spacing={3} justifyContent="center">
         {publicBlogs?.length === 0 ? (
-          <Typography variant="h6" color="textPrimary">
+          <Typography variant="h4" color="textPrimary">
             No blogs available at the moment.
           </Typography>
         ) : (

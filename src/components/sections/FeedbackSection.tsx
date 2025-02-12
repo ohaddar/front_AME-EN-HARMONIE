@@ -22,21 +22,18 @@ const StyledFeedbackSection = styled(Box)`
   }
 `;
 
-// Conteneur visible fixe, de même hauteur que la carte
 const SliderWrapper = styled(Box)`
   overflow: hidden;
   width: 100%;
-  height: 500px; /* Vous pouvez adapter cette hauteur si besoin */
+  height: 500px;
 `;
 
-// Conteneur défilant qui passe d'une carte à l'autre
 const SliderContainer = styled(Box)<{ currentIndex: number }>`
   display: flex;
   transition: transform 0.5s ease-in-out;
   transform: translateX(-${(props) => props.currentIndex * 100}%);
 `;
 
-// Chaque item occupe 100% de l'espace du conteneur visible
 const SliderItem = styled(Box)`
   flex: 0 0 100%;
   display: flex;
@@ -44,8 +41,6 @@ const SliderItem = styled(Box)`
   align-items: center;
 `;
 
-// La carte a des dimensions fixes qui s'adaptent en responsive.
-// Le contenu sera "clampé" afin d'éviter un débordement et donc aucun scroll.
 const FeedbackCard = styled(Box)`
   width: 800px;
   height: 350px;
@@ -57,7 +52,7 @@ const FeedbackCard = styled(Box)`
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-  overflow: hidden; /* Pas de scroll */
+  overflow: hidden;
   @media (max-width: 768px) {
     width: 90%;
     padding: 32px;
@@ -96,7 +91,6 @@ const FeedbackTitle = styled(Typography)`
   }
 `;
 
-// On limite le nombre de lignes affichées afin d'éviter un débordement du contenu
 const FeedbackContent = styled(Typography)`
   font-size: 1.2rem;
   line-height: 1.8;
@@ -105,7 +99,7 @@ const FeedbackContent = styled(Typography)`
   margin: 16px 0;
   margin-bottom: 3rem;
   display: -webkit-box;
-  -webkit-line-clamp: 6; /* Affiche maximum 6 lignes */
+  -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
   overflow: hidden;
   @media (max-width: 768px) {
