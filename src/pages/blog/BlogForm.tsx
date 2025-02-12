@@ -93,9 +93,9 @@ const BlogForm = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    saveBlog(blog);
+    await saveBlog(blog);
     navigate("/admin/blogs");
   };
 

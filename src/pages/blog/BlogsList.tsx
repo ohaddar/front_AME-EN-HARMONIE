@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Box, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Delete, Edit } from "@mui/icons-material";
-import { Blog } from "../../types/types";
 import { useAuth } from "../../contexts/AuthContext";
-import ApiClient from "../../api/api-client";
+import { useBlog } from "../../hooks/useBlog";
 
 const BlogsList: React.FC = () => {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const { blogs, deleteBlog, filterByCategory } = useBlog();
   const { currentUser } = useAuth();
   const navigate = useNavigate();
-  const apiClient = ApiClient();
   const handleDisplayBlogs = (blogId: number | undefined) => {
     if (blogId) {
       const path =
@@ -30,16 +28,7 @@ const BlogsList: React.FC = () => {
           navigate("/login");
           return;
         }
-
-        const response = await apiClient.delete<Blog>(`/Blogs/${blogId}`);
-
-        if (response.status === 204) {
-          setBlogs((prevBlogs) =>
-            prevBlogs.filter((blog) => blog.id !== blogId),
-          );
-        } else {
-          console.error("Failed to delete blog");
-        }
+        await deleteBlog(blogId);
       } catch (error) {
         console.error("An error occurred while deleting the blog:");
       }
@@ -49,7 +38,7 @@ const BlogsList: React.FC = () => {
   const handleEdit = (blogId: number) => {
     navigate(`/admin/edit-blog/${blogId}`);
   };
-  const handleFilterBlog = async (blogCategory: string | undefined) => {
+  const handleFilterBlog = async (category: string | undefined) => {
     if (!currentUser) {
       console.warn("No token found. Redirecting to login.");
       navigate("/login");
@@ -57,40 +46,11 @@ const BlogsList: React.FC = () => {
     }
 
     try {
-      const response = await apiClient.get<Blog[]>(
-        `/Blogs/category/${blogCategory}`,
-      );
-
-      if (response.status === 200) {
-        setBlogs(response.data);
-      } else {
-        console.error("Failed to filter blogs by category");
-      }
+      await filterByCategory(category);
     } catch (error) {
       console.error("An error occurred while filtering blogs");
     }
   };
-
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        if (!currentUser) {
-          console.warn("No token found. Redirecting to login.");
-          navigate("/login");
-          return;
-        }
-
-        const response = await apiClient.get<Blog[]>("/Blogs/blogs");
-
-        setBlogs(response.data);
-      } catch (error) {
-        console.error("Error fetching blogs:", error);
-        alert("Access denied. You do not have the required permissions.");
-      }
-    };
-
-    fetchBlogs();
-  }, []);
 
   return (
     <Container>
@@ -159,7 +119,9 @@ const ReadMoreButton = styled.button`
   cursor: pointer;
   font-size: 1rem;
   font-weight: 600;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 
   &:hover {

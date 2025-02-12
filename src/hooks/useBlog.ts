@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Blog } from "../types/types";
 import sanitizeHtml from "sanitize-html";
 import ApiClient from "../api/api-client";
@@ -11,20 +11,20 @@ export const useBlog = () => {
 
   const apiClient = ApiClient();
 
-  const fetchBlogs = async () => {
+  const fetchBlogs = async (): Promise<Blog[]> => {
     try {
       const response = await apiClient.get<Blog[]>("/Blogs/blogs");
-      setBlogs(response.data);
+      return response.data;
     } catch (error) {
       console.error("Error fetching blogs:", error);
       alert("Access denied. You do not have the required permissions.");
+      return [];
     }
   };
 
   const fetchBlogDetails = async (id: string) => {
     try {
       const response = await apiClient.get<Blog>(`/Blogs/${id}`);
-
       setBlogDetails(response.data);
       return response.data;
     } catch (error) {
@@ -33,7 +33,7 @@ export const useBlog = () => {
     }
   };
 
-  const saveBlog = (blog: Blog) => {
+  const saveBlog = async (blog: Blog) => {
     const plainText = sanitizeHtml(blog.content, { allowedTags: [] });
     const plainTitle = sanitizeHtml(blog.title, { allowedTags: [] });
     const data = new FormData();
@@ -81,22 +81,59 @@ export const useBlog = () => {
       }
     };
     if (blog.id !== undefined) {
-      updateBlog(blog.id);
+      await updateBlog(blog.id);
     } else {
-      addBlog();
+      await addBlog();
     }
   };
 
+  const deleteBlog = async (blogId: number) => {
+    try {
+      const response = await apiClient.delete<Blog>(`/Blogs/${blogId}`);
+
+      if (response.status === 204) {
+        setBlogs((prevBlogs: Blog[]) =>
+          prevBlogs.filter((blog) => blog.id !== blogId),
+        );
+      } else {
+        console.error("Failed to delete blog");
+      }
+    } catch (error) {
+      console.error("An error occurred while deleting the blog:");
+    }
+  };
+
+  const filterByCategory = async (category: string | undefined) => {
+    const response = await apiClient.get<Blog[]>(`/Blogs/category/${category}`);
+
+    if (response.status === 200) {
+      setBlogs(response.data);
+    } else {
+      console.error("Failed to filter blogs by category");
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchBlogs();
+        setBlogs(data);
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return {
-    fetchBlogs,
     blogDetails,
     blogs,
-    setBlogs,
     warningMessage,
     successMessage,
     saveBlog,
-    setWarningMessage,
-    setSuccessMessage,
+    deleteBlog,
     fetchBlogDetails,
+    filterByCategory,
   };
 };

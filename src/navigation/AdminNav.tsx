@@ -141,7 +141,7 @@ interface AdminProps {
 
 const AdminNav = (props: AdminProps) => {
   const { child } = props;
-  const { currentUser } = useAuth();
+  const { currentUser, signOut } = useAuth();
   const navigateTo = useNavigate();
 
   const [pathname, setPathname] = React.useState("/dashboard");
@@ -173,6 +173,8 @@ const AdminNav = (props: AdminProps) => {
       },
       signOut: () => {
         setSession(null);
+        signOut();
+        navigateTo("/connect");
       },
     };
   }, []);

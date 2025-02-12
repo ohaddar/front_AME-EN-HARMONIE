@@ -158,14 +158,13 @@ const ReadMoreButton = styled(Button)`
 
 const BlogComponent: React.FC = () => {
   const { currentUser } = useAuth();
-  const { blogs, fetchBlogs } = useBlog();
+  const { blogs } = useBlog();
   const [publicBlogs, setPublicBlogs] = useState<Blog[]>();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getPublicBlogs = async () => {
+    const getPublicBlogs = () => {
       try {
-        await fetchBlogs();
         if (blogs.length > 0) {
           setPublicBlogs(blogs.slice(0, 3));
         }
@@ -174,7 +173,7 @@ const BlogComponent: React.FC = () => {
       }
     };
     getPublicBlogs();
-  }, [blogs, fetchBlogs]);
+  }, [blogs]);
 
   const handleReadMore = (id: number | undefined) => {
     const path =
