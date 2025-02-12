@@ -4,7 +4,7 @@ import { Box, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useBlog } from "../../hooks/useBlog";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import { Blog } from "../../types/types";
 
 const BlogSection = styled(Box)`
@@ -188,14 +188,14 @@ const BlogComponent: React.FC = () => {
       <Typography variant="h4" sx={{ mb: "30px", color: "black", mt: "30px" }}>
         Latest Blogs
       </Typography>
-      <Grid container spacing={3} justifyContent="center">
+      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1, md: 3 }}>
         {publicBlogs?.length === 0 ? (
           <Typography variant="h4" color="textPrimary">
             No blogs available at the moment.
           </Typography>
         ) : (
           publicBlogs?.map((blog) => (
-            <Grid item xs={12} sm={6} md={4} key={blog.id}>
+            <Grid key={blog.id} size={{ xs: 12, sm: 12, md: 4 }}>
               <BlogCard>
                 <BlogImage src={blog.imageUrl} alt={blog.title} />
                 <BlogContent>

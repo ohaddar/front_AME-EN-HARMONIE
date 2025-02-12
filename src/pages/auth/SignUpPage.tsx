@@ -3,7 +3,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
@@ -99,7 +99,7 @@ const SignUpPage = () => {
           onSubmit={handleRegister}
         >
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <TextField
                 autoComplete="given-name"
                 name="firstName"
@@ -112,7 +112,7 @@ const SignUpPage = () => {
                 onChange={(e) => setFirstname(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <TextField
                 required
                 fullWidth
@@ -124,7 +124,7 @@ const SignUpPage = () => {
                 onChange={(e) => setLastname(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 required
                 fullWidth
@@ -136,7 +136,7 @@ const SignUpPage = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 required
                 fullWidth
@@ -149,7 +149,7 @@ const SignUpPage = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <AvatarGroup max={avatars.length}>
                 {avatars.map((avatar, index) => (
                   <Avatar
@@ -188,7 +188,7 @@ const SignUpPage = () => {
             Sign Up
           </Button>
           <Grid container justifyContent="flex-end">
-            <Grid item>
+            <Grid>
               <Link href="/connect" variant="body2">
                 Already have an account? Sign in
               </Link>

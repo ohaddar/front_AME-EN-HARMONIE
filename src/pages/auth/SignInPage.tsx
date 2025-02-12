@@ -3,7 +3,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
@@ -105,12 +105,12 @@ const SignInPage: React.FC = () => {
             Sign In
           </Button>
           <Grid container>
-            <Grid item xs>
+            <Grid size={12}>
               <Link href="/reset-password" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
-            <Grid item>
+            <Grid>
               <Link href="/sign-up" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
