@@ -30,7 +30,6 @@ const DataView = <T,>({ cols, data }: DataViewProps<T>) => {
         columns={columns}
         initialState={{ pagination: { paginationModel } }}
         pageSizeOptions={[5, 10, 20, 50, 100]}
-        rowCount={data.length}
         sx={{ border: 0 }}
       />
     </Paper>
