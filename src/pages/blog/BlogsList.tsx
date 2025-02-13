@@ -216,7 +216,7 @@ const BlogsList: React.FC = () => {
 
   return (
     <Container>
-      <BlogListTitle>Our Blogs</BlogListTitle>
+      <BlogListTitle>Bonne lecture</BlogListTitle>
       <BlogGrid>
         {blogs.map((blog, index) => (
           <BlogCard key={index}>
@@ -258,7 +258,7 @@ const BlogsList: React.FC = () => {
               <BlogExcerpt>{`${blog.content.substring(0, 120)}...`}</BlogExcerpt>
             </BlogContent>
             <ReadMoreButton onClick={() => handleDisplayBlogs(blog.id)}>
-              Read More
+              Lire la suite
             </ReadMoreButton>
           </BlogCard>
         ))}

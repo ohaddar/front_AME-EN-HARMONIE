@@ -10,10 +10,11 @@ const AdminFeedback = () => {
   const navigate = useNavigate();
 
   const cols = [
-    { field: "id", headerName: "ID", width: "50" },
+    { field: "id", headerName: "ID", width: "70" },
     { field: "title", headerName: "Titre", width: "300" },
     { field: "content", headerName: "Contenu", width: "500" },
     { field: "publicationDate", headerName: "Date de création", width: "200" },
+    { field: "user", headerName: "Utilisateur", width: "200" },
     {
       field: "actions",
       headerName: "Actions",
@@ -37,7 +38,7 @@ const AdminFeedback = () => {
   };
   return (
     <>
-      <h1>Admin Feedback</h1>
+      <h1>Retours utilisateurs</h1>
       <DataView data={feedbacks} cols={cols} />
     </>
   );

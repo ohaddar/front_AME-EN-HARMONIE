@@ -45,10 +45,10 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ currentUser, signOut }) => {
         onClose={handleMenuClose}
       >
         <MenuItem onClick={handleProfileClick}>
-          <MenuItemLink name="Profile" path="/profile" />
+          <MenuItemLink name="Mon Profil" path="/profile" />
         </MenuItem>
         <MenuItem onClick={signOut}>
-          <MenuItemLink name="Logout" path="" />
+          <MenuItemLink name="Se déconnecter" path="" />
         </MenuItem>
       </Menu>
     </>

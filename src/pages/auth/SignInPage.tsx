@@ -40,7 +40,7 @@ const SignInPage: React.FC = () => {
     try {
       await signIn(email, password);
     } catch (err) {
-      setErrorMessage("Invalid credentials, please try again.");
+      setErrorMessage("E-mail ou mot de passe incorrêct.");
     }
   };
 
@@ -67,7 +67,7 @@ const SignInPage: React.FC = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          S'inscrire
         </Typography>
         {errorMessage && <Typography color="error">{errorMessage}</Typography>}
         <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleAuth}>
@@ -76,7 +76,7 @@ const SignInPage: React.FC = () => {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label="Adresse e-mail"
             name="email"
             autoComplete="email"
             autoFocus
@@ -88,7 +88,7 @@ const SignInPage: React.FC = () => {
             required
             fullWidth
             name="password"
-            label="Password"
+            label="Mot de passe"
             type="password"
             id="password"
             autoComplete="current-password"
@@ -102,17 +102,17 @@ const SignInPage: React.FC = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            S'inscrire
           </Button>
           <Grid container>
             <Grid size={12}>
               <Link href="/reset-password" variant="body2">
-                Forgot password?
+                Mot de passe oublié ?
               </Link>
             </Grid>
             <Grid>
               <Link href="/sign-up" variant="body2">
-                {"Don't have an account? Sign Up"}
+                {"Vous n'êtes pas encore utilisateur ? Créer votre compte"}
               </Link>
             </Grid>
           </Grid>

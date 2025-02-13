@@ -186,12 +186,12 @@ const BlogComponent: React.FC = () => {
   return (
     <BlogSection>
       <Typography variant="h4" sx={{ mb: "30px", color: "black", mt: "30px" }}>
-        Latest Blogs
+        Derniers Articles
       </Typography>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1, md: 3 }}>
         {publicBlogs?.length === 0 ? (
           <Typography variant="h4" color="textPrimary">
-            No blogs available at the moment.
+            Aucun article n'est disponible pour le moment.
           </Typography>
         ) : (
           publicBlogs?.map((blog) => (
@@ -213,7 +213,7 @@ const BlogComponent: React.FC = () => {
                   </BlogMeta>
                 </BlogContent>
                 <ReadMoreButton onClick={() => handleReadMore(blog.id)}>
-                  Read More
+                  Lire la suite
                 </ReadMoreButton>
               </BlogCard>
             </Grid>

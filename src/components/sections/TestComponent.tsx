@@ -170,7 +170,7 @@ const TestComponent: React.FC = () => {
   return (
     <StyledSection>
       <GlassCard>
-        <StyledTypography>Passez le Test Aujourd'hui !</StyledTypography>
+        <StyledTypography>Faire votre Bilan maintenant</StyledTypography>
         <StyledParagraph>
           Découvrez des <span>informations précieuses</span> sur vous-même grâce
           à notre test psychologique <span>rapide</span> et{" "}
@@ -178,7 +178,7 @@ const TestComponent: React.FC = () => {
           <span>forces</span>, vos <span>motivations</span> et vos{" "}
           <span>préférences personnelles</span>.
         </StyledParagraph>
-        <StyledButton to="/test">Commencez Votre Test</StyledButton>
+        <StyledButton to="/bilan">Commencez Votre Bilan</StyledButton>
       </GlassCard>
     </StyledSection>
   );

@@ -17,7 +17,7 @@ const AdminRoutes = (
     <Route path="blog-details/:id" element={<BlogDetails />} />
     <Route path="feedback-details/:id" element={<FeedbackDetails />} />
     <Route path="edit-blog/:blogId" element={<BlogForm />} />
-    <Route path="tests" element={<AdminResults />} />
+    <Route path="bilans" element={<AdminResults />} />
     <Route path="feedbacks" element={<AdminFeedback />} />
     <Route path="users" element={<AdminUsers />} />
   </Route>

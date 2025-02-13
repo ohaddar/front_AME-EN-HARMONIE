@@ -54,7 +54,7 @@ const SignUpPage = () => {
         await signUp(firstname, lastname, email, password, avatarValue);
       }
     } catch (err) {
-      setErrorMessage("Error during sign-up. Please try again.");
+      setErrorMessage("Erreur de création de compte.");
     }
   };
 
@@ -72,7 +72,7 @@ const SignUpPage = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Création de compte
         </Typography>
         {errorMessage && (
           <Typography
@@ -106,7 +106,7 @@ const SignUpPage = () => {
                 required
                 fullWidth
                 id="firstName"
-                label="First Name"
+                label="Prénom"
                 autoFocus
                 value={firstname}
                 onChange={(e) => setFirstname(e.target.value)}
@@ -117,7 +117,7 @@ const SignUpPage = () => {
                 required
                 fullWidth
                 id="lastName"
-                label="Last Name"
+                label="Nom"
                 name="lastName"
                 autoComplete="family-name"
                 value={lastname}
@@ -129,7 +129,7 @@ const SignUpPage = () => {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="Adresse e-mail"
                 name="email"
                 autoComplete="email"
                 value={email}
@@ -141,7 +141,7 @@ const SignUpPage = () => {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Mot de passe"
                 type="password"
                 id="password"
                 autoComplete="password"
@@ -185,12 +185,12 @@ const SignUpPage = () => {
             sx={{ mt: 3, mb: 2 }}
             type="submit"
           >
-            Sign Up
+            Créer votre compte
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid>
               <Link href="/connect" variant="body2">
-                Already have an account? Sign in
+                Vous avez déjà un compte ? Se connecter
               </Link>
             </Grid>
           </Grid>

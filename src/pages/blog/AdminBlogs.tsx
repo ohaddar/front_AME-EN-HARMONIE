@@ -12,7 +12,7 @@ const AdminBlogs = () => {
   const { blogs, deleteBlog } = useBlog();
 
   const cols = [
-    { field: "id", headerName: "ID", width: "50" },
+    { field: "id", headerName: "ID", width: "70" },
     { field: "title", headerName: "Titre", width: "500" },
     { field: "category", headerName: "Catégorie" },
     { field: "creationDate", headerName: "Date de création" },
@@ -69,7 +69,7 @@ const AdminBlogs = () => {
 
   return (
     <div>
-      <h1>Admin Blogs</h1>
+      <h1>Articles</h1>
       <DataView data={blogs} cols={cols} />
     </div>
   );

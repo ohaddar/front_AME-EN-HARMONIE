@@ -101,24 +101,24 @@ const BlogForm = () => {
   };
 
   return isLoading ? (
-    <div>Loading...</div>
+    <div>Chargement en cours...</div>
   ) : (
     <BlogContainer>
       <Form onSubmit={handleSubmit}>
         {warningMessage && <Message type="warning">{warningMessage}</Message>}
         <TextField
           fullWidth
-          label="Title"
+          label="Titre"
           name="title"
           value={blog.title}
           onChange={handleChange}
         />
         <FormControl fullWidth>
-          <InputLabel>Category</InputLabel>
+          <InputLabel>Catégorie</InputLabel>
           <Select
             value={blog.category}
             onChange={handleCategoryChange}
-            label="Category"
+            label="Catégorie"
           >
             {categoryOptions.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -129,7 +129,7 @@ const BlogForm = () => {
         </FormControl>
         {blog.imageUrl && blogId && (
           <>
-            <span>Selected File:</span>
+            <span>Image selectionnée:</span>
             <BlogImage src={blog.imageUrl as unknown as string} alt="Preview" />
           </>
         )}
@@ -140,7 +140,7 @@ const BlogForm = () => {
           onChange={(value: string) => setBlog({ ...blog, content: value })}
         />
         <Button variant="contained" color="primary" type="submit">
-          {blogId ? "Update Post" : "Create Post"}
+          {blogId ? "Modifier" : "Créer"}
         </Button>
       </Form>
     </BlogContainer>

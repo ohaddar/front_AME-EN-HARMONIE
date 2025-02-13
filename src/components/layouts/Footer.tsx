@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import styled from "styled-components";
 import { Facebook, Twitter, Instagram, LinkedIn } from "@mui/icons-material";
 
@@ -38,6 +38,7 @@ const SocialIcons = styled.div`
   display: flex;
   gap: 0.5rem;
 `;
+
 const FooterLink = styled.a`
   font-size: 0.875rem;
   color: #111827;
@@ -45,7 +46,9 @@ const FooterLink = styled.a`
   display: block;
   margin: 0.5rem 0;
   position: relative;
-  transition: color 0.3s ease, transform 0.3s ease;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
 
   &:hover {
     color: rgb(80, 60, 245);
@@ -60,7 +63,6 @@ const FooterLink = styled.a`
     background: rgb(80, 60, 245);
     left: 2%;
     bottom: -4px;
-    transform: translateX(-10%);
     transition: width 0.3s ease;
   }
 
@@ -78,7 +80,10 @@ const IconButton = styled.a`
   height: 2.5rem;
   border-radius: 50%;
   background-color: #f9fafb;
-  transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease,
+    color 0.3s ease;
 
   &:hover {
     background-color: rgb(80, 60, 245);
@@ -110,27 +115,27 @@ const Footer: React.FC = () => {
       <FooterInnerContainer>
         <FooterGrid>
           <div>
-            <FooterHeading>About Us</FooterHeading>
+            <FooterHeading>À Propos</FooterHeading>
             <FooterText>
-              Information about the company and its mission.
+              Informations sur l'entreprise et sa mission.
             </FooterText>
           </div>
           <div>
-            <FooterHeading>Quick Links</FooterHeading>
-            <FooterLink href="/">Home</FooterLink>
+            <FooterHeading>Liens Rapides</FooterHeading>
+            <FooterLink href="/">Accueil</FooterLink>
             <FooterLink href="/blog">Blog</FooterLink>
             <FooterLink href="/connect">Connecter</FooterLink>
-            <FooterLink href="/about">About Us</FooterLink>
+            <FooterLink href="/about">À Propos</FooterLink>
           </div>
           <div>
             <FooterHeading>Contact</FooterHeading>
-            <FooterText>1234 Street Name</FooterText>
-            <FooterText>City, State, 12345</FooterText>
-            <FooterText>Email: info@mywebsite.com</FooterText>
-            <FooterText>Phone: (123) 456-7890</FooterText>
+            <FooterText>1234 Nom de Rue</FooterText>
+            <FooterText>Ville, État, 12345</FooterText>
+            <FooterText>Email: info@monsite.com</FooterText>
+            <FooterText>Téléphone: (123) 456-7890</FooterText>
           </div>
           <div>
-            <FooterHeading>Follow Us</FooterHeading>
+            <FooterHeading>Suivez-nous</FooterHeading>
             <SocialIcons>
               <IconButton
                 href="https://www.facebook.com"
@@ -172,7 +177,7 @@ const Footer: React.FC = () => {
           <FooterLink href="" style={{ display: "inline" }}>
             ÂmeEnHarmonie
           </FooterLink>
-          . All rights reserved.
+          . Tous droits réservés.
         </FooterCopyright>
       </FooterInnerContainer>
     </FooterContainer>

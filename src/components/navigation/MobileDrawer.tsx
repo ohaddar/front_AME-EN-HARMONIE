@@ -26,13 +26,13 @@ const MobileDrawer = ({
       {renderMenuItems()}
       {currentUser ? (
         <>
-          <MenuItemLink name="Profile" path="connect" />
-          <MenuItemLink name="Logout" path="" onClick={handleLogout} />
+          <MenuItemLink name="Mon Profil" path="connect" />
+          <MenuItemLink name="Se déconnecter" path="" onClick={handleLogout} />
         </>
       ) : (
         <>
-          <MenuItemLink name="Login" path="connect" />
-          <MenuItemLink name="CreateAccount" path="connect" />
+          <MenuItemLink name="Se connecter" path="connect" />
+          <MenuItemLink name="Créer un compte" path="connect" />
         </>
       )}
     </Drawer>

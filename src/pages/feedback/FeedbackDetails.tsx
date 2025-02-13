@@ -133,7 +133,7 @@ const FeedbackDetails = () => {
     fetchFeedbackDetails();
   }, [id]);
 
-  if (!feedback) return <div>Loading...</div>;
+  if (!feedback) return <div>Chargement en cours...</div>;
 
   return (
     <StyledFeedbackSection>

@@ -10,7 +10,6 @@ import {
   Account,
   AccountPreview,
   AccountPopoverFooter,
-  SignOutButton,
   AccountPreviewProps,
 } from "@toolpad/core/Account";
 import type { Navigation, Router, Session } from "@toolpad/core/AppProvider";
@@ -23,16 +22,17 @@ import theme from "../../theme";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router";
 import logo from "../../assets/logo.svg";
+import { Button } from "@mui/material";
 
 const NAVIGATION: Navigation = [
   {
     segment: "admin/dashboard",
-    title: "Dashboard",
+    title: "Statistiques",
     icon: <DashboardIcon />,
   },
   {
     segment: "admin/create-blog",
-    title: "Creez un nouveau blog",
+    title: "Nouvel Article",
     icon: <ArticleIcon />,
   },
   {
@@ -41,8 +41,8 @@ const NAVIGATION: Navigation = [
     icon: <PeopleIcon />,
   },
   {
-    segment: "admin/tests",
-    title: "Tests Utilisateurs",
+    segment: "admin/bilans",
+    title: "Bilans utilisateurs",
     icon: <AssessmentIcon />,
   },
   {
@@ -52,7 +52,7 @@ const NAVIGATION: Navigation = [
   },
   {
     segment: "admin/blogs",
-    title: "Blogs",
+    title: "Articles",
     icon: <ArticleIcon />,
   },
 ];
@@ -74,11 +74,13 @@ const AccountSidebarPreview = (
 };
 
 const SidebarFooterAccountPopover = () => {
+  const { signOut } = useAuth();
+
   return (
     <Stack direction="column">
       <Divider />
       <AccountPopoverFooter>
-        <SignOutButton />
+        <Button onClick={() => signOut()}>Se déconnecter</Button>
       </AccountPopoverFooter>
     </Stack>
   );
@@ -142,7 +144,7 @@ interface AdminProps {
 
 const AdminNav = (props: AdminProps) => {
   const { child } = props;
-  const { currentUser, signOut } = useAuth();
+  const { currentUser } = useAuth();
   const navigateTo = useNavigate();
 
   const [pathname, setPathname] = React.useState("/dashboard");
@@ -174,8 +176,6 @@ const AdminNav = (props: AdminProps) => {
       },
       signOut: () => {
         setSession(null);
-        signOut();
-        navigateTo("/connect");
       },
     };
   }, []);

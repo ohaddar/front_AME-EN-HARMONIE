@@ -161,7 +161,7 @@ const FeedbackSection: React.FC = () => {
         const response = await apiClient.get<Feedback[]>("/feedback/public");
         setFeedbacks(response.data);
       } catch (error) {
-        console.error("Erreur lors de la récupération des feedbacks :", error);
+        console.error("Erreur lors de la récupération des retours :", error);
       }
     };
     fetchFeedbacks();
@@ -182,7 +182,7 @@ const FeedbackSection: React.FC = () => {
     return (
       <StyledFeedbackSection>
         <Typography variant="h6" color="textPrimary">
-          Aucun feedback disponible pour le moment.
+          Aucun retour disponible pour le moment.
         </Typography>
       </StyledFeedbackSection>
     );
@@ -191,7 +191,7 @@ const FeedbackSection: React.FC = () => {
   return (
     <StyledFeedbackSection>
       <Typography variant="h4" sx={{ mb: 3, color: "black", mt: "30px" }}>
-        Latest Feedbacks
+        Les derniers retour expérience
       </Typography>
 
       <SliderWrapper>
@@ -214,7 +214,7 @@ const FeedbackSection: React.FC = () => {
                   <FeedbackDate variant="body2" color="textSecondary">
                     {feedback.publicationDate
                       ? new Date(feedback.publicationDate).toLocaleDateString()
-                      : "Pas de date disponible"}
+                      : new Date().toLocaleDateString()}
                   </FeedbackDate>
                 </FeedbackFooter>
               </FeedbackCard>

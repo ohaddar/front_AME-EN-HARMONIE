@@ -96,7 +96,7 @@ const BlogDetails: React.FC = () => {
     return <div>{warningMessage}</div>;
   }
 
-  if (!blogDetails) return <div>Loading...</div>;
+  if (!blogDetails) return <div>Chargement en cours...</div>;
 
   return (
     <BlogDetailContainer>
@@ -110,7 +110,7 @@ const BlogDetails: React.FC = () => {
         <DateText>
           {blogDetails.creationDate
             ? new Date(blogDetails.creationDate).toLocaleDateString()
-            : "No date available"}
+            : new Date().toLocaleDateString()}
         </DateText>
         <CategoryBadge>{blogDetails.category}</CategoryBadge>
       </BlogMeta>

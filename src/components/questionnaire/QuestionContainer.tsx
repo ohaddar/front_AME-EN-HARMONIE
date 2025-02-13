@@ -70,9 +70,9 @@ const QuestionContainer: React.FC = () => {
           <Alert severity="info">
             {resultMessage}
             <StyledTypography variant="h6" gutterBottom>
-              Savoir plus en lisant nos blogs
+              Savoir plus en lisant nos Articles
             </StyledTypography>
-            <BlogLink href="/user/blog">Lire les blogs</BlogLink>
+            <BlogLink href="/user/blog">Articles</BlogLink>
           </Alert>
         )}
         {!loading && currentQuestion && (

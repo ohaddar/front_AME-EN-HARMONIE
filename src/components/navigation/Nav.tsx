@@ -21,24 +21,24 @@ const Nav: React.FC = () => {
   const navigate = useNavigate();
 
   const adminPages: Page[] = [
-    { name: "Home", path: "/admin" },
-    { name: "Blog", path: "/admin/blog" },
-    { name: "Tests", path: "/admin/test" },
-    { name: "Create a new blog", path: "/admin/create-blog" },
+    { name: "Accueil", path: "/admin" },
+    { name: "Articles", path: "/admin/blog" },
+    { name: "Bilans", path: "/admin/bilan" },
+    { name: "Nouvel Article", path: "/admin/create-blog" },
   ];
 
   const userPages: Page[] = [
     { name: "Accueil", path: "/user" },
-    { name: "Blog", path: "/user/blog" },
-    { name: "Create a new feedback", path: "/user/create-feedback" },
-    { name: "Your Tests", path: "/user/results" },
+    { name: "Articles", path: "/user/blog" },
+    { name: "Retour Expérience", path: "/user/create-feedback" },
+    { name: "Mes Bilans", path: "/user/results" },
   ];
 
   const publicPages: Page[] = [
     { name: "Accueil", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Blogs", path: "/blog" },
-    { name: "Test", path: "/test" },
+    { name: "À propos", path: "/about" },
+    { name: "Articles", path: "/blog" },
+    { name: "Faire un Bilan", path: "/bilan" },
   ];
 
   const getPages = (): Page[] => {
@@ -72,7 +72,7 @@ const Nav: React.FC = () => {
               width: { xs: 200, sm: 300, md: 400 },
               cursor: "pointer",
             }}
-            onClick={() => navigate("/")}
+            onClick={() => navigate(currentUser ? "/user" : "/")}
           />
           <DesktopNav
             currentUser={currentUser}

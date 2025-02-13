@@ -13,7 +13,7 @@ const UserRoutes = (
     <Route path="blog" element={<BlogsList />} />
     <Route path="create-feedback" element={<CreateFeedbackPage />} />
     <Route path="blog-details/:id" element={<BlogDetails />} />
-    <Route path="test" element={<TestCard />} />
+    <Route path="bilan" element={<TestCard />} />
     <Route path="results" element={<TestResultPage />} />
   </Route>
 );

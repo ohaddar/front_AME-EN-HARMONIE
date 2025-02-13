@@ -205,7 +205,7 @@ export const CreateFeedbackPage: React.FC = () => {
                   ? new Date(
                       currentUserFeedback.publicationDate,
                     ).toLocaleDateString()
-                  : "No date available"}
+                  : new Date().toLocaleDateString()}
               </FeedbackDate>
             </FeedbackFooter>
           </FeedbackCard>
@@ -222,7 +222,7 @@ export const CreateFeedbackPage: React.FC = () => {
               </div>
             )}
             <TextField
-              label="Title"
+              label="Titre"
               variant="outlined"
               fullWidth
               value={title}
@@ -230,7 +230,7 @@ export const CreateFeedbackPage: React.FC = () => {
             />
             <StyledQuill ref={quillRef} value={content} onChange={setContent} />
             <Button type="submit" variant="contained" color="primary">
-              Create Feedback
+              Envoyer mon retour expérience
             </Button>
           </Form>
         </Container>

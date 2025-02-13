@@ -114,17 +114,19 @@ const TestResultPage: React.FC = () => {
     <Container>
       <ContentBox>
         <ButtonContainer>
-          <StyledButton onClick={() => (window.location.href = "/user/test")}>
-            Take New Test
+          <StyledButton onClick={() => (window.location.href = "/user/bilan")}>
+            Faire un nouveau Bilan
           </StyledButton>
         </ButtonContainer>
         <Typography variant="h4" gutterBottom>
-          Your Test Results
+          Mes anciennes Bilans
         </Typography>
         {results.length > 0 ? (
           <DataView data={results} cols={cols} />
         ) : (
-          <Alert severity="info">You have no test results yet.</Alert>
+          <Alert severity="info">
+            Vous n'avez pas encore fait votre premier Bilan.
+          </Alert>
         )}
       </ContentBox>
     </Container>

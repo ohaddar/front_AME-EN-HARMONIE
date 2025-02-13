@@ -46,10 +46,10 @@ const TestCard: React.FC = () => {
     >
       <StyledPaper data-testid="test-card">
         <Typography variant="h4" gutterBottom>
-          Test
+          Bilan
         </Typography>
         <StyledParagraph>
-          Here are some questions to analyze your psyche health
+          Voici quelques questions pour analyser votre santé psychique
         </StyledParagraph>
 
         <Divider sx={{ mb: 2 }} />

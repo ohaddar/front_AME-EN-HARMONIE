@@ -19,7 +19,7 @@ const AdminUsers = () => {
         const response = await apiClient.get<User[]>("/auth/users");
         setUsers(response.data);
         setCols([
-          { field: "id", headerName: "ID", width: "50" },
+          { field: "id", headerName: "ID", width: "70" },
           { field: "firstName", headerName: "Prénom", width: "100" },
           { field: "lastName", headerName: "Nom", width: "100" },
           { field: "Email", headerName: "Email", width: "200" },
@@ -34,7 +34,7 @@ const AdminUsers = () => {
 
   return (
     <>
-      <h1>Admin Users</h1>
+      <h1>Utilisateurs</h1>
       {users && <DataView data={users} cols={cols} />}
     </>
   );
