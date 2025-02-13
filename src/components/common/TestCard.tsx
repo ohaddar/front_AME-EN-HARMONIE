@@ -1,23 +1,25 @@
 import React from "react";
-import styled from "styled-components";
-import { Typography, Divider } from "@mui/material";
+import { Typography, Divider, styled } from "@mui/material";
 import QuestionContainer from "../questionnaire/QuestionContainer";
+import { Box } from "@mui/system";
 
-const StyledPaper = styled.div`
-  padding: 24px;
-  border-radius: 16px;
-  text-align: center;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  max-width: 600px;
-  margin: 0 auto;
-  background: #ffffff;
+const StyledPaper = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(2),
+  borderRadius: "16px",
+  textAlign: "center",
+  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+  width: "60%",
+  margin: "0 auto",
+  background: "#ffffff",
+  marginTop: theme.spacing(4),
+  marginBottom: theme.spacing(4),
+  [theme.breakpoints.up("md")]: {
+    marginTop: theme.spacing(0),
+    marginBottom: theme.spacing(0),
+  },
+}));
 
-  @media (max-width: 768px) {
-    padding: 16px;
-  }
-`;
-
-const StyledParagraph = styled.p`
+const StyledParagraph = styled(Typography)`
   font-size: 1.125rem;
   margin-bottom: 1.5rem;
   color: rgba(74, 85, 104, 0.9);
@@ -31,17 +33,29 @@ const StyledParagraph = styled.p`
 
 const TestCard: React.FC = () => {
   return (
-    <StyledPaper data-testid="test-card">
-      <Typography variant="h4" gutterBottom>
-        Test
-      </Typography>
-      <StyledParagraph>
-        Here are some questions to analyze your psyche health
-      </StyledParagraph>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      sx={{
+        minHeight: "100vh",
+        "@media (min-width: 768px)": {
+          minHeight: "65vh",
+        },
+      }}
+    >
+      <StyledPaper data-testid="test-card">
+        <Typography variant="h4" gutterBottom>
+          Test
+        </Typography>
+        <StyledParagraph>
+          Here are some questions to analyze your psyche health
+        </StyledParagraph>
 
-      <Divider sx={{ mb: 2 }} />
-      <QuestionContainer />
-    </StyledPaper>
+        <Divider sx={{ mb: 2 }} />
+        <QuestionContainer />
+      </StyledPaper>
+    </Box>
   );
 };
 

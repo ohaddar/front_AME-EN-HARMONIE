@@ -1,9 +1,16 @@
 import React from "react";
-import styled from "styled-components";
-import { Typography, Alert, CircularProgress } from "@mui/material";
+import {
+  Typography,
+  Alert,
+  CircularProgress,
+  styled,
+  Button,
+  Link,
+} from "@mui/material";
 import { useQuestionnaire } from "../../hooks/useQuestionnaire";
+import { Box } from "@mui/system";
 
-const StyledContainer = styled.div`
+const StyledContainer = styled(Box)`
   padding: 24px;
   border-radius: 16px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
@@ -13,13 +20,13 @@ const StyledContainer = styled.div`
   }
 `;
 
-const StyledStack = styled.div`
+const StyledStack = styled(Box)`
   display: flex;
   flex-direction: column;
   gap: 24px;
 `;
 
-const StyledButton = styled.button`
+const StyledButton = styled(Button)`
   background: #7c3aed;
   color: #ffffff;
   text-decoration: none;
@@ -42,7 +49,7 @@ const StyledTypography = styled(Typography)`
   margin-bottom: 16px;
 `;
 
-const BlogLink = styled.a`
+const BlogLink = styled(Link)`
   color: #7c3aed;
   text-decoration: underline;
   &:hover {
