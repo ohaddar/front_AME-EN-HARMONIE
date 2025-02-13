@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Questionnaire, Question } from "../types/types";
-import ApiClient from "./api-client";
+import ApiClient from "./apiClient";
 
 const apiClient = ApiClient();
 

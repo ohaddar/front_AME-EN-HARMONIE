@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ApiClient from "../../api/api-client";
+import ApiClient from "../../api/apiClient";
 import DataView from "../../components/common/DataView";
 import { Result } from "../../types/types";
 const AdminResults = () => {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Blog } from "../types/types";
 import sanitizeHtml from "sanitize-html";
-import ApiClient from "../api/api-client";
+import ApiClient from "../api/apiClient";
 
 export const useBlog = () => {
   const [warningMessage, setWarningMessage] = useState("");

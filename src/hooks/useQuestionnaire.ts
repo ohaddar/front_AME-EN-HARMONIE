@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Question, Result } from "../types/types";
 import { useAuth } from "../contexts/AuthContext";
-import ApiClient from "../api/api-client";
+import ApiClient from "../api/apiClient";
 import { QuestionnaireApi } from "../api/questionnaire";
 
 export const useQuestionnaire = () => {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Box, Typography } from "@mui/material";
 import { Feedback } from "../../types/types";
-import ApiClient from "../../api/api-client";
+import ApiClient from "../../api/apiClient";
 
 const StyledFeedbackSection = styled(Box)`
   margin: 1rem;

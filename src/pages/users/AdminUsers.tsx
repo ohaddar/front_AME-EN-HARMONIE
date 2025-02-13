@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ApiClient from "../../api/api-client";
+import ApiClient from "../../api/apiClient";
 import { User } from "../../types/classes/User";
 import DataView from "../../components/common/DataView";
 const AdminUsers = () => {

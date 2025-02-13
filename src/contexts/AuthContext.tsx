@@ -6,7 +6,7 @@ import {
   UserSignUp,
 } from "../types/types";
 import Cookies from "js-cookie";
-import ApiClient from "../api/api-client";
+import ApiClient from "../api/apiClient";
 import {
   decryptToken,
   getTokenEmail,
@@ -142,7 +142,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
                 Cookies.remove("auth_token");
               });
           }
-          setCurrentUser((prevUser) => ({ ...prevUser, token } as User));
+          setCurrentUser((prevUser) => ({ ...prevUser, token }) as User);
         } else {
           setCurrentUser(null);
         }

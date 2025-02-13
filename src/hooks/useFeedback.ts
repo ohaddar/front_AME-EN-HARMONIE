@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import sanitizeHtml from "sanitize-html";
-import ApiClient from "../api/api-client";
+import ApiClient from "../api/apiClient";
 import { useAuth } from "../contexts/AuthContext";
 import { Feedback } from "../types/types";
 

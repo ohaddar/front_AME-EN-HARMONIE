@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Feedback } from "src/types/types";
 import { Box, Typography, Avatar } from "@mui/material";
-import ApiClient from "../../api/api-client";
+import ApiClient from "../../api/apiClient";
 import { styled } from "@mui/system";
 
 const StyledFeedbackSection = styled(Box)`

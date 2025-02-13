@@ -12,7 +12,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Result } from "../../types/types";
-import ApiClient from "../../api/api-client";
+import ApiClient from "../../api/apiClient";
 import DataView from "../../components/common/DataView";
 
 interface TestResult {
