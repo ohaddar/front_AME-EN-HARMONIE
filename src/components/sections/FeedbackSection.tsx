@@ -28,7 +28,9 @@ const SliderWrapper = styled(Box)`
   height: 500px;
 `;
 
-const SliderContainer = styled(Box)<{ currentIndex: number }>`
+const SliderContainer = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "currentIndex",
+})<{ currentIndex: number }>`
   display: flex;
   transition: transform 0.5s ease-in-out;
   transform: translateX(-${(props) => props.currentIndex * 100}%);
@@ -191,6 +193,7 @@ const FeedbackSection: React.FC = () => {
       <Typography variant="h4" sx={{ mb: 3, color: "black", mt: "30px" }}>
         Latest Feedbacks
       </Typography>
+
       <SliderWrapper>
         <SliderContainer currentIndex={currentIndex}>
           {feedbacks.map((feedback, index) => (

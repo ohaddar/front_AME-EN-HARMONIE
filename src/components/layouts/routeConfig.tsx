@@ -11,7 +11,7 @@ import SignInPage from "../../pages/auth/SignInPage";
 import BlogsList from "../../pages/blog/BlogsList";
 import BlogDetails from "../../pages/blog/BlogDetails";
 import TestCard from "../common/TestCard";
-import TestResultPage from "../../pages/TestResultPage";
+import TestResultPage from "../../pages/results/TestResultPage";
 import PrivacyPolicy from "../common/privacy-policy";
 import RootAdmin from "./RootAdmin";
 import AdminHome from "../../pages/AdminHome";
