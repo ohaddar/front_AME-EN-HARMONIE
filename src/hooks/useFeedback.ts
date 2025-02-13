@@ -106,7 +106,7 @@ export const useFeedback = () => {
         }
       }
     };
-    fetchData();
+    if (currentUser?.role === "USER") fetchData();
   }, [currentUser]);
 
   return {
