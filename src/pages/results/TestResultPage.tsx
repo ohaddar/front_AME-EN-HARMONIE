@@ -1,38 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
-import {
-  Box,
-  Typography,
-  Alert,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  TablePagination,
-} from "@mui/material";
+import { Box, Typography, Alert, Button, IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Result } from "../../types/types";
 import ApiClient from "../../api/api-client";
+import DataView from "../../components/common/DataView";
+import { Grid } from "@mui/system";
 
 interface TestResult {
   datetime: string;
   description: string;
 }
-
-const StyledContainer = styled(Box)(({ theme }) => ({
-  width: "100%",
-  padding: theme.spacing(3),
-  borderRadius: theme.spacing(2),
-  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.15)",
-  backgroundColor: "#ffffff",
-  maxWidth: 1200,
-  margin: "32px auto",
-}));
 
 const ButtonContainer = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -58,10 +38,24 @@ const StyledButton = styled(Button)(() => ({
 const TestResultPage: React.FC = () => {
   const { currentUser } = useAuth();
   const [results, setResults] = useState<TestResult[]>([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
   const navigate = useNavigate();
   const apiClient = ApiClient();
+  const cols = [
+    { field: "datetime", headerName: "Datetime", width: "200" },
+    { field: "description", headerName: "Description", width: "800" },
+    {
+      field: "actions",
+      headerName: "Actions",
+      width: "80",
+      renderCell: () => (
+        <div>
+          <IconButton color="info" size="small">
+            <DeleteIcon />
+          </IconButton>
+        </div>
+      ),
+    },
+  ];
 
   useEffect(() => {
     if (!currentUser) {
@@ -80,29 +74,18 @@ const TestResultPage: React.FC = () => {
     fetchResults();
   }, []);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
   if (!currentUser) {
     return (
-      <StyledContainer>
+      <Grid>
         <Alert severity="warning">
           You must be logged in to view this page.
         </Alert>
-      </StyledContainer>
+      </Grid>
     );
   }
 
   return (
-    <StyledContainer>
+    <Grid>
       <ButtonContainer>
         <StyledButton onClick={() => (window.location.href = "/user/test")}>
           Take New Test
@@ -112,54 +95,11 @@ const TestResultPage: React.FC = () => {
         Your Test Results
       </Typography>
       {results.length > 0 ? (
-        <>
-          <TableContainer component={Paper} sx={{ width: "100%", mb: 2 }}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <strong>Date &amp; Time</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Result</strong>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {results
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((result, index) => (
-                    <TableRow
-                      key={index}
-                      sx={{
-                        backgroundColor: (theme) =>
-                          index % 2 === 0
-                            ? theme.palette.action.hover
-                            : "inherit",
-                      }}
-                    >
-                      <TableCell>{result.datetime}</TableCell>
-                      <TableCell>{result.description}</TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            component="div"
-            count={results.length}
-            page={page}
-            onPageChange={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            rowsPerPageOptions={[5, 10, 25]}
-            sx={{ mx: 2 }}
-          />
-        </>
+        <DataView data={results} cols={cols} />
       ) : (
         <Alert severity="info">You have no test results yet.</Alert>
       )}
-    </StyledContainer>
+    </Grid>
   );
 };
 
