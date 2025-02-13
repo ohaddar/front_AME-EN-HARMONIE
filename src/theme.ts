@@ -54,19 +54,20 @@ const theme = createTheme({
             width: 0,
             height: "2px",
             backgroundColor: "rgb(79, 37, 146)",
-            transition: "width 0.4s ease, left 0.4s ease",
+            transition: "width 0.4s ease",
           },
           "&:hover": {
             backgroundColor: "inherit",
             fontWeight: "bold",
             "&::after": {
-              width: "60%",
-              left: "20%",
+              width: "70%",
+              left: "12px",
             },
           },
         },
       },
     },
+
     MuiContainer: {
       styleOverrides: {
         root: {
