@@ -20,22 +20,15 @@ export const QuestionnaireApi = () => {
     }
   };
 
-  const findQuestionById = async (
-    id: string,
-  ): Promise<Question | undefined> => {
-    try {
-      await fetchQuestionnaireData();
-      return questionnaire?.questions?.find((q) => q.id === id);
-    } catch (err) {
-      throw new Error("Questionnaire not loaded.");
-    }
+  const findQuestionById = (id: string): Question | undefined => {
+    return questionnaire?.questions?.find((q) => q.id === id);
   };
 
-  const fetchNextQuestionById = async (
+  const fetchNextQuestionById = (
     id: string,
     answer: string,
-  ): Promise<string | Question | undefined> => {
-    const currentQuestion = await findQuestionById(id);
+  ): Question | string | undefined => {
+    const currentQuestion = findQuestionById(id);
     if (!currentQuestion) {
       throw new Error(`Question with ID ${id} not found.`);
     }

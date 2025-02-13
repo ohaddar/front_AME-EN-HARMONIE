@@ -21,14 +21,16 @@ export const useQuestionnaire = () => {
   const [loading, setLoading] = useState(true);
   const { currentUser } = useAuth();
   useEffect(() => {
-    const loadQuestionnaire = async () => {
+    const loadQuestionnaire = () => {
+      if (!questionnaire) {
+        console.error("Questionnaire is not loaded yet");
+        setError("Questionnaire data is still loading.");
+        return;
+      }
       try {
-        if (questionnaire) {
-          setQuestionnaireId(questionnaire.id);
-        } else {
-          setError("Questionnaire is null");
-        }
-        const firstQuestion = await findQuestionById("0.1");
+        setQuestionnaireId(questionnaire.id);
+
+        const firstQuestion = findQuestionById("0.1");
         if (!firstQuestion) {
           throw new Error("First question not found");
         }
@@ -40,15 +42,16 @@ export const useQuestionnaire = () => {
         setLoading(false);
       }
     };
-
-    loadQuestionnaire();
+    if (questionnaire) {
+      loadQuestionnaire();
+    }
   }, [questionnaire]);
 
   const handleAnswer = async (answer: string) => {
     if (!currentQuestion) return;
 
     try {
-      const next = await fetchNextQuestionById(currentQuestion.id, answer);
+      const next = fetchNextQuestionById(currentQuestion.id, answer);
       if (typeof next === "string") {
         const resultMessage = next;
         const testResult = {
