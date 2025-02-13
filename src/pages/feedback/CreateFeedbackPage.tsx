@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
-import styled from "styled-components";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Button, TextField } from "@mui/material";
 import { useFeedback } from "../../hooks/useFeedback";
+import styled from "styled-components";
 
 interface MessageProps {
   type: "warning" | "success";
@@ -30,18 +30,6 @@ const Form = styled.form`
   gap: 16px;
 `;
 
-const Input = styled.input`
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  &:focus {
-    outline: none;
-    border-color: #9f7aea;
-    box-shadow: 0 0 0 3px rgba(159, 122, 234, 0.3);
-  }
-`;
-
 const StyledQuill = styled(ReactQuill)`
   .ql-container {
     min-height: 150px;
@@ -51,19 +39,6 @@ const StyledQuill = styled(ReactQuill)`
   }
   border: 1px solid #ccc;
   border-radius: 4px;
-`;
-
-const Button = styled.button`
-  padding: 10px 16px;
-  background-color: #9f7aea;
-  color: white;
-  font-size: 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  &:hover {
-    background-color: #805ad5;
-  }
 `;
 
 const Message = styled.p<MessageProps>`
@@ -98,6 +73,7 @@ const UserAvatar = styled.img`
     height: 40px;
   }
 `;
+
 const FeedbackTitle = styled.p`
   font-size: 2rem !important;
   font-weight: bold !important;
@@ -113,6 +89,7 @@ const FeedbackTitle = styled.p`
     margin-bottom: 15px;
   }
 `;
+
 const FeedbackContent = styled(Typography)`
   font-size: 1.2rem;
   line-height: 1.8;
@@ -244,14 +221,17 @@ export const CreateFeedbackPage: React.FC = () => {
                 <Message type="success">{successMessage}</Message>
               </div>
             )}
-            <Input
-              type="text"
-              placeholder="Title"
+            <TextField
+              label="Title"
+              variant="outlined"
+              fullWidth
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
             <StyledQuill ref={quillRef} value={content} onChange={setContent} />
-            <Button type="submit">Create Feedback</Button>
+            <Button type="submit" variant="contained" color="primary">
+              Create Feedback
+            </Button>
           </Form>
         </Container>
       )}

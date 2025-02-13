@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Feedback } from "src/types/types";
-import styled from "styled-components";
-import { Box } from "@mui/system";
-import { Typography } from "@mui/material";
+import { Box, Typography, Avatar } from "@mui/material";
 import ApiClient from "../../api/api-client";
+import { styled } from "@mui/system";
+
 const StyledFeedbackSection = styled(Box)`
   position: relative;
   margin: 15px auto;
@@ -21,16 +21,6 @@ const StyledFeedbackSection = styled(Box)`
   }
 `;
 
-const UserAvatar = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  @media (max-width: 600px) {
-    width: 40px;
-    height: 40px;
-  }
-`;
 const FeedbackTitle = styled(Typography)`
   font-size: 2rem !important;
   font-weight: bold !important;
@@ -46,6 +36,7 @@ const FeedbackTitle = styled(Typography)`
     margin-bottom: 15px;
   }
 `;
+
 const FeedbackContent = styled(Typography)`
   font-size: 1.2rem;
   line-height: 1.8;
@@ -123,6 +114,7 @@ const FeedbackDetails = () => {
   const { id } = useParams();
   const [feedback, setFeedback] = useState<Feedback | null>(null);
   const apiClient = ApiClient();
+
   useEffect(() => {
     const fetchFeedbackDetails = async () => {
       const token = localStorage.getItem("token");
@@ -135,24 +127,24 @@ const FeedbackDetails = () => {
         });
         setFeedback(response.data);
       } catch (error) {
-        console.error("Error fetching blog details:", error);
+        console.error("Error fetching feedback details:", error);
       }
     };
     fetchFeedbackDetails();
-  }, []);
+  }, [id]);
+
   if (!feedback) return <div>Loading...</div>;
+
   return (
     <StyledFeedbackSection>
       <FeedbackCard>
         <FeedbackTitle>{feedback.title}</FeedbackTitle>
-
         <FeedbackContent>{feedback.content}</FeedbackContent>
-
         <FeedbackFooter>
           <UserInfo>
-            <UserAvatar
+            <Avatar
               src={`../../${feedback.user?.avatar}`}
-              alt={feedback.user?.avatar}
+              alt={feedback.user?.firstname}
             />
             <Typography variant="body1" fontWeight="bold">
               {feedback.user?.firstname}
@@ -161,11 +153,12 @@ const FeedbackDetails = () => {
           <FeedbackDate variant="body2" color="textSecondary">
             {feedback.publicationDate
               ? new Date(feedback.publicationDate).toLocaleDateString()
-              : "No date available"}{" "}
+              : "No date available"}
           </FeedbackDate>
         </FeedbackFooter>
       </FeedbackCard>
     </StyledFeedbackSection>
   );
 };
+
 export default FeedbackDetails;
