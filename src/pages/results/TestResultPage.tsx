@@ -1,23 +1,50 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
-import { Box, Typography, Alert, Button, IconButton } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Alert,
+  Button,
+  IconButton,
+  Paper,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Result } from "../../types/types";
 import ApiClient from "../../api/api-client";
 import DataView from "../../components/common/DataView";
-import { Grid } from "@mui/system";
 
 interface TestResult {
   datetime: string;
   description: string;
 }
 
+const Container = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  minHeight: "50vh",
+  padding: theme.spacing(2),
+  backgroundColor: "#f3f4f6",
+  [theme.breakpoints.up("xs")]: {
+    padding: theme.spacing(7),
+  },
+}));
+
+const ContentBox = styled(Paper)(({ theme }) => ({
+  maxWidth: "800px",
+  width: "100%",
+  padding: theme.spacing(4),
+  boxShadow: theme.shadows[5],
+  backgroundColor: "#fff",
+  textAlign: "center",
+}));
+
 const ButtonContainer = styled(Box)(({ theme }) => ({
   display: "flex",
-  justifyContent: "flex-end",
-  margin: `${theme.spacing(2)} 0`,
+  justifyContent: "center",
+  marginBottom: theme.spacing(2),
 }));
 
 const StyledButton = styled(Button)(() => ({
@@ -40,19 +67,18 @@ const TestResultPage: React.FC = () => {
   const [results, setResults] = useState<TestResult[]>([]);
   const navigate = useNavigate();
   const apiClient = ApiClient();
+
   const cols = [
-    { field: "datetime", headerName: "Datetime", width: "200" },
-    { field: "description", headerName: "Description", width: "800" },
+    { field: "datetime", headerName: "Datetime", width: "120" },
+    { field: "description", headerName: "Description", width: "600" },
     {
       field: "actions",
       headerName: "Actions",
       width: "80",
       renderCell: () => (
-        <div>
-          <IconButton color="info" size="small">
-            <DeleteIcon />
-          </IconButton>
-        </div>
+        <IconButton color="info" size="small">
+          <DeleteIcon />
+        </IconButton>
       ),
     },
   ];
@@ -72,34 +98,36 @@ const TestResultPage: React.FC = () => {
       }
     };
     fetchResults();
-  }, []);
+  }, [currentUser, navigate, apiClient]);
 
   if (!currentUser) {
     return (
-      <Grid>
+      <Container>
         <Alert severity="warning">
           You must be logged in to view this page.
         </Alert>
-      </Grid>
+      </Container>
     );
   }
 
   return (
-    <Grid>
-      <ButtonContainer>
-        <StyledButton onClick={() => (window.location.href = "/user/test")}>
-          Take New Test
-        </StyledButton>
-      </ButtonContainer>
-      <Typography variant="h4" gutterBottom>
-        Your Test Results
-      </Typography>
-      {results.length > 0 ? (
-        <DataView data={results} cols={cols} />
-      ) : (
-        <Alert severity="info">You have no test results yet.</Alert>
-      )}
-    </Grid>
+    <Container>
+      <ContentBox>
+        <ButtonContainer>
+          <StyledButton onClick={() => (window.location.href = "/user/test")}>
+            Take New Test
+          </StyledButton>
+        </ButtonContainer>
+        <Typography variant="h4" gutterBottom>
+          Your Test Results
+        </Typography>
+        {results.length > 0 ? (
+          <DataView data={results} cols={cols} />
+        ) : (
+          <Alert severity="info">You have no test results yet.</Alert>
+        )}
+      </ContentBox>
+    </Container>
   );
 };
 
