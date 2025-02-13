@@ -21,14 +21,14 @@ export const useQuestionnaire = () => {
   const [loading, setLoading] = useState(true);
   const { currentUser } = useAuth();
   useEffect(() => {
-    const loadQuestionnaire = () => {
+    const loadQuestionnaire = async () => {
       try {
         if (questionnaire) {
           setQuestionnaireId(questionnaire.id);
         } else {
           setError("Questionnaire is null");
         }
-        const firstQuestion = findQuestionById("0.1");
+        const firstQuestion = await findQuestionById("0.1");
         if (!firstQuestion) {
           throw new Error("First question not found");
         }
@@ -48,7 +48,7 @@ export const useQuestionnaire = () => {
     if (!currentQuestion) return;
 
     try {
-      const next = fetchNextQuestionById(currentQuestion.id, answer);
+      const next = await fetchNextQuestionById(currentQuestion.id, answer);
       if (typeof next === "string") {
         const resultMessage = next;
         const testResult = {
