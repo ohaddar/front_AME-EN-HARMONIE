@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
-import Nav from "../../navigation/Nav";
+import Nav from "../navigation/Nav";
 
 const MainContainer = styled.main`
   display: flex;

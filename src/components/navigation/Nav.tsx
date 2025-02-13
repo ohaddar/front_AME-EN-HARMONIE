@@ -8,9 +8,9 @@ import {
   Box,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/logo.svg";
+import logo from "../../assets/logo.svg";
 import MobileDrawer from "./MobileDrawer";
 import DesktopNav from "./DesktopNav";
 import NavigationLinks, { Page } from "./NavigationLinks";

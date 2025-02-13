@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 
-import AdminNav from "../../navigation/AdminNav";
+import AdminNav from "../navigation/AdminNav";
 const MainContainer = styled.main`
   display: flex;
   flex-direction: column;

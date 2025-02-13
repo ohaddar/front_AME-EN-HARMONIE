@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "../../contexts/AuthContext";
-import RoutesConfig from "./routeConfig";
+import RoutesConfig from "../../routes/RouteConfig";
 
 const Layout: React.FC = () => {
   return (

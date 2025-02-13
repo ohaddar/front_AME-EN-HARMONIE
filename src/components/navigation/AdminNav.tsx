@@ -19,10 +19,11 @@ import PeopleIcon from "@mui/icons-material/People";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import FeedbackIcon from "@mui/icons-material/Feedback";
 import ArticleIcon from "@mui/icons-material/Article";
-import theme from "../theme";
-import { useAuth } from "../contexts/AuthContext";
+import theme from "../../theme";
+import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router";
-import logo from "../assets/logo.svg";
+import logo from "../../assets/logo.svg";
+
 const NAVIGATION: Navigation = [
   {
     segment: "admin/dashboard",

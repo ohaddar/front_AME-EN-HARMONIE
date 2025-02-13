@@ -2,7 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import NavigationLinks, { Page } from "./NavigationLinks";
 import ProfileMenu from "./ProfileMenu";
-import MenuItemLink from "../components/common/MenuItemLink";
+import MenuItemLink from "../common/MenuItemLink";
 
 interface DesktopNavProps {
   currentUser: { avatar: string } | null;

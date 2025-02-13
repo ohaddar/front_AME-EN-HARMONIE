@@ -1,5 +1,5 @@
 import React from "react";
-import MenuItemLink from "../components/common/MenuItemLink";
+import MenuItemLink from "../common/MenuItemLink";
 
 export type Page = {
   name: string;

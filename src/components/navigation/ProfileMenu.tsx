@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { IconButton, Avatar, Menu, MenuItem } from "@mui/material";
-import MenuItemLink from "../components/common/MenuItemLink";
+import MenuItemLink from "../common/MenuItemLink";
 import { useNavigate } from "react-router-dom";
 
 interface ProfileMenuProps {
