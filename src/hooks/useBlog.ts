@@ -7,7 +7,6 @@ export const useBlog = () => {
   const [warningMessage, setWarningMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [blogDetails, setBlogDetails] = useState<Blog>();
 
   const apiClient = ApiClient();
 
@@ -22,14 +21,14 @@ export const useBlog = () => {
     }
   };
 
-  const fetchBlogDetails = async (id: string) => {
+  const fetchBlogDetails = async (id: number): Promise<Blog> => {
     try {
       const response = await apiClient.get<Blog>(`/Blogs/${id}`);
-      setBlogDetails(response.data);
       return response.data;
     } catch (error) {
       console.error("Error fetching blog details:", error);
       setWarningMessage("Error fetching blog details");
+      return Promise.reject();
     }
   };
 
@@ -127,7 +126,6 @@ export const useBlog = () => {
   }, []);
 
   return {
-    blogDetails,
     blogs,
     warningMessage,
     successMessage,

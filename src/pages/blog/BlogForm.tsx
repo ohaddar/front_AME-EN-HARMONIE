@@ -27,7 +27,7 @@ interface MessageProps {
 
 const BlogForm = () => {
   const { fetchBlogDetails, saveBlog, warningMessage } = useBlog();
-  const { blogId } = useParams<{ blogId: string }>();
+  const { blogId } = useParams();
 
   const [isLoading, setIsLoading] = useState<boolean>(blogId !== undefined);
   const [blog, setBlog] = useState<Blog>({
@@ -62,7 +62,8 @@ const BlogForm = () => {
   useEffect(() => {
     if (blogId) {
       const fetchData = async () => {
-        const response = await fetchBlogDetails(blogId);
+        const id = parseInt(blogId);
+        const response = await fetchBlogDetails(id);
         if (response !== undefined) {
           setBlog(response);
         }
