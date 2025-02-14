@@ -6,6 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useBlog } from "../../hooks/useBlog";
 import { useNavigate } from "react-router";
+import { Title } from "../users/AdminUsers";
 
 const AdminBlogs = () => {
   const navigate = useNavigate();
@@ -69,7 +70,7 @@ const AdminBlogs = () => {
 
   return (
     <div>
-      <h1>Articles</h1>
+      <Title>Articles</Title>
       <DataView data={blogs} cols={cols} />
     </div>
   );

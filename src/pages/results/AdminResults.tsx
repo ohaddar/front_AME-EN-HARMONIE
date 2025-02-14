@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ApiClient from "../../api/apiClient";
 import DataView from "../../components/common/DataView";
 import { Result } from "../../types/types";
+import { Title } from "../users/AdminUsers";
 
 const AdminResults = () => {
   const apiClient = ApiClient();
@@ -35,7 +36,7 @@ const AdminResults = () => {
 
   return (
     <>
-      <h1>Bilans utilisateurs</h1>
+      <Title>Bilans utilisateurs</Title>
       {results && <DataView data={results} cols={cols} />}
     </>
   );

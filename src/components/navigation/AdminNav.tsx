@@ -26,7 +26,7 @@ import { Button } from "@mui/material";
 
 const NAVIGATION: Navigation = [
   {
-    segment: "admin/dashboard",
+    segment: "admin",
     title: "Statistiques",
     icon: <DashboardIcon />,
   },

@@ -4,6 +4,7 @@ import { IconButton } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DataView from "../../components/common/DataView";
 import { useNavigate } from "react-router";
+import { Title } from "../users/AdminUsers";
 
 const AdminFeedback = () => {
   const { feedbacks } = useFeedback();
@@ -38,7 +39,7 @@ const AdminFeedback = () => {
   };
   return (
     <>
-      <h1>Retours utilisateurs</h1>
+      <Title>Retours utilisateurs</Title>
       <DataView data={feedbacks} cols={cols} />
     </>
   );

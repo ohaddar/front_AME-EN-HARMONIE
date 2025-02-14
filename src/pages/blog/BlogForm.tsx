@@ -155,6 +155,8 @@ const BlogContainer = styled(Container)`
 `;
 
 const Form = styled.form`
+  margin-top: 2rem;
+
   width: 100%;
   max-width: 600px;
   background: white;

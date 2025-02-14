@@ -11,7 +11,7 @@ import AdminUsers from "../pages/users/AdminUsers";
 
 const AdminRoutes = (
   <Route path="/admin" element={<RootAdmin />}>
-    <Route path="dashboard" element={<AdminHome />} />
+    <Route index element={<AdminHome />} />
     <Route path="blogs" element={<AdminBlogs />} />
     <Route path="create-blog" element={<BlogForm />} />
     <Route path="blog-details/:id" element={<BlogDetails />} />

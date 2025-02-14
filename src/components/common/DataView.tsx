@@ -24,13 +24,24 @@ const DataView = <T,>({ cols, data }: DataViewProps<T>) => {
   }));
 
   return (
-    <Paper sx={{ height: 400, width: "100%" }}>
+    <Paper
+      sx={{
+        height: 400,
+        width: "80%",
+        maxWidth: 1200,
+        margin: "2rem auto",
+        padding: 2,
+      }}
+    >
       <DataGrid
         rows={rows}
         columns={columns}
         initialState={{ pagination: { paginationModel } }}
         pageSizeOptions={[5, 10, 20, 50, 100]}
-        sx={{ border: 0 }}
+        sx={{
+          border: 0,
+          width: "100%",
+        }}
       />
     </Paper>
   );

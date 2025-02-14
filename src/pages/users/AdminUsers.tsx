@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ApiClient from "../../api/apiClient";
 import { User } from "../../types/classes/User";
 import DataView from "../../components/common/DataView";
+import { styled } from "@mui/system";
 const AdminUsers = () => {
   const apiClient = ApiClient();
   const [users, setUsers] = useState<User[]>([]);
@@ -34,9 +35,14 @@ const AdminUsers = () => {
 
   return (
     <>
-      <h1>Utilisateurs</h1>
+      <Title>Utilisateurs</Title>
       {users && <DataView data={users} cols={cols} />}
     </>
   );
 };
 export default AdminUsers;
+
+export const Title = styled("h1")({
+  marginBottom: "0.5rem",
+  textAlign: "center",
+});

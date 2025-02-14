@@ -6,10 +6,12 @@ import { CreateFeedbackPage } from "../pages/feedback/CreateFeedbackPage";
 import BlogDetails from "../pages/blog/BlogDetails";
 import TestCard from "../components/common/TestCard";
 import TestResultPage from "../pages/results/TestResultPage";
+import About from "../pages/About";
 
 const UserRoutes = (
   <Route path="/user" element={<Root />}>
     <Route index element={<Home />} />
+    <Route path="about" element={<About />} />
     <Route path="blog" element={<BlogsList />} />
     <Route path="create-feedback" element={<CreateFeedbackPage />} />
     <Route path="blog-details/:id" element={<BlogDetails />} />
