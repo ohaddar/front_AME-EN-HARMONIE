@@ -98,7 +98,7 @@ const TestResultPage: React.FC = () => {
       }
     };
     fetchResults();
-  }, [currentUser, navigate, apiClient]);
+  }, [currentUser]);
 
   if (!currentUser) {
     return (
@@ -114,7 +114,7 @@ const TestResultPage: React.FC = () => {
     <Container>
       <ContentBox>
         <ButtonContainer>
-          <StyledButton onClick={() => (window.location.href = "/user/bilan")}>
+          <StyledButton onClick={() => navigate("/user/bilan")}>
             Faire un nouveau Bilan
           </StyledButton>
         </ButtonContainer>

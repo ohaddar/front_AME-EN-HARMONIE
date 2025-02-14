@@ -14,7 +14,7 @@ const UserRoutes = (
     <Route path="create-feedback" element={<CreateFeedbackPage />} />
     <Route path="blog-details/:id" element={<BlogDetails />} />
     <Route path="bilan" element={<TestCard />} />
-    <Route path="results" element={<TestResultPage />} />
+    <Route path="bilans" element={<TestResultPage />} />
   </Route>
 );
 

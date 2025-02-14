@@ -8,15 +8,16 @@ export const QuestionnaireApi = () => {
   const [questionnaire, setQuestionnaire] = useState<Questionnaire>();
   const [error, setError] = useState<string | null>(null);
 
-  const fetchQuestionnaireData = async () => {
+  const fetchQuestionnaireData = async (): Promise<Questionnaire> => {
     try {
       setError(null);
       const response = await apiClient.get<Questionnaire>(
         "/questionnaire/show",
       );
-      setQuestionnaire(response.data);
+      return response.data;
     } catch (error) {
       setError("Failed to load questionnaire data.");
+      throw error;
     }
   };
 
@@ -42,7 +43,11 @@ export const QuestionnaireApi = () => {
   };
 
   useEffect(() => {
-    fetchQuestionnaireData();
+    const fetchData = async () => {
+      const data = await fetchQuestionnaireData();
+      setQuestionnaire(data);
+    };
+    fetchData();
   }, []);
 
   return {

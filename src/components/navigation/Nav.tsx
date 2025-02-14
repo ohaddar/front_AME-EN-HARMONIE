@@ -31,7 +31,7 @@ const Nav: React.FC = () => {
     { name: "Accueil", path: "/user" },
     { name: "Articles", path: "/user/blog" },
     { name: "Retour Expérience", path: "/user/create-feedback" },
-    { name: "Mes Bilans", path: "/user/results" },
+    { name: "Mes Bilans", path: "/user/bilans" },
   ];
 
   const publicPages: Page[] = [

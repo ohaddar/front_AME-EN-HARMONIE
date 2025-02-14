@@ -1,10 +1,40 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import theme from "../../theme";
 import { Box } from "@mui/system";
+import Button from "../common/Button";
 import { Typography } from "@mui/material";
+import { useNavigate } from "react-router";
+import { useAuth } from "../../contexts/AuthContext";
 
+const TestComponent: React.FC = () => {
+  const navigate = useNavigate();
+  const { currentUser } = useAuth();
+  return (
+    <StyledSection>
+      <GlassCard>
+        <StyledTypography>Faire votre Bilan maintenant</StyledTypography>
+        <StyledParagraph>
+          Découvrez des <span>informations précieuses</span> sur vous-même grâce
+          à notre test psychologique <span>rapide</span> et{" "}
+          <span>intuitif</span>. Apprenez à mieux comprendre vos{" "}
+          <span>forces</span>, vos <span>motivations</span> et vos{" "}
+          <span>préférences personnelles</span>.
+        </StyledParagraph>
+        <Button
+          text={"Commencez Votre Bilan"}
+          onClick={() => {
+            currentUser?.role === "USER"
+              ? navigate("/user/bilan")
+              : navigate("/connect");
+          }}
+        />
+      </GlassCard>
+    </StyledSection>
+  );
+};
+
+export default TestComponent;
 const StyledSection = styled(Box)`
   display: flex;
   justify-content: center;
@@ -22,6 +52,7 @@ const StyledSection = styled(Box)`
   text-align: center;
   animation: moveBackground 50s linear infinite;
   overflow-x: hidden;
+  min-height: 83vh;
 
   &::before {
     content: "";
@@ -62,7 +93,7 @@ const GlassCard = styled(Box)`
   z-index: 1;
   text-align: center;
   width: 90%;
-  max-width: 600px;
+  min-height: 100%;
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
@@ -83,19 +114,28 @@ const GlassCard = styled(Box)`
 `;
 
 const StyledTypography = styled(Typography).attrs(() => ({
-  variant: "h6",
+  variant: "h4",
 }))`
-  font-size: clamp(1rem, 2.5vw, 2rem);
-  font-family: monospace;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: ${theme.palette.primary.main};
+  margin: 0;
+  font-family: "Poppins", "Roboto", sans-serif;
+  font-weight: clamp(400, 4vw, 600);
+  font-size: clamp(1.5rem, 4vw, 1.25rem);
+  line-height: 1.235;
+  text-align: center;
+  display: inline-block;
   white-space: nowrap;
   overflow: hidden;
+  width: 0;
+  max-width: 100%;
   border-right: 2px solid #ffffff;
   animation:
-    typing 3.5s steps(40, end),
+    typing 3.5s steps(40, end) forwards,
     blink-caret 0.75s step-end infinite;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+  }
 
   @keyframes typing {
     from {
@@ -119,7 +159,7 @@ const StyledTypography = styled(Typography).attrs(() => ({
 
 const StyledParagraph = styled(Typography)`
   font-size: clamp(1rem, 1.5vw, 1.25rem);
-  margin-bottom: 1.5rem;
+  margin: 0.5rem !important;
   color: #000000;
   line-height: 1.6;
   padding: 0 1rem;
@@ -137,51 +177,3 @@ const StyledParagraph = styled(Typography)`
     padding: 0 3rem;
   }
 `;
-
-const StyledButton = styled(Link)`
-  background: ${theme.palette.primary.main};
-  color: #ffffff;
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  font-size: clamp(0.9rem, 1vw, 1.1rem);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  margin: 1rem;
-  display: inline-block;
-  max-width: 90%;
-
-  &:hover {
-    background: ${theme.palette.primary.dark};
-    transform: translateY(-2px);
-  }
-
-  @media (min-width: 768px) {
-    padding: 0.75rem 1.5rem;
-  }
-
-  @media (min-width: 1024px) {
-    padding: 1rem 2rem;
-  }
-`;
-
-const TestComponent: React.FC = () => {
-  return (
-    <StyledSection>
-      <GlassCard>
-        <StyledTypography>Faire votre Bilan maintenant</StyledTypography>
-        <StyledParagraph>
-          Découvrez des <span>informations précieuses</span> sur vous-même grâce
-          à notre test psychologique <span>rapide</span> et{" "}
-          <span>intuitif</span>. Apprenez à mieux comprendre vos{" "}
-          <span>forces</span>, vos <span>motivations</span> et vos{" "}
-          <span>préférences personnelles</span>.
-        </StyledParagraph>
-        <StyledButton to="/bilan">Commencez Votre Bilan</StyledButton>
-      </GlassCard>
-    </StyledSection>
-  );
-};
-
-export default TestComponent;

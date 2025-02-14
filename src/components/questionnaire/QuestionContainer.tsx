@@ -5,25 +5,48 @@ import {
   CircularProgress,
   styled,
   Button,
-  Link,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import { useQuestionnaire } from "../../hooks/useQuestionnaire";
 import { Box } from "@mui/system";
 
 const StyledContainer = styled(Box)`
-  padding: 24px;
+  width: 100%;
+  max-width: 500px;
+  padding: 16px;
   border-radius: 16px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
   background: #ffffff;
-  @media (max-width: 768px) {
-    padding: 16px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  box-sizing: border-box;
 `;
 
 const StyledStack = styled(Box)`
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
+  width: 100%;
+  align-items: center;
+  overflow: hidden;
+`;
+
+const StyledTypography = styled(Typography)`
+  margin-bottom: 16px;
+  text-align: center;
+  width: 100%;
+  word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  font-size: 1.2rem;
+  height: auto;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 
 const StyledButton = styled(Button)`
@@ -38,15 +61,13 @@ const StyledButton = styled(Button)`
   transition: all 0.3s ease;
   border: none;
   cursor: pointer;
+  width: 100%;
+  max-width: 300px;
 
   &:hover {
     background: #5b21b6;
     transform: translateY(-2px);
   }
-`;
-
-const StyledTypography = styled(Typography)`
-  margin-bottom: 16px;
 `;
 
 const BlogLink = styled(Link)`
@@ -62,7 +83,7 @@ const QuestionContainer: React.FC = () => {
     useQuestionnaire();
 
   return (
-    <StyledContainer>
+    <>
       <StyledStack>
         {loading && <CircularProgress />}
         {error && <Alert severity="error">{error}</Alert>}
@@ -72,11 +93,11 @@ const QuestionContainer: React.FC = () => {
             <StyledTypography variant="h6" gutterBottom>
               Savoir plus en lisant nos Articles
             </StyledTypography>
-            <BlogLink href="/user/blog">Articles</BlogLink>
+            <BlogLink to="/user/blog">Articles</BlogLink>
           </Alert>
         )}
         {!loading && currentQuestion && (
-          <>
+          <StyledContainer>
             <StyledTypography variant="h6" gutterBottom>
               {currentQuestion.text}
             </StyledTypography>
@@ -90,10 +111,10 @@ const QuestionContainer: React.FC = () => {
                 </StyledButton>
               ))}
             </StyledStack>
-          </>
+          </StyledContainer>
         )}
       </StyledStack>
-    </StyledContainer>
+    </>
   );
 };
 

@@ -16,7 +16,6 @@ export const useBlog = () => {
       return response.data;
     } catch (error) {
       console.error("Error fetching blogs:", error);
-      alert("Access denied. You do not have the required permissions.");
       return [];
     }
   };
