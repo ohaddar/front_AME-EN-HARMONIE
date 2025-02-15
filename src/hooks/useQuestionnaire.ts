@@ -60,6 +60,8 @@ export const useQuestionnaire = () => {
           datetime: new Date().toISOString(),
           user: {
             id: currentUser?.id,
+            firstname: currentUser?.firstname ?? "",
+            lastname: currentUser?.lastname ?? "",
           },
           questionnaireId: questionnaireId,
         };

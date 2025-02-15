@@ -1,10 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { User } from "../types/classes/User";
-import {
-  AuthContextType,
-  useremailAndPassword,
-  UserSignUp,
-} from "../types/types";
+import { AuthContextType, User, UserLogin, UserRegister } from "../types/types";
 import Cookies from "js-cookie";
 import ApiClient from "../api/apiClient";
 import {
@@ -13,6 +8,7 @@ import {
   getTokenFromCookie,
   setTokenCookie,
 } from "../utils/token-helper";
+import { LoadingContext } from "./LoadingContext";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -22,31 +18,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { setLoading } = useContext(LoadingContext);
 
   const apiClient = ApiClient(false);
 
   const signIn = async (email: string, password: string) => {
     setErrorMessage("");
-    setIsLoading(true);
+    setLoading(true);
 
     if (!email.trim() || !password.trim()) {
       setErrorMessage("L'adresse e-mail et le mot de passe sont requis.");
-      setIsLoading(false);
+      setLoading(false);
       return;
     }
 
     try {
-      const response = await apiClient.post<User, useremailAndPassword>(
-        "/auth/login",
-        { email, password },
-      );
+      const response = await apiClient.post<User, UserLogin>("/auth/login", {
+        email,
+        password,
+      });
 
       if (response.data.token) {
         setTokenCookie(response.data.token);
         setCurrentUser(response.data);
       } else {
-        setErrorMessage("Échec de la connexion. Aucun token reçu.");
+        setErrorMessage("Échec de la connexion.");
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
@@ -56,7 +52,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           : "Une erreur est survenue lors de la connexion.",
       );
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
@@ -97,36 +93,54 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       return;
     }
 
-    setIsLoading(true);
+    setLoading(true);
 
     try {
-      const response = await apiClient.post<User, UserSignUp>(
+      const response = await apiClient.post<User, UserRegister>(
         "/auth/register",
-        { firstname, lastname, email, password, avatar },
+        {
+          firstname,
+          lastname,
+          email,
+          password,
+          avatar,
+        },
       );
+      // eslint-disable-next-line no-console
+      console.log("SignUp Success Response:", response);
 
       if (response.data.token) {
         setTokenCookie(response.data.token);
         setCurrentUser(response.data);
+        setErrorMessage("");
+
         setSuccessMessage("Compte créé avec succès !");
+        // eslint-disable-next-line no-console
+        console.log("Success: User created");
       } else {
-        setErrorMessage("Échec de l'inscription. Aucun token reçu.");
+        setErrorMessage("Échec de la création du compte.");
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
+      console.error("Error during signup:", err);
       setErrorMessage(
         err.response?.status === 409
           ? "Cet e-mail est déjà utilisé."
           : "Une erreur est survenue lors de la création du compte.",
       );
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
-
   const signOut = () => {
-    setCurrentUser(null);
-    Cookies.remove("auth_token");
+    if (window.confirm("Êtes-vous sûr de vouloir vous déconnecter ?")) {
+      setLoading(true);
+      setTimeout(() => {
+        setCurrentUser(null);
+        Cookies.remove("auth_token");
+        setLoading(false);
+      }, 1000);
+    }
   };
 
   useEffect(() => {
@@ -161,7 +175,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     <AuthContext.Provider
       value={{
         currentUser,
-        isLoading,
         signIn,
         signUp,
         signOut,
@@ -169,7 +182,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         setErrorMessage,
         successMessage,
         setSuccessMessage,
-        setIsLoading,
         setCurrentUser,
       }}
     >

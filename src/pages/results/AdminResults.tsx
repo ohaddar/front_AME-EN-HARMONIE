@@ -23,7 +23,16 @@ const AdminResults = () => {
         setResults(response.data);
         setCols([
           { field: "datetime", headerName: "Date et heure", width: "250" },
-          { field: "user", headerName: "Utilisateur", width: "250" },
+          {
+            field: "user",
+            headerName: "Utilisateur",
+            width: "250",
+            renderCell: (params) => (
+              <span>
+                {params.row.user.firstname} {params.row.user.lastname}
+              </span>
+            ),
+          },
         ]);
       } catch (error) {
         console.error("Error fetching results:", error);

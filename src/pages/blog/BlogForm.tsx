@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import ReactQuill from "react-quill-new";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -15,6 +15,7 @@ import {
 import styled from "styled-components";
 import { useBlog } from "../../hooks/useBlog";
 import { Blog } from "../../types/types";
+import { LoadingContext } from "../../contexts/LoadingContext";
 
 interface Option {
   value: string;
@@ -29,7 +30,7 @@ const BlogForm = () => {
   const { fetchBlogDetails, saveBlog, warningMessage } = useBlog();
   const { blogId } = useParams();
 
-  const [isLoading, setIsLoading] = useState<boolean>(blogId !== undefined);
+  const { setLoading, loading } = useContext(LoadingContext);
   const [blog, setBlog] = useState<Blog>({
     title: "",
     category: "",
@@ -67,7 +68,7 @@ const BlogForm = () => {
         if (response !== undefined) {
           setBlog(response);
         }
-        setIsLoading(false);
+        setLoading(false);
       };
       fetchData();
     } else {
@@ -77,7 +78,7 @@ const BlogForm = () => {
         image: undefined,
         content: "",
       });
-      setIsLoading(false);
+      setLoading(false);
     }
   }, [blogId]);
 
@@ -100,7 +101,7 @@ const BlogForm = () => {
     navigate("/admin/blogs");
   };
 
-  return isLoading ? (
+  return loading ? (
     <div>Chargement en cours...</div>
   ) : (
     <BlogContainer>

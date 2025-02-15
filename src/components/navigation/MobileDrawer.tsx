@@ -1,6 +1,6 @@
 import { Drawer } from "@mui/material";
 import MenuItemLink from "../common/MenuItemLink";
-import { User } from "../../types/classes/User";
+import { User } from "../../types/types";
 
 interface MobileDrawerProps {
   mobileMenuOpen: boolean;

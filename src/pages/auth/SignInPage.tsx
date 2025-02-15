@@ -14,6 +14,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { LoadingContext } from "../../contexts/LoadingContext";
 
 const Copyright = (props: React.ComponentProps<typeof Typography>) => (
   <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -27,8 +28,8 @@ const Copyright = (props: React.ComponentProps<typeof Typography>) => (
 );
 
 const SignInPage: React.FC = () => {
-  const { signIn, errorMessage, setErrorMessage, currentUser, isLoading } =
-    useAuth();
+  const { signIn, errorMessage, setErrorMessage, currentUser } = useAuth();
+  const { loading } = React.useContext(LoadingContext);
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
@@ -139,9 +140,9 @@ const SignInPage: React.FC = () => {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            disabled={isLoading}
+            disabled={loading}
           >
-            {isLoading ? "Connexion..." : "Se connecter"}
+            {loading ? "Connexion..." : "Se connecter"}
           </Button>
           <Grid container justifyContent="space-between" sx={{ mt: 2 }}>
             <Grid>

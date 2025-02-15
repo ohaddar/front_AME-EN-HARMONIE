@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ApiClient from "../../api/apiClient";
-import { User } from "../../types/classes/User";
+import { User } from "../../types/types";
 import DataView from "../../components/common/DataView";
 import { styled } from "@mui/system";
 const AdminUsers = () => {

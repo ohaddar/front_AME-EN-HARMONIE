@@ -1,12 +1,3 @@
-import { User } from "./classes/User";
-
-export interface UserSignUp {
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  avatar: string;
-}
 export interface NextStep {
   [key: string]: string;
 }
@@ -23,6 +14,8 @@ export interface Result {
   datetime: string;
   user: {
     id: number | undefined;
+    firstname: string;
+    lastname: string;
   };
   questionnaireId: string | null;
 }
@@ -60,29 +53,6 @@ export interface MenuItemLinkProps {
   onClick?: () => void;
 }
 
-export interface FeedbackType {
-  _id: string;
-  title: string;
-  content: string;
-  rating: number;
-  image: string;
-  createdAt: string;
-  updatedAt: string;
-  user: User;
-}
-
-export interface FeedbackContextProps {
-  title: string;
-
-  content: string;
-  warningMessage: string;
-  successMessage: string;
-  createNewFeedback: () => Promise<void>;
-  setTitle: (title: string) => void;
-  setContent: (content: string) => void;
-  setWarningMessage: React.Dispatch<React.SetStateAction<string>>;
-  setSuccessMessage: React.Dispatch<React.SetStateAction<string>>;
-}
 export interface AuthContextType {
   currentUser: User | null;
   setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
@@ -90,8 +60,6 @@ export interface AuthContextType {
   successMessage: string;
   setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
   setSuccessMessage: React.Dispatch<React.SetStateAction<string>>;
-  isLoading: boolean;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (
     firstname: string,
@@ -101,15 +69,6 @@ export interface AuthContextType {
     avatar: string,
   ) => Promise<void>;
   signOut: () => void;
-}
-export interface BlogType {
-  _id: string;
-  title: string;
-  category: string;
-  content: string;
-  image: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface BlogContextProps {
@@ -132,17 +91,20 @@ export interface BlogContextProps {
   fetchBlogDetails: (blogId: string) => Promise<void>;
   updatePost: (blogId: string) => Promise<void>;
 }
-export interface Error {
-  statusText?: string;
-  message?: string;
-}
-export interface useremailAndPassword {
+
+export interface UserLogin {
   email: string;
   password: string;
 }
-export interface blogData {
-  title: string;
-  category: string;
-  content: string;
-  imageUrl: File | null;
+
+export interface UserRegister extends UserLogin {
+  firstname: string;
+  lastname: string;
+  avatar: string;
+}
+
+export interface User extends UserRegister {
+  id?: number;
+  role: string;
+  token?: string;
 }
