@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-import { Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import PublicRoutes from "./PublicRoutes";
 import AdminRoutes from "./AdminRoutes";
 import UserRoutes from "./UserRoutes";
+import NotFound from "../pages/NotFound";
 
 const RoutesConfig: React.FC = () => {
   const { currentUser } = useAuth();
@@ -29,6 +30,7 @@ const RoutesConfig: React.FC = () => {
       {PublicRoutes}
       {currentUser?.role === "ADMIN" && AdminRoutes}
       {currentUser?.role === "USER" && UserRoutes}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
