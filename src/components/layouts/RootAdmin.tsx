@@ -12,7 +12,10 @@ const MainContainer = styled.main`
 const RootAdmin: React.FC = () => {
   return (
     <MainContainer data-testid="main">
-      <AdminNav child={<Outlet />} />
+      <AdminNav
+        child={<Outlet data-testid="outlet" />}
+        data-testid="admin-nav"
+      />
     </MainContainer>
   );
 };

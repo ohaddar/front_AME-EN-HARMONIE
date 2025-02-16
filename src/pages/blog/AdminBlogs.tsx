@@ -27,6 +27,7 @@ const AdminBlogs = () => {
             onClick={() => handleEdit(params.row.id)}
             color="primary"
             size="small"
+            data-testid={`edit-button-${params.row.id}`}
           >
             <EditIcon />
           </IconButton>
@@ -34,6 +35,7 @@ const AdminBlogs = () => {
             onClick={() => handleView(params.row.id)}
             color="info"
             size="small"
+            data-testid={`view-button-${params.row.id}`}
           >
             <VisibilityIcon />
           </IconButton>
@@ -41,6 +43,7 @@ const AdminBlogs = () => {
             onClick={() => handleDelete(params.row.id)}
             color="error"
             size="small"
+            data-testid={`delete-button-${params.row.id}`}
           >
             <DeleteIcon />
           </IconButton>

@@ -11,7 +11,7 @@ const TestComponent: React.FC = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   return (
-    <StyledSection>
+    <StyledSection data-testid="styled-section">
       <GlassCard>
         <StyledTypography>Faire votre Bilan maintenant</StyledTypography>
         <StyledParagraph>
