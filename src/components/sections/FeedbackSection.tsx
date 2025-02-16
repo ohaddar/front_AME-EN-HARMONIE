@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Box, Typography } from "@mui/material";
-import { Feedback } from "../../types/types";
-import ApiClient from "../../api/apiClient";
+import { useFeedback } from "../../hooks/useFeedback";
 
 const StyledFeedbackSection = styled(Box)`
   margin: 1rem;
@@ -151,21 +150,8 @@ const FeedbackDate = styled(Typography)`
 `;
 
 const FeedbackSection: React.FC = () => {
-  const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
+  const { feedbacks } = useFeedback();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const apiClient = ApiClient();
-
-  useEffect(() => {
-    const fetchFeedbacks = async () => {
-      try {
-        const response = await apiClient.get<Feedback[]>("/feedback/public");
-        setFeedbacks(response.data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des retours :", error);
-      }
-    };
-    fetchFeedbacks();
-  }, []);
 
   // Défilement automatique toutes les 5 secondes
   useEffect(() => {
@@ -179,13 +165,7 @@ const FeedbackSection: React.FC = () => {
   }, [feedbacks]);
 
   if (feedbacks.length === 0) {
-    return (
-      <StyledFeedbackSection>
-        <Typography variant="h6" color="textPrimary">
-          Aucun retour disponible pour le moment.
-        </Typography>
-      </StyledFeedbackSection>
-    );
+    return;
   }
 
   return (

@@ -1,98 +1,81 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
-import "@testing-library/jest-dom";
+import { render, screen, act } from "@testing-library/react";
+import { vi, describe, it, expect, beforeEach, afterEach } from "vitest";
+import { useFeedback } from "../hooks/useFeedback";
 import FeedbackSection from "../components/sections/FeedbackSection";
 
-vi.mock("../api/api-client", () => ({
-  default: vi.fn(() => ({
-    get: vi.fn(() => Promise.resolve({ data: mockFeedbacks })),
-  })),
+vi.mock("../hooks/useFeedback", () => ({
+  useFeedback: vi.fn(),
 }));
 
-const mockFeedbacks = [
-  {
-    title: "Great service!",
-    content: "The service was amazing. Highly recommended!",
-    user: { avatar: "avatar1.png", firstname: "John" },
-    publicationDate: "2023-01-01",
-  },
-  {
-    title: "Not bad",
-    content: "The service was decent, could be improved.",
-    user: { avatar: "avatar2.png", firstname: "Alice" },
-    publicationDate: "2023-02-01",
-  },
-];
+const mockedUseFeedback = useFeedback as unknown as ReturnType<typeof vi.fn>;
 
-describe("FeedbackSection", () => {
-  it("renders correctly when there are feedbacks", async () => {
+describe("FeedbackSection Component", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.runOnlyPendingTimers();
+    vi.useRealTimers();
+    vi.resetAllMocks();
+  });
+
+  it("renders nothing when no feedbacks are provided", () => {
+    mockedUseFeedback.mockReturnValue({ feedbacks: [] });
+    const { container } = render(<FeedbackSection />);
+    expect(container.firstChild).toBeNull();
+  });
+
+  it("renders the feedback section with feedback cards", () => {
+    const dummyFeedbacks = [
+      {
+        title: "Feedback 1",
+        content: "Content 1",
+        publicationDate: "2023-01-01T00:00:00.000Z",
+        user: { avatar: "avatar1.png", firstname: "John" },
+      },
+      {
+        title: "Feedback 2",
+        content: "Content 2",
+        publicationDate: "2023-01-02T00:00:00.000Z",
+        user: { avatar: "avatar2.png", firstname: "Jane" },
+      },
+    ];
+    mockedUseFeedback.mockReturnValue({ feedbacks: dummyFeedbacks });
     render(<FeedbackSection />);
 
-    await waitFor(() =>
-      expect(screen.getByText("Great service!")).toBeInTheDocument(),
-    );
-
-    expect(screen.getByText("Great service!")).toBeInTheDocument();
     expect(
-      screen.getByText("The service was amazing. Highly recommended!"),
+      screen.getByText("Les derniers retour expérience"),
     ).toBeInTheDocument();
-    expect(screen.getByText("John")).toBeInTheDocument();
+
+    expect(screen.getByText("Feedback 1")).toBeInTheDocument();
+    expect(screen.getByText("Feedback 2")).toBeInTheDocument();
   });
 
-  it('shows "No feedback available" if there are no feedbacks', async () => {
+  it("updates the slider index automatically every 5 seconds", () => {
+    const dummyFeedbacks = [
+      {
+        title: "Feedback 1",
+        content: "Content 1",
+        publicationDate: "2023-01-01T00:00:00.000Z",
+        user: { avatar: "avatar1.png", firstname: "John" },
+      },
+      {
+        title: "Feedback 2",
+        content: "Content 2",
+        publicationDate: "2023-01-02T00:00:00.000Z",
+        user: { avatar: "avatar2.png", firstname: "Jane" },
+      },
+    ];
+    mockedUseFeedback.mockReturnValue({ feedbacks: dummyFeedbacks });
     render(<FeedbackSection />);
 
-    await waitFor(() =>
-      expect(
-        screen.getByText("Aucun feedback disponible pour le moment."),
-      ).toBeInTheDocument(),
-    );
+    expect(screen.getByText("Feedback 1")).toBeInTheDocument();
+
+    act(() => {
+      vi.advanceTimersByTime(5000);
+    });
+
+    expect(screen.getByText("Feedback 2")).toBeInTheDocument();
   });
-
-  // it("can navigate to the next feedback", async () => {
-  //   render(<FeedbackSection />);
-
-  //   await waitFor(() =>
-  //     expect(screen.getByText("Great service!")).toBeInTheDocument(),
-  //   );
-
-  //   fireEvent.click(screen.getByTestId("arrow-next"));
-
-  //   expect(screen.getByText("Not bad")).toBeInTheDocument();
-  //   expect(
-  //     screen.getByText("The service was decent, could be improved."),
-  //   ).toBeInTheDocument();
-  //   expect(screen.getByText("Alice")).toBeInTheDocument();
-  // });
-
-  // it("can navigate to the previous feedback", async () => {
-  //   render(<FeedbackSection />);
-
-  //   await waitFor(() =>
-  //     expect(screen.getByText("Great service!")).toBeInTheDocument(),
-  //   );
-
-  //   fireEvent.click(screen.getByTestId("arrow-next"));
-  //   await waitFor(() =>
-  //     expect(screen.getByText("Not bad")).toBeInTheDocument(),
-  //   );
-
-  //   fireEvent.click(screen.getByTestId("arrow-back"));
-
-  //   expect(screen.getByText("Great service!")).toBeInTheDocument();
-  //   expect(
-  //     screen.getByText("The service was amazing. Highly recommended!"),
-  //   ).toBeInTheDocument();
-  //   expect(screen.getByText("John")).toBeInTheDocument();
-  // });
-
-  // it("handles error in fetching feedbacks", async () => {
-  //   render(<FeedbackSection />);
-
-  //   await waitFor(() =>
-  //     expect(
-  //       screen.queryByText("Erreur lors de la récupération des feedbacks"),
-  //     ).toBeInTheDocument(),
-  //   );
-  // });
 });

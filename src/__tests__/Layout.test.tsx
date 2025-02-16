@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
-import Layout from "../components/layouts/Layout";
 import { AuthProvider } from "../contexts/AuthContext";
 import { describe, expect, it, vi } from "vitest";
+import { BrowserRouter } from "react-router";
+import RoutesConfig from "../routes/RouteConfig";
 
 vi.mock("./routeConfig", () => {
   const MockRouteConfig = () => <div data-testid="routes-config" />;
@@ -13,10 +14,12 @@ describe("Layout Component", () => {
   it("should render the layout with all providers", () => {
     render(
       <AuthProvider>
-        <Layout />
+        <BrowserRouter>
+          <RoutesConfig />
+        </BrowserRouter>
       </AuthProvider>,
     );
 
-    expect(screen.getByText("Accueil")).toBeInTheDocument();
+    expect(screen.getAllByText("Accueil")).toHaveLength(2);
   });
 });

@@ -1,38 +1,58 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import Footer from "../components/layouts/Footer";
 import { describe, expect, test } from "vitest";
+import { AuthProvider } from "../contexts/AuthContext";
+import { BrowserRouter } from "react-router-dom";
 
 describe("Footer Component", () => {
   test("should render the footer container", () => {
-    render(<Footer />);
+    render(
+      <AuthProvider>
+        <BrowserRouter>
+          <Footer />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
     expect(screen.getByTestId("footer-container")).toBeInTheDocument();
   });
 
   test("should render all sections of the footer", () => {
-    render(<Footer />);
+    render(
+      <AuthProvider>
+        <BrowserRouter>
+          <Footer />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
     expect(
-      screen.getByText("Information about the company and its mission."),
+      screen.getByText("Informations sur l'entreprise et sa mission."),
     ).toBeInTheDocument();
 
-    expect(screen.getByText("Quick Links")).toBeInTheDocument();
-    expect(screen.getByText("Home")).toBeInTheDocument();
+    expect(screen.getByText("Liens Rapides")).toBeInTheDocument();
+    expect(screen.getByText("Accueil")).toBeInTheDocument();
     expect(screen.getByText("Blog")).toBeInTheDocument();
     expect(screen.getByText("Connecter")).toBeInTheDocument();
 
     expect(screen.getByText("Contact")).toBeInTheDocument();
-    expect(screen.getByText("1234 Street Name")).toBeInTheDocument();
-    expect(screen.getByText("City, State, 12345")).toBeInTheDocument();
-    expect(screen.getByText("Email: info@mywebsite.com")).toBeInTheDocument();
-    expect(screen.getByText("Phone: (123) 456-7890")).toBeInTheDocument();
+    expect(screen.getByText("1234 Nom de Rue")).toBeInTheDocument();
+    expect(screen.getByText("Ville, État, 12345")).toBeInTheDocument();
+    expect(screen.getByText("Email: info@monsite.com")).toBeInTheDocument();
+    expect(screen.getByText("Téléphone: (123) 456-7890")).toBeInTheDocument();
 
-    expect(screen.getByText("Follow Us")).toBeInTheDocument();
-    expect(screen.getAllByRole("link")).toHaveLength(8);
+    expect(screen.getByText("Suivez-nous")).toBeInTheDocument();
+    expect(screen.getAllByRole("link")).toHaveLength(9);
   });
 
   test("should have correct links in Quick Links section", () => {
-    render(<Footer />);
-    const homeLink = screen.getByText("Home");
-    expect(homeLink).toHaveAttribute("href", "/");
+    render(
+      <AuthProvider>
+        <BrowserRouter>
+          <Footer />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
+    const homeLink = screen.getByText("Accueil");
+    expect(homeLink).toHaveAttribute("href", "/home");
 
     const blogLink = screen.getByText("Blog");
     expect(blogLink).toHaveAttribute("href", "/blog");
@@ -42,7 +62,13 @@ describe("Footer Component", () => {
   });
 
   test("should render social media icons with correct links", () => {
-    render(<Footer />);
+    render(
+      <AuthProvider>
+        <BrowserRouter>
+          <Footer />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
 
     const facebookLink = screen.getByLabelText("Facebook");
     expect(facebookLink).toHaveAttribute("href", "https://www.facebook.com");
@@ -58,9 +84,15 @@ describe("Footer Component", () => {
   });
 
   test("should handle link hover effect", () => {
-    render(<Footer />);
+    render(
+      <AuthProvider>
+        <BrowserRouter>
+          <Footer />
+        </BrowserRouter>
+      </AuthProvider>,
+    );
 
-    const homeLink = screen.getByText("Home");
+    const homeLink = screen.getByText("Accueil");
     fireEvent.mouseOver(homeLink);
 
     expect(homeLink).toHaveStyle("color: rgb(80, 60, 245)");
