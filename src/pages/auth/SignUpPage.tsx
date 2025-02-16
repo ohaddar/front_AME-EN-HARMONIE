@@ -51,6 +51,7 @@ const SignUpPage = () => {
   const [avatarValue, setAvatarValue] = useState<string>("");
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState<boolean>(false);
+
   const isEmailValid = (email: string) => emailRegex.test(email);
 
   const avatars: string[] = [
@@ -75,8 +76,15 @@ const SignUpPage = () => {
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (errorMessage !== "") {
+      setErrorMessage("");
+    }
+
     try {
-      if (errorMessage === "") {
+      if (
+        isEmailValid(email) &&
+        isPasswordValid(password).every((item) => item.valid)
+      ) {
         await signUp(firstname, lastname, email, password, avatarValue);
       }
     } catch (err) {
@@ -86,6 +94,14 @@ const SignUpPage = () => {
 
   const togglePasswordVisibility = () => {
     setPasswordVisibility((prev) => !prev);
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    fieldSetter: React.Dispatch<React.SetStateAction<string>>,
+  ) => {
+    setErrorMessage("");
+    fieldSetter(e.target.value);
   };
 
   const isPasswordValid = (password: string) => {
@@ -154,7 +170,7 @@ const SignUpPage = () => {
               label="Prénom"
               autoFocus
               value={firstname}
-              onChange={(e) => setFirstname(e.target.value)}
+              onChange={(e) => handleInputChange(e, setFirstname)} // Use handleInputChange
             />
             <TextField
               required
@@ -164,7 +180,7 @@ const SignUpPage = () => {
               name="lastName"
               autoComplete="family-name"
               value={lastname}
-              onChange={(e) => setLastname(e.target.value)}
+              onChange={(e) => handleInputChange(e, setLastname)} // Use handleInputChange
             />
             <TextField
               required
@@ -174,7 +190,7 @@ const SignUpPage = () => {
               name="email"
               autoComplete="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => handleInputChange(e, setEmail)} // Use handleInputChange
               error={!isEmailValid(email)}
               helperText={!isEmailValid(email) ? "Adresse e-mail invalide" : ""}
               sx={{
@@ -195,7 +211,7 @@ const SignUpPage = () => {
               id="password"
               autoComplete="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => handleInputChange(e, setPassword)} // Use handleInputChange
               error={!isPasswordValid(password).every((item) => item.valid)}
               helperText={
                 !isPasswordValid(password).every((item) => item.valid)
