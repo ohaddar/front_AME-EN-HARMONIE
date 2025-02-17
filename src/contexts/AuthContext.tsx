@@ -9,6 +9,7 @@ import {
   setTokenCookie,
 } from "../utils/token-helper";
 import { LoadingContext } from "./LoadingContext";
+import axios from "axios";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -44,13 +45,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       } else {
         setErrorMessage("Échec de la connexion.");
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      setErrorMessage(
-        err.response?.status === 401
-          ? "E-mail ou mot de passe incorrect."
-          : "Une erreur est survenue lors de la connexion.",
-      );
+    } catch (err) {
+      console.error("Error during signin:", err);
+      if (axios.isAxiosError(err)) {
+        setErrorMessage(
+          err.response?.status === 401
+            ? "E-mail ou mot de passe incorrect."
+            : "Une erreur est survenue lors de la connexion.",
+        );
+      }
     } finally {
       setLoading(false);
     }
@@ -116,14 +119,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       } else {
         setErrorMessage("Échec de la création du compte.");
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
+    } catch (err) {
       console.error("Error during signup:", err);
-      setErrorMessage(
-        err.response?.status === 409
-          ? "Cet e-mail est déjà utilisé."
-          : "Une erreur est survenue lors de la création du compte.",
-      );
+      if (axios.isAxiosError(err)) {
+        setErrorMessage(
+          err.response?.status === 409
+            ? "Cet e-mail est déjà utilisé."
+            : "Une erreur est survenue lors de la création du compte.",
+        );
+      }
     } finally {
       setLoading(false);
     }
