@@ -40,7 +40,7 @@ describe("Footer Component", () => {
     expect(screen.getByText("Téléphone: (123) 456-7890")).toBeInTheDocument();
 
     expect(screen.getByText("Suivez-nous")).toBeInTheDocument();
-    expect(screen.getAllByRole("link")).toHaveLength(9);
+    expect(screen.getAllByRole("link")).toHaveLength(10);
   });
 
   test("should have correct links in Quick Links section", () => {
