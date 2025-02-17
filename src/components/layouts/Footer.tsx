@@ -27,6 +27,7 @@ const Footer: React.FC = () => {
             </FooterLink>
             {!currentUser && <FooterLink to={"/connect"}>Connecter</FooterLink>}
 
+            <FooterLink to={"/privacy-policy"}>Privacy-Policy</FooterLink>
             <FooterLink to={currentUser ? "/user/about" : "/about"}>
               À Propos
             </FooterLink>
