@@ -26,6 +26,7 @@ const AdminFeedback = () => {
             color="info"
             size="small"
             onClick={() => handleView(params.row.id)}
+            data-testid={`view-button-${params.row.id}`}
           >
             <VisibilityIcon />
           </IconButton>

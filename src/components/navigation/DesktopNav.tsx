@@ -41,7 +41,11 @@ const DesktopNav: React.FC<DesktopNavProps> = ({
         }}
       >
         {currentUser ? (
-          <ProfileMenu currentUser={currentUser} signOut={signOut} />
+          <ProfileMenu
+            currentUser={currentUser}
+            signOut={signOut}
+            data-testid={"profile-menu"}
+          />
         ) : (
           <MenuItemLink name="Se Connecter" path="connect" />
         )}
