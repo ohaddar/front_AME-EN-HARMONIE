@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Question, Result } from "../types/types";
+import { Question, Result, TestResult } from "../types/types";
 import { useAuth } from "../contexts/AuthContext";
 import ApiClient from "../api/apiClient";
 import { QuestionnaireApi } from "../api/questionnaire";
@@ -7,6 +7,9 @@ import { QuestionnaireApi } from "../api/questionnaire";
 export const useQuestionnaire = () => {
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
   const [questionnaireId, setQuestionnaireId] = useState<string | null>(null);
+  const [results, setResults] = useState<Result[]>([]);
+  const [userResults, setUserResults] = useState<TestResult[]>([]);
+
   const apiClient = ApiClient();
 
   const {
@@ -89,6 +92,42 @@ export const useQuestionnaire = () => {
       }
     }
   };
+  const getResults = async (): Promise<Result[]> => {
+    try {
+      const response = await apiClient.get<Result[]>("/results/all");
+      return response.data;
+    } catch (apiError) {
+      console.error("Error fetching results:", apiError);
+      setError("Error fetching results.");
+      return [];
+    }
+  };
+  const fetchUserResults = async () => {
+    try {
+      const response = await apiClient.get<Result[]>("/results/user");
+      setUserResults(response.data);
+    } catch (apiError) {
+      console.error("Error fetching results:", apiError);
+      setError("Error fetching results.");
+    }
+  };
 
-  return { currentQuestion, resultMessage, loading, error, handleAnswer };
+  useEffect(() => {
+    const loadData = async () => {
+      const data = await getResults();
+      setResults(data);
+    };
+    if (currentUser?.role === "ADMIN") loadData();
+  }, [currentUser]);
+
+  return {
+    currentQuestion,
+    resultMessage,
+    loading,
+    error,
+    handleAnswer,
+    results,
+    fetchUserResults,
+    userResults,
+  };
 };

@@ -108,3 +108,7 @@ export interface User extends UserRegister {
   role: string;
   token?: string;
 }
+export interface TestResult {
+  datetime: string;
+  description: string;
+}

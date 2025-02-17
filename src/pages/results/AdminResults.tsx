@@ -1,51 +1,34 @@
-import { useEffect, useState } from "react";
-import ApiClient from "../../api/apiClient";
 import DataView from "../../components/common/DataView";
 import { Result } from "../../types/types";
 import { Title } from "../users/AdminUsers";
+import { useQuestionnaire } from "../../hooks/useQuestionnaire";
 
 const AdminResults = () => {
-  const apiClient = ApiClient();
-  const [results, setResults] = useState<Result[]>([]);
-  const [cols, setCols] = useState<
-    Array<{
-      field: string;
-      headerName: string;
-      width?: string;
-      renderCell?: (params: { row: Result }) => JSX.Element;
-    }>
-  >([]);
-
-  useEffect(() => {
-    const fetchResultsData = async () => {
-      try {
-        const response = await apiClient.get<Result[]>("/results/all");
-        setResults(response.data);
-        setCols([
-          { field: "datetime", headerName: "Date et heure", width: "250" },
-          {
-            field: "user",
-            headerName: "Utilisateur",
-            width: "250",
-            renderCell: (params) => (
-              <span>
-                {params.row.user.firstname} {params.row.user.lastname}
-              </span>
-            ),
-          },
-        ]);
-      } catch (error) {
-        console.error("Error fetching results:", error);
-        alert("Access denied. You do not have the required permissions.");
-      }
-    };
-
-    fetchResultsData();
-  }, []);
+  const { results, error } = useQuestionnaire();
+  const cols: Array<{
+    field: string;
+    headerName: string;
+    width?: string;
+    renderCell?: (params: { row: Result }) => JSX.Element;
+  }> = [
+    { field: "datetime", headerName: "Date et heure", width: "250" },
+    {
+      field: "user",
+      headerName: "Utilisateur",
+      width: "250",
+      renderCell: (params) => (
+        <span>
+          {params.row.user.firstname} {params.row.user.lastname}
+        </span>
+      ),
+    },
+  ];
 
   return (
     <>
       <Title>Bilans utilisateurs</Title>
+      {error && <div>{error}</div>}
+
       {results && <DataView data={results} cols={cols} />}
     </>
   );

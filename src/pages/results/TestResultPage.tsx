@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import {
   Box,
@@ -9,16 +9,9 @@ import {
   Paper,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Result } from "../../types/types";
-import ApiClient from "../../api/apiClient";
 import DataView from "../../components/common/DataView";
-
-interface TestResult {
-  datetime: string;
-  description: string;
-}
+import { useQuestionnaire } from "../../hooks/useQuestionnaire";
 
 const Container = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -63,10 +56,8 @@ const StyledButton = styled(Button)(() => ({
 }));
 
 const TestResultPage: React.FC = () => {
-  const { currentUser } = useAuth();
-  const [results, setResults] = useState<TestResult[]>([]);
+  const { fetchUserResults, userResults } = useQuestionnaire();
   const navigate = useNavigate();
-  const apiClient = ApiClient();
 
   const cols = [
     { field: "datetime", headerName: "Datetime", width: "120" },
@@ -84,31 +75,11 @@ const TestResultPage: React.FC = () => {
   ];
 
   useEffect(() => {
-    if (!currentUser) {
-      console.warn("No token found. Redirecting to login.");
-      navigate("/login");
-      return;
-    }
     const fetchResults = async () => {
-      try {
-        const response = await apiClient.get<Result[]>("/results/user");
-        setResults(response.data);
-      } catch (error) {
-        console.error("Error fetching test results:", error);
-      }
+      await fetchUserResults();
     };
     fetchResults();
-  }, [currentUser]);
-
-  if (!currentUser) {
-    return (
-      <Container>
-        <Alert severity="warning">
-          You must be logged in to view this page.
-        </Alert>
-      </Container>
-    );
-  }
+  }, [fetchUserResults]);
 
   return (
     <Container>
@@ -121,8 +92,8 @@ const TestResultPage: React.FC = () => {
         <Typography variant="h4" gutterBottom>
           Mes anciennes Bilans
         </Typography>
-        {results.length > 0 ? (
-          <DataView data={results} cols={cols} />
+        {userResults.length > 0 ? (
+          <DataView data={userResults} cols={cols} />
         ) : (
           <Alert severity="info">
             Vous n'avez pas encore fait votre premier Bilan.
