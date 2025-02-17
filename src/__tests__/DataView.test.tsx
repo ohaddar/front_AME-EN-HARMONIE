@@ -50,8 +50,7 @@ describe("DataView Component", () => {
   });
 
   test("should handle empty data correctly", () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const emptyData: any[] = [];
+    const emptyData: number[] = [];
     render(<DataView cols={sampleCols} data={emptyData} />);
 
     const rows = screen.getAllByRole("row");

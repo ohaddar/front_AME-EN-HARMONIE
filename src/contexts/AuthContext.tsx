@@ -106,8 +106,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           avatar,
         },
       );
-      // eslint-disable-next-line no-console
-      console.log("SignUp Success Response:", response);
 
       if (response.data.token) {
         setTokenCookie(response.data.token);
@@ -115,8 +113,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         setErrorMessage("");
 
         setSuccessMessage("Compte créé avec succès !");
-        // eslint-disable-next-line no-console
-        console.log("Success: User created");
       } else {
         setErrorMessage("Échec de la création du compte.");
       }

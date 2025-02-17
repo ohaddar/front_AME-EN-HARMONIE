@@ -14,6 +14,16 @@ vi.mock("../contexts/AuthContext", async () => {
   };
 });
 
+vi.mock("../hooks/useQuestionnaire", () => ({
+  useQuestionnaire: vi.fn(() => ({
+    currentQuestion: null,
+    handleAnswer: vi.fn(),
+    resultMessage: "",
+    loading: false,
+    error: "",
+  })),
+}));
+
 it("renders the test card", () => {
   render(<TestCard />);
   expect(screen.getByTestId("test-card")).toBeInTheDocument();
