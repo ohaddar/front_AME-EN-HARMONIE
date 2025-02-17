@@ -49,10 +49,10 @@ describe("AdminResults", () => {
       error: "",
       currentQuestion: null,
       resultMessage: null,
-      loading: false, // Mocking loading state
-      handleAnswer: vi.fn(), // Mocking handleAnswer function
-      fetchUserResults: vi.fn(), // Mocking fetchUserResults
-      userResults: [], // Mocking empty userResults array
+      loading: false,
+      handleAnswer: vi.fn(),
+      fetchUserResults: vi.fn(),
+      userResults: [],
     });
 
     render(
@@ -61,10 +61,8 @@ describe("AdminResults", () => {
       </MemoryRouter>,
     );
 
-    // Checking if the title is rendered
     expect(screen.getByText("Bilans utilisateurs")).toBeInTheDocument();
 
-    // Checking if the result data is displayed
     expect(screen.getByText(/John Doe/)).toBeInTheDocument();
   });
 
@@ -72,13 +70,13 @@ describe("AdminResults", () => {
     vi.mock("../hooks/useQuestionnaire", () => ({
       useQuestionnaire: vi.fn(() => ({
         results: [],
-        error: "", // No error for this case
-        currentQuestion: null, // Mocking currentQuestion
-        resultMessage: null, // Mocking resultMessage
-        loading: false, // Mocking loading state
-        handleAnswer: vi.fn(), // Mocking handleAnswer function
-        fetchUserResults: vi.fn(), // Mocking fetchUserResults
-        userResults: [], // Mocking empty userResults array
+        error: "",
+        currentQuestion: null,
+        resultMessage: null,
+        loading: false,
+        handleAnswer: vi.fn(),
+        fetchUserResults: vi.fn(),
+        userResults: [],
       })),
     }));
     render(

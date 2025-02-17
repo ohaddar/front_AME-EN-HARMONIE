@@ -170,7 +170,7 @@ const SignUpPage = () => {
               label="Prénom"
               autoFocus
               value={firstname}
-              onChange={(e) => handleInputChange(e, setFirstname)} // Use handleInputChange
+              onChange={(e) => handleInputChange(e, setFirstname)}
             />
             <TextField
               required
@@ -180,7 +180,7 @@ const SignUpPage = () => {
               name="lastName"
               autoComplete="family-name"
               value={lastname}
-              onChange={(e) => handleInputChange(e, setLastname)} // Use handleInputChange
+              onChange={(e) => handleInputChange(e, setLastname)}
             />
             <TextField
               required
@@ -190,7 +190,7 @@ const SignUpPage = () => {
               name="email"
               autoComplete="email"
               value={email}
-              onChange={(e) => handleInputChange(e, setEmail)} // Use handleInputChange
+              onChange={(e) => handleInputChange(e, setEmail)}
               error={!isEmailValid(email)}
               helperText={!isEmailValid(email) ? "Adresse e-mail invalide" : ""}
               sx={{
@@ -211,7 +211,7 @@ const SignUpPage = () => {
               id="password"
               autoComplete="password"
               value={password}
-              onChange={(e) => handleInputChange(e, setPassword)} // Use handleInputChange
+              onChange={(e) => handleInputChange(e, setPassword)}
               error={!isPasswordValid(password).every((item) => item.valid)}
               helperText={
                 !isPasswordValid(password).every((item) => item.valid)

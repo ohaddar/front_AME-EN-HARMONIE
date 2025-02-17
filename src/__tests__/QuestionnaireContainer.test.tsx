@@ -54,6 +54,9 @@ describe("QuestionContainer", () => {
       resultMessage: "",
       loading: false,
       error: "",
+      results: [],
+      fetchUserResults: vi.fn(),
+      userResults: [],
     });
 
     render(
@@ -88,6 +91,9 @@ describe("QuestionContainer", () => {
       resultMessage: "",
       loading: false,
       error: "",
+      results: [],
+      fetchUserResults: vi.fn(),
+      userResults: [],
     });
 
     render(
