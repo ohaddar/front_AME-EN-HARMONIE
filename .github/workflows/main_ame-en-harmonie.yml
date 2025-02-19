@@ -67,6 +67,10 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_00D3F690BA5F4B8C83C94160B2F4A251 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_6CF829CCCADB4F4CB722A6D3DC2DEDB7 }}
 
+      # 🔹 Install serve globally
+      - name: Install serve
+        run: npm install -g serve
+
       - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
