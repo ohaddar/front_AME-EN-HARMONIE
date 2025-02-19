@@ -41,7 +41,7 @@ const StyledSection = styled(Box)`
   align-items: center;
   flex-direction: column;
   background-color: ${theme.palette.background.default};
-  background-image: url("src/assets/images/back-test.jpeg");
+  background-image: url("assets/images/back-test.jpeg");
   background-size: cover;
   background-position: center;
   position: relative;

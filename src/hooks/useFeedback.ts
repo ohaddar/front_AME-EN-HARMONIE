@@ -14,7 +14,7 @@ export const useFeedback = () => {
 
   const fetchFeedbacks = async (): Promise<Feedback[]> => {
     try {
-      const response = await apiClient.get<Feedback[]>("/feedback/public");
+      const response = await apiClient.get<Feedback[]>("/feedback/all");
       return response.data;
     } catch (error) {
       console.error("Error fetching feedbacks:", error);

@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "start": "node dist/server.js",
+    "build": "tsc && vite build",
+    "start": "serve -s dist",
     "preview": "vite preview",
     "test": "vitest",
     "lint": "eslint 'src/**/*.{ts,tsx}'",
@@ -46,6 +46,7 @@
     "react-select": "^5.9.0",
     "remark-gfm": "^4.0.0",
     "sanitize-html": "^2.13.1",
+    "serve": "^14.2.4",
     "slate": "^0.110.2",
     "slate-react": "^0.111.0",
     "styled-components": "^6.1.13",
@@ -81,6 +82,7 @@
     "typescript": "^5.7.3",
     "vite": "^6.1.0",
     "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-static-copy": "^2.2.0",
     "vitest": "^3.0.5"
   }
 }

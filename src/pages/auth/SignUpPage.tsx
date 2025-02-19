@@ -55,12 +55,12 @@ const SignUpPage = () => {
   const isEmailValid = (email: string) => emailRegex.test(email);
 
   const avatars: string[] = [
-    "src/assets/images/avatar1.webp",
-    "src/assets/images/avatar2.webp",
-    "src/assets/images/avatar3.webp",
-    "src/assets/images/avatar4.webp",
-    "src/assets/images/avatar5.webp",
-    "src/assets/images/avatar6.webp",
+    "assets/images/avatar1.webp",
+    "assets/images/avatar2.webp",
+    "assets/images/avatar3.webp",
+    "assets/images/avatar4.webp",
+    "assets/images/avatar5.webp",
+    "assets/images/avatar6.webp",
   ];
 
   const passwordRules = [

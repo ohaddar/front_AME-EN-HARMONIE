@@ -48,7 +48,7 @@ describe("TestComponent", () => {
 
     const section = screen.getByTestId("styled-section");
     expect(section).toHaveStyle(
-      'background-image: url("src/assets/images/back-test.jpeg")',
+      'background-image: url("assets/images/back-test.jpeg")',
     );
   });
 });
