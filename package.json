@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "start": "node dist/server.js",
     "preview": "vite preview",
     "test": "vitest",
     "lint": "eslint 'src/**/*.{ts,tsx}'",
@@ -29,6 +30,7 @@
     "crypto-js": "^4.2.0",
     "dompurify": "^3.2.4",
     "draft-js": "^0.11.7",
+    "express": "^4.21.2",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "quill": "^2.0.2",
@@ -56,6 +58,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/crypto-js": "^4.2.2",
     "@types/draft-js": "^0.11.18",
+    "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/js-cookie": "^3.0.6",
     "@types/react": "^18.3.18",
