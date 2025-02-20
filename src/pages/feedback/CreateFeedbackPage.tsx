@@ -228,7 +228,16 @@ export const CreateFeedbackPage: React.FC = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
-            <StyledQuill ref={quillRef} value={content} onChange={setContent} />
+            <div>
+              <label htmlFor="quillContent">Content</label>
+
+              <StyledQuill
+                ref={quillRef}
+                value={content}
+                onChange={setContent}
+                data-test-id="textbox"
+              />
+            </div>
             <Button type="submit" variant="contained" color="primary">
               Envoyer mon retour expérience
             </Button>
