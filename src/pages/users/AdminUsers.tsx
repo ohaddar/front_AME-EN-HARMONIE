@@ -31,7 +31,7 @@ const AdminUsers = () => {
       }
     };
     fetchUsersData();
-  }, []);
+  }, [apiClient]);
 
   return (
     <>

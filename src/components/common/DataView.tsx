@@ -3,7 +3,7 @@ import Paper from "@mui/material/Paper";
 
 const paginationModel = { page: 0, pageSize: 5 };
 
-interface DataViewProps<T> {
+export interface DataViewProps<T> {
   cols: Array<{
     field: string;
     headerName: string;
