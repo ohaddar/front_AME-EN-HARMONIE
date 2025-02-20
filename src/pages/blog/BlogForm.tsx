@@ -115,11 +115,12 @@ const BlogForm = () => {
           onChange={handleChange}
         />
         <FormControl fullWidth>
-          <InputLabel>Catégorie</InputLabel>
+          <InputLabel htmlFor="category-select">Catégorie</InputLabel>
           <Select
             value={blog.category}
             onChange={handleCategoryChange}
             label="Catégorie"
+            inputProps={{ "data-testid": "category-select" }}
           >
             {categoryOptions.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -139,6 +140,7 @@ const BlogForm = () => {
           ref={quillRef}
           value={blog.content}
           onChange={(value: string) => setBlog({ ...blog, content: value })}
+          data-testid="quill-editor"
         />
         <Button variant="contained" color="primary" type="submit">
           {blogId ? "Modifier" : "Créer"}
