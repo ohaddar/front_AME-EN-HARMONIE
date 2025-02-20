@@ -31,8 +31,9 @@ const data = [
 const AdminHome = () => {
   return (
     <>
-      <Title>Statiques</Title>
+      <Title>Statistiques</Title>
       <Paper
+        data-testid="PaperContainer"
         sx={{
           width: "80%",
           maxWidth: 1200,
@@ -44,6 +45,7 @@ const AdminHome = () => {
       >
         <ScatterChart
           height={300}
+          data-testid="ScatterChart"
           series={[
             {
               label: "Series A",
