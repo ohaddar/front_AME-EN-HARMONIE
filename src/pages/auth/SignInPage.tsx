@@ -67,7 +67,7 @@ const SignInPage: React.FC = () => {
   }, [currentUser, navigate]);
 
   return (
-    <Container component="main">
+    <Container component="main" data-testid="sign-in-form">
       <Box
         sx={{
           marginTop: 8,
