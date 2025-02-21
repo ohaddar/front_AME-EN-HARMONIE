@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Question, Result, TestResult } from "../types/types";
 import { useAuth } from "../contexts/AuthContext";
 import ApiClient from "../api/apiClient";
@@ -9,7 +9,9 @@ export const useQuestionnaire = () => {
   const [questionnaireId, setQuestionnaireId] = useState<string | null>(null);
   const [results, setResults] = useState<Result[]>([]);
   const [userResults, setUserResults] = useState<TestResult[]>([]);
-
+  const [resultMessage, setResultMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const { currentUser } = useAuth();
   const apiClient = ApiClient();
 
   const {
@@ -20,16 +22,10 @@ export const useQuestionnaire = () => {
     setError,
   } = QuestionnaireApi();
 
-  const [resultMessage, setResultMessage] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const { currentUser } = useAuth();
+  const initialLoadDone = useRef(false);
+
   useEffect(() => {
-    const loadQuestionnaire = () => {
-      if (!questionnaire) {
-        console.error("Questionnaire is not loaded yet");
-        setError("Questionnaire data is still loading.");
-        return;
-      }
+    if (!initialLoadDone.current && questionnaire) {
       try {
         setQuestionnaireId(questionnaire.id);
 
@@ -44,9 +40,7 @@ export const useQuestionnaire = () => {
       } finally {
         setLoading(false);
       }
-    };
-    if (questionnaire) {
-      loadQuestionnaire();
+      initialLoadDone.current = true;
     }
   }, [questionnaire]);
 
@@ -92,6 +86,7 @@ export const useQuestionnaire = () => {
       }
     }
   };
+
   const getResults = async (): Promise<Result[]> => {
     try {
       const response = await apiClient.get<Result[]>("/results/all");
@@ -102,6 +97,7 @@ export const useQuestionnaire = () => {
       return [];
     }
   };
+
   const fetchUserResults = async () => {
     try {
       const response = await apiClient.get<Result[]>("/results/user");
@@ -118,7 +114,7 @@ export const useQuestionnaire = () => {
       setResults(data);
     };
     if (currentUser?.role === "ADMIN") loadData();
-  }, [currentUser]);
+  }, [currentUser?.id]);
 
   return {
     currentQuestion,

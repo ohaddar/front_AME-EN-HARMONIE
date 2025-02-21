@@ -2,6 +2,7 @@ import { renderHook, act } from "@testing-library/react-hooks";
 import { vi, describe, it, expect, beforeEach } from "vitest";
 import { useQuestionnaire } from "../hooks/useQuestionnaire";
 import { Question, Result } from "../types/types";
+import { waitFor } from "@testing-library/dom";
 
 const getMock = vi.fn();
 const postMock = vi.fn();
@@ -36,6 +37,7 @@ vi.mock("../contexts/AuthContext", () => ({
 describe("useQuestionnaire hook", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    getMock.mockResolvedValue({ data: [] });
   });
 
   it("loads initial questionnaire and sets currentQuestion on mount", async () => {
@@ -47,11 +49,9 @@ describe("useQuestionnaire hook", () => {
     };
     findQuestionByIdMock.mockReturnValue(dummyQuestion);
 
-    const { result, waitForNextUpdate } = renderHook(() => useQuestionnaire());
-    await waitForNextUpdate();
-
+    const { result } = renderHook(() => useQuestionnaire());
+    await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.currentQuestion).toEqual(dummyQuestion);
-    expect(result.current.loading).toBe(false);
   });
 
   it("does not load questionnaire when questionnaire is null", async () => {
@@ -84,14 +84,15 @@ describe("useQuestionnaire hook", () => {
     fetchNextQuestionByIdMock.mockReturnValue("You are awesome!");
     postMock.mockResolvedValueOnce({ status: 200 });
 
-    const { result, waitForNextUpdate } = renderHook(() => useQuestionnaire());
-    await waitForNextUpdate();
+    const { result } = renderHook(() => useQuestionnaire());
+    await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.currentQuestion).toEqual(dummyQuestion);
 
     await act(async () => {
       await result.current.handleAnswer("any answer");
     });
 
+    await waitFor(() => expect(result.current.currentQuestion).toBeNull());
     expect(postMock).toHaveBeenCalledWith(
       "/results/save",
       expect.objectContaining({
@@ -101,7 +102,6 @@ describe("useQuestionnaire hook", () => {
       }),
     );
     expect(result.current.resultMessage).toBe("You are awesome!");
-    expect(result.current.currentQuestion).toBeNull();
   });
 
   it("handleAnswer sets next question when fetchNextQuestionById returns a question object", async () => {
@@ -120,14 +120,15 @@ describe("useQuestionnaire hook", () => {
     findQuestionByIdMock.mockReturnValue(dummyQuestion);
     fetchNextQuestionByIdMock.mockReturnValue(nextQuestion);
 
-    const { result, waitForNextUpdate } = renderHook(() => useQuestionnaire());
-    await waitForNextUpdate();
+    const { result } = renderHook(() => useQuestionnaire());
+    await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.currentQuestion).toEqual(dummyQuestion);
 
     await act(async () => {
       await result.current.handleAnswer("any answer");
     });
 
+    await waitFor(() => expect(result.current.currentQuestion?.id).toBe("0.2"));
     expect(result.current.currentQuestion).toEqual(nextQuestion);
     expect(result.current.resultMessage).toBeNull();
   });
@@ -144,10 +145,10 @@ describe("useQuestionnaire hook", () => {
     ];
     getMock.mockResolvedValueOnce({ data: dummyResults });
 
-    const { result, waitForNextUpdate } = renderHook(() => useQuestionnaire());
-    await waitForNextUpdate();
-    await waitForNextUpdate();
-
+    const { result } = renderHook(() => useQuestionnaire());
+    await waitFor(() =>
+      expect(result.current.results.length).toBeGreaterThan(0),
+    );
     expect(result.current.results).toEqual(dummyResults);
   });
 
@@ -161,25 +162,28 @@ describe("useQuestionnaire hook", () => {
         questionnaireId: "questionnaire-1",
       },
     ];
-    getMock.mockResolvedValueOnce({ data: userResultsData });
+
+    getMock
+      .mockResolvedValueOnce({ data: [] })
+      .mockResolvedValueOnce({ data: userResultsData });
 
     const { result } = renderHook(() => useQuestionnaire());
-
     await act(async () => {
       await result.current.fetchUserResults();
     });
-
+    await waitFor(() =>
+      expect(result.current.userResults.length).toBeGreaterThan(0),
+    );
     expect(result.current.userResults).toEqual(userResultsData);
   });
 
   it("handles error when fetching results for admin user", async () => {
     getMock.mockRejectedValueOnce(new Error("Fetch error"));
 
-    const { result, waitForNextUpdate } = renderHook(() => useQuestionnaire());
-    await waitForNextUpdate();
-    await waitForNextUpdate();
-
-    expect(result.current.results).toEqual([]);
-    expect(setErrorMock).toHaveBeenCalledWith("Error fetching results.");
+    const { result } = renderHook(() => useQuestionnaire());
+    await waitFor(() => {
+      expect(result.current.results).toEqual([]);
+      expect(setErrorMock).toHaveBeenCalledWith("Error fetching results.");
+    });
   });
 });

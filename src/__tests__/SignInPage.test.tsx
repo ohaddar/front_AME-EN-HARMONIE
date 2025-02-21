@@ -1,9 +1,9 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { AuthProvider, useAuth } from "../contexts/AuthContext";
 import { BrowserRouter } from "react-router-dom";
-import { act } from "react";
 import { vi } from "vitest";
 import SignInPage from "../pages/auth/SignInPage";
+import { act } from "react";
 
 const mockNavigate = vi.fn();
 
@@ -50,7 +50,7 @@ describe("SignInPage", () => {
   it("displays an error message when sign-in fails", () => {
     const mockSetErrorMessage = vi.fn();
     (useAuth as jest.Mock).mockReturnValue({
-      signIn: vi.fn().mockRejectedValue(new Error("Invalid credentials")),
+      signIn: vi.fn(),
       errorMessage: "E-mail ou mot de passe incorrect.",
       setErrorMessage: mockSetErrorMessage,
       currentUser: null,

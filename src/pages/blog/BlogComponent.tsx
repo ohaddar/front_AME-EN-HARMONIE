@@ -176,9 +176,6 @@ const BlogComponent: React.FC = () => {
   }, [blogs]);
 
   const handleReadMore = (id: number | undefined) => {
-    // eslint-disable-next-line no-console
-    console.log("handleReadMore called with id:", id);
-
     const path =
       currentUser?.role === "ADMIN"
         ? `/admin/blog-details/${id}`

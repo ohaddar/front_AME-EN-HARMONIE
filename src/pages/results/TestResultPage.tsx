@@ -79,7 +79,7 @@ const TestResultPage: React.FC = () => {
       await fetchUserResults();
     };
     fetchResults();
-  }, [fetchUserResults]);
+  }, []);
 
   return (
     <Container>
