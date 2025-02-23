@@ -75,12 +75,17 @@ const AccountSidebarPreview = (
 
 const SidebarFooterAccountPopover = () => {
   const { signOut } = useAuth();
+  const navigate = useNavigate();
+  const handleSignOut = () => {
+    navigate("/");
+    signOut();
+  };
 
   return (
     <Stack direction="column">
       <Divider />
       <AccountPopoverFooter>
-        <Button onClick={() => signOut()}>Se déconnecter</Button>
+        <Button onClick={handleSignOut}>Se déconnecter</Button>
       </AccountPopoverFooter>
     </Stack>
   );

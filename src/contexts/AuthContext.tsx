@@ -49,9 +49,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       console.error("Error during signin:", err);
       if (axios.isAxiosError(err)) {
         setErrorMessage(
-          err.response?.status === 401
+          err.response?.status === 400
             ? "E-mail ou mot de passe incorrect."
-            : "Une erreur est survenue lors de la connexion.",
+            : err.response?.status === 429
+              ? "Votre accès est temporairement bloqué. Veuillez réessayer plus tard."
+              : "Une erreur est survenue lors de la connexion.",
         );
       }
     } finally {
@@ -134,12 +136,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
   const signOut = () => {
     if (window.confirm("Êtes-vous sûr de vouloir vous déconnecter ?")) {
-      setLoading(true);
-      setTimeout(() => {
-        setCurrentUser(null);
-        Cookies.remove("auth_token");
-        setLoading(false);
-      }, 1000);
+      setCurrentUser(null);
+      Cookies.remove("auth_token");
     }
   };
 

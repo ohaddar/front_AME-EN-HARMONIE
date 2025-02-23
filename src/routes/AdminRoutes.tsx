@@ -8,6 +8,7 @@ import FeedbackDetails from "../pages/feedback/FeedbackDetails";
 import AdminResults from "../pages/results/AdminResults";
 import AdminFeedback from "../pages/feedback/AdminFeedback";
 import AdminUsers from "../pages/users/AdminUsers";
+import NotFound from "../pages/NotFound";
 
 const AdminRoutes = (
   <Route path="/admin" element={<RootAdmin />}>
@@ -20,6 +21,7 @@ const AdminRoutes = (
     <Route path="bilans" element={<AdminResults />} />
     <Route path="feedbacks" element={<AdminFeedback />} />
     <Route path="users" element={<AdminUsers />} />
+    <Route path="*" element={<NotFound />} />
   </Route>
 );
 

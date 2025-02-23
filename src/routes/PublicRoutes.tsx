@@ -6,6 +6,7 @@ import SignUpPage from "../pages/auth/SignUpPage";
 import About from "../pages/About";
 import ResetPasswordPage from "../pages/auth/ResetPasswordPage";
 import PrivacyPolicy from "../components/common/privacy-policy";
+import NotFound from "../pages/NotFound";
 
 const PublicRoutes = (
   <Route path="/" element={<Root />}>
@@ -13,8 +14,11 @@ const PublicRoutes = (
     <Route path="connect" element={<SignInPage />} />
     <Route path="sign-up" element={<SignUpPage />} />
     <Route path="about" element={<About />} />
+    <Route path="bilan" element={<SignInPage />} />
+    <Route path="blog" element={<SignInPage />} />
     <Route path="reset-password" element={<ResetPasswordPage />} />
     <Route path="privacy-policy" element={<PrivacyPolicy />} />
+    <Route path="*" element={<NotFound />} />
   </Route>
 );
 

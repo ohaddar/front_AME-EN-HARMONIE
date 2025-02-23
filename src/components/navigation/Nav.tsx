@@ -59,6 +59,11 @@ const Nav: React.FC = () => {
     setMobileMenuOpen(false);
   };
 
+  const handleSignOut = () => {
+    signOut();
+    navigate("/");
+  };
+
   return (
     <AppBar position="static" color="default">
       <Container>
@@ -76,7 +81,7 @@ const Nav: React.FC = () => {
           />
           <DesktopNav
             currentUser={currentUser}
-            signOut={signOut}
+            signOut={handleSignOut}
             pages={getPages()}
             onMenuItemClick={handleMenuItemClick}
           />
@@ -101,7 +106,7 @@ const Nav: React.FC = () => {
           />
         )}
         currentUser={currentUser}
-        handleLogout={signOut}
+        handleLogout={handleSignOut}
       />
     </AppBar>
   );
