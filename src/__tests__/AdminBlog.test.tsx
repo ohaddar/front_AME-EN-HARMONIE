@@ -34,7 +34,7 @@ describe("AdminBlogs", () => {
         {
           id: 1,
           title: "Test Blog",
-          category: "Tech",
+          category: "TOC",
           creationDate: new Date(),
           content: "Test Content",
         },
@@ -55,7 +55,7 @@ describe("AdminBlogs", () => {
 
     expect(screen.getByText("Articles")).toBeInTheDocument();
     expect(screen.getByText("Test Blog")).toBeInTheDocument();
-    expect(screen.getByText("Tech")).toBeInTheDocument();
+    expect(screen.getByText("TOC")).toBeInTheDocument();
   });
 
   it("calls navigate on edit click", () => {
@@ -64,7 +64,7 @@ describe("AdminBlogs", () => {
         {
           id: 1,
           title: "Test Blog",
-          category: "Tech",
+          category: "TOC",
           creationDate: new Date(),
           content: "Test Content",
         },
@@ -94,7 +94,7 @@ describe("AdminBlogs", () => {
         {
           id: 1,
           title: "Test Blog",
-          category: "Tech",
+          category: "TOC",
           creationDate: new Date(),
           content: "Test Content",
         },
@@ -127,7 +127,7 @@ describe("AdminBlogs", () => {
         {
           id: 1,
           title: "Test Blog",
-          category: "Tech",
+          category: "TOC",
           creationDate: new Date(),
           content: "Test Content",
         },

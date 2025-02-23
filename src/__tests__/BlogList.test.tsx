@@ -14,7 +14,7 @@ const mockBlogs = [
     title: "Test Blog 1",
     content: "This is a test blog content 1.",
     creationDate: new Date().toString(),
-    category: "Tech",
+    category: "TOC",
     imageUrl: "https://via.placeholder.com/150",
   },
   {
@@ -22,7 +22,7 @@ const mockBlogs = [
     title: "Test Blog 2",
     content: "This is a test blog content 2.",
     creationDate: new Date().toString(),
-    category: "Health",
+    category: "DEPRESSION",
     imageUrl: "https://via.placeholder.com/150",
   },
 ];
@@ -126,9 +126,9 @@ describe("BlogsList Component", () => {
       </MemoryRouter>,
     );
 
-    const categoryBadge = screen.getByText(/Tech/i);
+    const categoryBadge = screen.getByText(/TOC/i);
     fireEvent.click(categoryBadge);
 
-    expect(filterByCategoryMock).toHaveBeenCalledWith("Tech");
+    expect(filterByCategoryMock).toHaveBeenCalledWith("TOC");
   });
 });

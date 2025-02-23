@@ -31,7 +31,7 @@ const mockBlogs = [
     content:
       "Lorem ipsum dolor sit amet consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     creationDate: "2023-01-01T00:00:00.000Z",
-    category: "Tech",
+    category: "TOC",
   },
   {
     id: 2,
@@ -40,7 +40,7 @@ const mockBlogs = [
     content:
       "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     creationDate: "2023-01-02T00:00:00.000Z",
-    category: "Health",
+    category: "DEPRESSION",
   },
   {
     id: 3,
@@ -49,7 +49,7 @@ const mockBlogs = [
     content:
       "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
     creationDate: "2023-01-03T00:00:00.000Z",
-    category: "Finance",
+    category: "TOC",
   },
 ];
 

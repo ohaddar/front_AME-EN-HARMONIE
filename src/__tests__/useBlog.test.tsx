@@ -39,7 +39,7 @@ describe("useBlog hook", () => {
       {
         id: 1,
         title: "Blog 1",
-        category: "Tech",
+        category: "TOC",
         content: "Content 1",
         creationDate: "2025-02-17T00:00:00.000Z",
       },
@@ -57,7 +57,7 @@ describe("useBlog hook", () => {
     const blogDetail = {
       id: 1,
       title: "Blog Detail",
-      category: "Tech",
+      category: "TOC",
       content: "Detailed Content",
       creationDate: "2025-02-17T00:00:00.000Z",
     };
@@ -94,7 +94,7 @@ describe("useBlog hook", () => {
   it("saves a new blog (creation)", async () => {
     const newBlog: Blog = {
       title: "<b>New Blog</b>",
-      category: "Tech",
+      category: "TOC",
       content: "<p>Some <i>content</i></p>",
       creationDate: new Date(),
       image: undefined,
@@ -116,7 +116,7 @@ describe("useBlog hook", () => {
     const existingBlog: Blog = {
       id: 1,
       title: "Existing Blog",
-      category: "Tech",
+      category: "TOC",
       content: "Original Content",
       creationDate: new Date(),
       image: undefined,
@@ -141,7 +141,7 @@ describe("useBlog hook", () => {
       {
         id: 1,
         title: "Blog to Delete",
-        category: "Tech",
+        category: "TOC",
         content: "Content",
         creationDate: "2025-02-17T00:00:00.000Z",
       },
@@ -169,7 +169,7 @@ describe("useBlog hook", () => {
       {
         id: 2,
         title: "Filtered Blog",
-        category: "Tech",
+        category: "TOC",
         content: "Filtered Content",
         creationDate: "2025-02-17T00:00:00.000Z",
       },
@@ -177,7 +177,7 @@ describe("useBlog hook", () => {
     getMock.mockResolvedValueOnce({ data: filteredBlogs, status: 200 });
 
     await act(async () => {
-      await result.current.filterByCategory("Tech");
+      await result.current.filterByCategory("TOC");
     });
 
     expect(result.current.blogs).toEqual(filteredBlogs);
@@ -186,7 +186,7 @@ describe("useBlog hook", () => {
   it("sanitizes blog data when saving a new blog", async () => {
     const newBlog: Blog = {
       title: "<b>Sanitized Title</b>",
-      category: "Tech",
+      category: "TOC",
       content: "<p>Sanitized Content</p>",
       creationDate: new Date(),
       image: undefined,
