@@ -9,13 +9,17 @@ import { Title } from "../users/AdminUsers";
 const AdminFeedback = () => {
   const { feedbacks } = useFeedback();
   const navigate = useNavigate();
-
+  const formattedFeedbacks = feedbacks.map((feedback) => ({
+    ...feedback,
+    userId: feedback.user?.firstname ?? "N/A",
+  }));
   const cols = [
     { field: "id", headerName: "ID", width: "70" },
     { field: "title", headerName: "Titre", width: "300" },
     { field: "content", headerName: "Contenu", width: "500" },
     { field: "publicationDate", headerName: "Date de création", width: "200" },
-    { field: "user", headerName: "Utilisateur", width: "200" },
+    { field: "userId", headerName: "Utilisateur", width: "200" },
+
     {
       field: "actions",
       headerName: "Actions",
@@ -41,7 +45,7 @@ const AdminFeedback = () => {
   return (
     <>
       <Title>Retours utilisateurs</Title>
-      <DataView data={feedbacks} cols={cols} />
+      <DataView data={formattedFeedbacks} cols={cols} />
     </>
   );
 };

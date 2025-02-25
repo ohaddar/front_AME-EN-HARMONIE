@@ -21,9 +21,9 @@ const AdminUsers = () => {
         setUsers(response.data);
         setCols([
           { field: "id", headerName: "ID", width: "70" },
-          { field: "firstName", headerName: "Prénom", width: "100" },
-          { field: "lastName", headerName: "Nom", width: "100" },
-          { field: "Email", headerName: "Email", width: "200" },
+          { field: "firstname", headerName: "Prénom", width: "100" },
+          { field: "lastname", headerName: "Nom", width: "100" },
+          { field: "email", headerName: "Email", width: "200" },
         ]);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -31,7 +31,7 @@ const AdminUsers = () => {
       }
     };
     fetchUsersData();
-  }, [apiClient]);
+  }, []);
 
   return (
     <>
