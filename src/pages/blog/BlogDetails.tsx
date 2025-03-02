@@ -102,8 +102,11 @@ const BlogDetails: React.FC = () => {
     <BlogDetailContainer>
       <BlogTitle>{blogDetails.title}</BlogTitle>
 
-      {blogDetails.imageUrl && (
-        <BlogImage src={blogDetails.imageUrl} alt={blogDetails.title} />
+      {blogDetails.imageBlob && (
+        <BlogImage
+          src={`data:image/jpeg;base64,${blogDetails.imageBlob}`}
+          alt={blogDetails.title}
+        />
       )}
 
       <BlogMeta>

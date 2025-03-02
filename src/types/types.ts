@@ -44,6 +44,7 @@ export interface Blog {
   creationDate?: Date;
   category?: string;
   image?: File;
+  imageBlob?: string;
   imageUrl?: string;
 }
 export interface MenuItemLinkProps {

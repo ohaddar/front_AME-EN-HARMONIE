@@ -197,7 +197,10 @@ const BlogComponent: React.FC = () => {
           publicBlogs?.map((blog) => (
             <Grid key={blog.id} size={{ xs: 12, sm: 12, md: 4 }}>
               <BlogCard>
-                <BlogImage src={blog.imageUrl} alt={blog.title} />
+                <BlogImage
+                  src={`data:image/jpeg;base64,${blog.imageBlob}`}
+                  alt={blog.title}
+                />
                 <BlogContent>
                   <BlogTitle>{blog.title}</BlogTitle>
                   <BlogExcerpt>

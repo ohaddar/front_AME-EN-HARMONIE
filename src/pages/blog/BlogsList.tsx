@@ -220,7 +220,10 @@ const BlogsList: React.FC = () => {
       <BlogGrid>
         {blogs.map((blog, index) => (
           <BlogCard key={index}>
-            <BlogImage src={blog.imageUrl} alt={blog.title} />
+            <BlogImage
+              src={`data:image/jpeg;base64,${blog.imageBlob}`}
+              alt={blog.title}
+            />
             <MetaInfo>
               <DateText>
                 {blog.creationDate
