@@ -1,14 +1,6 @@
 import React, { useEffect } from "react";
 import { styled } from "@mui/material/styles";
-import {
-  Box,
-  Typography,
-  Alert,
-  Button,
-  IconButton,
-  Paper,
-} from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Box, Typography, Alert, Button, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import DataView from "../../components/common/DataView";
 import { useQuestionnaire } from "../../hooks/useQuestionnaire";
@@ -62,16 +54,6 @@ const TestResultPage: React.FC = () => {
   const cols = [
     { field: "datetime", headerName: "Datetime", width: "120" },
     { field: "description", headerName: "Description", width: "600" },
-    {
-      field: "actions",
-      headerName: "Actions",
-      width: "80",
-      renderCell: () => (
-        <IconButton color="info" size="small">
-          <DeleteIcon />
-        </IconButton>
-      ),
-    },
   ];
 
   useEffect(() => {

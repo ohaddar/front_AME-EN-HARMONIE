@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useContext } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import ReactQuill from "react-quill-new";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -15,7 +15,6 @@ import {
 import styled from "styled-components";
 import { useBlog } from "../../hooks/useBlog";
 import { Blog } from "../../types/types";
-import { LoadingContext } from "../../contexts/LoadingContext";
 
 interface Option {
   value: string;
@@ -30,7 +29,7 @@ const BlogForm = () => {
   const { fetchBlogDetails, saveBlog, warningMessage } = useBlog();
   const { blogId } = useParams();
 
-  const { setLoading, loading } = useContext(LoadingContext);
+  const [loading, setLoading] = useState<boolean>(true);
   const [blog, setBlog] = useState<Blog>({
     title: "",
     category: "",
@@ -61,25 +60,44 @@ const BlogForm = () => {
   }));
 
   useEffect(() => {
-    if (blogId) {
-      const fetchData = async () => {
-        const id = parseInt(blogId);
+    let isMounted = true;
+    setLoading(true);
+
+    const fetchData = async () => {
+      if (!blogId) {
+        if (isMounted) {
+          setBlog({
+            title: "",
+            category: "",
+            image: undefined,
+            content: "",
+          });
+          setLoading(false);
+        }
+        return;
+      }
+
+      try {
+        const id = parseInt(blogId, 10);
         const response = await fetchBlogDetails(id);
-        if (response !== undefined) {
+
+        if (isMounted && response !== undefined) {
           setBlog(response);
         }
-        setLoading(false);
-      };
-      fetchData();
-    } else {
-      setBlog({
-        title: "",
-        category: "",
-        image: undefined,
-        content: "",
-      });
-      setLoading(false);
-    }
+      } catch (error) {
+        console.error("Error fetching blog details:", error);
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      isMounted = false;
+    };
   }, [blogId]);
 
   const handleCategoryChange = (event: SelectChangeEvent<string>) => {
