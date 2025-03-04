@@ -14,7 +14,8 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 const ValidationIcon = styled.span<{ valid: boolean }>`
   margin-right: 5px;
@@ -43,7 +44,8 @@ const Copyright = (props: React.ComponentProps<typeof Typography>) => {
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const SignUpPage = () => {
-  const { signUp, successMessage, errorMessage, setErrorMessage } = useAuth();
+  const { signUp, successMessage, errorMessage, currentUser, setErrorMessage } =
+    useAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [firstname, setFirstname] = useState<string>("");
@@ -53,6 +55,8 @@ const SignUpPage = () => {
   const [isPasswordFocused, setIsPasswordFocused] = useState<boolean>(false);
 
   const isEmailValid = (email: string) => emailRegex.test(email);
+
+  const navigate = useNavigate();
 
   const avatars: string[] = [
     "assets/images/avatar1.webp",
@@ -110,6 +114,14 @@ const SignUpPage = () => {
       valid: rule.regex.test(password),
     }));
   };
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate(currentUser.role === "ADMIN" ? "/admin" : "/user", {
+        replace: true,
+      });
+    }
+  }, [currentUser, navigate]);
 
   return (
     <Container component="main" maxWidth="xs">
