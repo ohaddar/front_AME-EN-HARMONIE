@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render, fireEvent, screen } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router-dom";
 import SignUpPage from "../pages/auth/SignUpPage";
 import { AuthProvider, useAuth } from "../contexts/AuthContext";
 
@@ -25,11 +25,11 @@ describe("SignUpPage", () => {
 
   it("renders the sign-up form", () => {
     render(
-      <BrowserRouter>
+      <MemoryRouter>
         <AuthProvider>
           <SignUpPage />
         </AuthProvider>
-      </BrowserRouter>,
+      </MemoryRouter>,
     );
 
     const firstNameInputs = screen.getAllByLabelText(/Prénom/i);
@@ -57,11 +57,11 @@ describe("SignUpPage", () => {
     });
 
     render(
-      <BrowserRouter>
+      <MemoryRouter>
         <AuthProvider>
           <SignUpPage />
         </AuthProvider>
-      </BrowserRouter>,
+      </MemoryRouter>,
     );
 
     const submitButton = screen.getByRole("button", {
@@ -90,11 +90,11 @@ describe("SignUpPage", () => {
     });
 
     render(
-      <BrowserRouter>
+      <MemoryRouter>
         <AuthProvider>
           <SignUpPage />
         </AuthProvider>
-      </BrowserRouter>,
+      </MemoryRouter>,
     );
 
     const firstNameInputs = screen.getAllByLabelText(/Prénom/i);
@@ -135,11 +135,11 @@ describe("SignUpPage", () => {
     });
 
     render(
-      <BrowserRouter>
+      <MemoryRouter>
         <AuthProvider>
           <SignUpPage />
         </AuthProvider>
-      </BrowserRouter>,
+      </MemoryRouter>,
     );
 
     const firstNameInputs = screen.getAllByLabelText(/Prénom/i);
@@ -171,11 +171,11 @@ describe("SignUpPage", () => {
 
   it("allows avatar selection", () => {
     render(
-      <BrowserRouter>
+      <MemoryRouter>
         <AuthProvider>
           <SignUpPage />
         </AuthProvider>
-      </BrowserRouter>,
+      </MemoryRouter>,
     );
 
     const avatars = screen.getAllByRole("img");
