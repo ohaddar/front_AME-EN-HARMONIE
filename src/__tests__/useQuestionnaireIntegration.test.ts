@@ -122,10 +122,10 @@ describe("useQuestionnaire integration tests", () => {
   it("fetches results for admin user on mount", async () => {
     const dummyResults: Result[] = [
       {
-        id: 1,
+        id: "1",
         description: "Result 1",
         datetime: "2025-02-17T00:00:00.000Z",
-        user: { id: 1, firstname: "John", lastname: "Doe" },
+        user: { id: "1", firstname: "John", lastname: "Doe" },
         questionnaireId: "questionnaire-1",
       },
     ];

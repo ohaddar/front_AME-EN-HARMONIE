@@ -62,7 +62,7 @@ describe("Integration tests for useBlog hook", () => {
 
     let fetchedBlog: Blog = {} as Blog;
     await act(async () => {
-      fetchedBlog = await result.current.fetchBlogDetails(1);
+      fetchedBlog = await result.current.fetchBlogDetails("1");
     });
 
     expect(fetchedBlog).toEqual(blogDetail);
@@ -75,7 +75,7 @@ describe("Integration tests for useBlog hook", () => {
 
     await act(async () => {
       try {
-        await result.current.fetchBlogDetails(1);
+        await result.current.fetchBlogDetails("1");
       } catch (error) {
         // Error
       }
@@ -108,7 +108,7 @@ describe("Integration tests for useBlog hook", () => {
 
   it("should update an existing blog", async () => {
     const existingBlog: Blog = {
-      id: 1,
+      id: "1",
       title: "Updated Blog",
       category: "TOC",
       content: "Updated Content",
@@ -133,7 +133,7 @@ describe("Integration tests for useBlog hook", () => {
   it("should delete a blog", async () => {
     const initialBlogs = [
       {
-        id: 1,
+        id: "1",
         title: "Blog to Delete",
         category: "TOC",
         content: "Content",
@@ -149,7 +149,7 @@ describe("Integration tests for useBlog hook", () => {
     expect(result.current.blogs).toHaveLength(1);
 
     await act(async () => {
-      await result.current.deleteBlog(1);
+      await result.current.deleteBlog("1");
     });
 
     expect(result.current.blogs).toHaveLength(0);
@@ -219,7 +219,7 @@ describe("Integration tests for useBlog hook", () => {
     const { result } = renderHook(() => useBlog());
 
     await act(async () => {
-      await result.current.deleteBlog(1);
+      await result.current.deleteBlog("1");
     });
 
     expect(result.current.warningMessage).toBe("");

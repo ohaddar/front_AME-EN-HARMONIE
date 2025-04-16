@@ -38,7 +38,7 @@ describe("AdminResults", () => {
         {
           datetime: "2025-02-17T10:00:00",
           user: {
-            id: 0,
+            id: "0",
             firstname: "John",
             lastname: "Doe",
           },

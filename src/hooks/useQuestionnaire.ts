@@ -52,7 +52,7 @@ export const useQuestionnaire = () => {
       if (typeof next === "string") {
         const resultMessage = next;
         const testResult = {
-          id: 13,
+          id: "13",
           description: resultMessage,
           datetime: new Date().toISOString(),
           user: {

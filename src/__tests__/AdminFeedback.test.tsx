@@ -31,7 +31,7 @@ describe("AdminFeedback", () => {
     vi.mocked(useFeedback).mockReturnValue({
       feedbacks: [
         {
-          id: 1,
+          id: "1",
           title: "Test Feedback",
           content: "This is a test feedback",
           publicationDate: new Date(),
@@ -65,7 +65,7 @@ describe("AdminFeedback", () => {
     vi.mocked(useFeedback).mockReturnValue({
       feedbacks: [
         {
-          id: 1,
+          id: "1",
           title: "Test Feedback",
           content: "This is a test feedback",
           publicationDate: new Date(),

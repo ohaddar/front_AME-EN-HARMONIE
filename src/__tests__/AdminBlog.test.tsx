@@ -32,7 +32,7 @@ describe("AdminBlogs", () => {
     vi.mocked(useBlog).mockReturnValue({
       blogs: [
         {
-          id: 1,
+          id: "1",
           title: "Test Blog",
           category: "TOC",
           creationDate: new Date(),
@@ -62,7 +62,7 @@ describe("AdminBlogs", () => {
     vi.mocked(useBlog).mockReturnValue({
       blogs: [
         {
-          id: 1,
+          id: "1",
           title: "Test Blog",
           category: "TOC",
           creationDate: new Date(),
@@ -92,7 +92,7 @@ describe("AdminBlogs", () => {
     vi.mocked(useBlog).mockReturnValue({
       blogs: [
         {
-          id: 1,
+          id: "1",
           title: "Test Blog",
           category: "TOC",
           creationDate: new Date(),
@@ -125,7 +125,7 @@ describe("AdminBlogs", () => {
     vi.mocked(useBlog).mockReturnValue({
       blogs: [
         {
-          id: 1,
+          id: "1",
           title: "Test Blog",
           category: "TOC",
           creationDate: new Date(),
@@ -148,6 +148,6 @@ describe("AdminBlogs", () => {
 
     const deleteButton = screen.getByTestId("delete-button-1");
     fireEvent.click(deleteButton);
-    expect(mockDeleteBlog).toHaveBeenCalledWith(1);
+    expect(mockDeleteBlog).toHaveBeenCalledWith("1");
   });
 });

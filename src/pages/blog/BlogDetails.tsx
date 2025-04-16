@@ -82,8 +82,7 @@ const BlogDetails: React.FC = () => {
   useEffect(() => {
     const fetchBlog = async (id: string) => {
       try {
-        const blogId = parseInt(id);
-        const blog = await fetchBlogDetails(blogId);
+        const blog = await fetchBlogDetails(id);
         setBlogDetails(blog);
       } catch (error) {
         console.error("Error fetching blog:", error);

@@ -68,7 +68,7 @@ describe("useBlog hook", () => {
 
     let fetchedBlog: Blog = {} as Blog;
     await act(async () => {
-      fetchedBlog = await result.current.fetchBlogDetails(1);
+      fetchedBlog = await result.current.fetchBlogDetails("1");
     });
 
     expect(fetchedBlog).toEqual(blogDetail);
@@ -82,7 +82,7 @@ describe("useBlog hook", () => {
 
     await act(async () => {
       try {
-        await result.current.fetchBlogDetails(1);
+        await result.current.fetchBlogDetails("1");
       } catch (error) {
         // error
       }
@@ -114,7 +114,7 @@ describe("useBlog hook", () => {
 
   it("updates an existing blog", async () => {
     const existingBlog: Blog = {
-      id: 1,
+      id: "1",
       title: "Existing Blog",
       category: "TOC",
       content: "Original Content",
@@ -139,7 +139,7 @@ describe("useBlog hook", () => {
   it("deletes a blog", async () => {
     const initialBlogs = [
       {
-        id: 1,
+        id: "1",
         title: "Blog to Delete",
         category: "TOC",
         content: "Content",
@@ -154,7 +154,7 @@ describe("useBlog hook", () => {
     expect(result.current.blogs).toHaveLength(1);
 
     await act(async () => {
-      await result.current.deleteBlog(1);
+      await result.current.deleteBlog("1");
     });
 
     expect(result.current.blogs).toHaveLength(0);

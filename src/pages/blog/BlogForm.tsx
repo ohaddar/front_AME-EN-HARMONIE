@@ -78,8 +78,7 @@ const BlogForm = () => {
       }
 
       try {
-        const id = parseInt(blogId, 10);
-        const response = await fetchBlogDetails(id);
+        const response = await fetchBlogDetails(blogId);
 
         if (isMounted && response !== undefined) {
           setBlog(response);
