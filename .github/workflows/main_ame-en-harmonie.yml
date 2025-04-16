@@ -69,9 +69,9 @@ jobs:
           az webapp config appsettings set \
             --name ame-en-harmonie \
             --resource-group rsg_ame-en-harmonie \
-            --settings "VITE_SECRET_KEY=${{ secrets.SECRET_KEY }}" "VITE_API_BASE_URL=${{ vars.API_BASE_URL }}" 
+            --settings "VITE_SECRET_KEY=${{ secrets.SECRET_KEY }}" "VITE_API_BASE_URL=${{ vars.API_BASE_URL }}"
 
-            # 🔹 Install serve globally
+      # 🔹 Install serve globally
       - name: Install serve
         run: npm install -g serve
 

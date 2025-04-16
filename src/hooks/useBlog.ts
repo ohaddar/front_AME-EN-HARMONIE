@@ -20,7 +20,7 @@ export const useBlog = () => {
     }
   };
 
-  const fetchBlogDetails = async (id: number): Promise<Blog> => {
+  const fetchBlogDetails = async (id: string): Promise<Blog> => {
     try {
       const response = await apiClient.get<Blog>(`/Blogs/${id}`);
       return response.data;
@@ -62,7 +62,7 @@ export const useBlog = () => {
         console.error("Error response:", error);
       }
     };
-    const updateBlog = async (blogId: number) => {
+    const updateBlog = async (blogId: string) => {
       try {
         const response = await apiClient.put<FormData, FormData>(
           `/Blogs/update/${blogId}`,
@@ -85,7 +85,7 @@ export const useBlog = () => {
     }
   };
 
-  const deleteBlog = async (blogId: number) => {
+  const deleteBlog = async (blogId: string) => {
     try {
       const response = await apiClient.delete<Blog>(`/Blogs/${blogId}`);
 

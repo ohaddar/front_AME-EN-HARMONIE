@@ -39,7 +39,7 @@ const AdminFeedback = () => {
     },
   ];
 
-  const handleView = (feedId: number | undefined) => {
+  const handleView = (feedId: string | undefined) => {
     if (feedId) navigate(`/admin/feedback-details/${feedId}`);
   };
   return (

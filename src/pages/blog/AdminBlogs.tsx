@@ -52,17 +52,17 @@ const AdminBlogs = () => {
     },
   ];
 
-  const handleEdit = (blogId: number | undefined) => {
+  const handleEdit = (blogId: string | undefined) => {
     if (blogId !== undefined) {
       navigate(`/admin/edit-blog/${blogId}`);
     }
   };
 
-  const handleView = (blogId: number | undefined) => {
+  const handleView = (blogId: string | undefined) => {
     if (blogId) navigate(`/admin/blog-details/${blogId}`);
   };
 
-  const handleDelete = async (blogId: number | undefined) => {
+  const handleDelete = async (blogId: string | undefined) => {
     if (
       blogId &&
       window.confirm("Are you sure you want to delete this blog?")

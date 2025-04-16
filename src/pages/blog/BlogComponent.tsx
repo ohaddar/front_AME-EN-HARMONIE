@@ -175,7 +175,7 @@ const BlogComponent: React.FC = () => {
     getPublicBlogs();
   }, [blogs]);
 
-  const handleReadMore = (id: number | undefined) => {
+  const handleReadMore = (id: string | undefined) => {
     const path =
       currentUser?.role === "ADMIN"
         ? `/admin/blog-details/${id}`

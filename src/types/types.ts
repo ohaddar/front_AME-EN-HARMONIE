@@ -9,11 +9,11 @@ export interface Question {
   next: NextStep;
 }
 export interface Result {
-  id?: number;
+  id?: string;
   description: string;
   datetime: string;
   user: {
-    id: number | undefined;
+    id: string | undefined;
     firstname: string;
     lastname: string;
   };
@@ -31,14 +31,14 @@ export interface Questionnaire {
 }
 
 export interface Feedback {
-  id?: number;
+  id?: string;
   title: string;
   content: string;
   publicationDate?: Date;
   user?: User;
 }
 export interface Blog {
-  id?: number;
+  id?: string;
   title: string;
   content: string;
   creationDate?: Date;
@@ -105,7 +105,7 @@ export interface UserRegister extends UserLogin {
 }
 
 export interface User extends UserRegister {
-  id?: number;
+  id?: string;
   role: string;
   token?: string;
 }

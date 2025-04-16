@@ -171,7 +171,7 @@ const BlogsList: React.FC = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
-  const handleDisplayBlogs = (blogId: number | undefined) => {
+  const handleDisplayBlogs = (blogId: string | undefined) => {
     if (blogId) {
       const path =
         currentUser?.role === "ADMIN"
@@ -181,7 +181,7 @@ const BlogsList: React.FC = () => {
     }
   };
 
-  const handleDelete = async (blogId: number) => {
+  const handleDelete = async (blogId: string) => {
     if (window.confirm("Are you sure you want to delete this blog?")) {
       try {
         if (!currentUser) {
@@ -196,7 +196,7 @@ const BlogsList: React.FC = () => {
     }
   };
 
-  const handleEdit = (blogId: number) => {
+  const handleEdit = (blogId: string) => {
     navigate(`/admin/edit-blog/${blogId}`);
   };
 
