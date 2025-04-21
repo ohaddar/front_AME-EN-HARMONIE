@@ -84,5 +84,10 @@
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-static-copy": "^2.2.0",
     "vitest": "^3.0.5"
+  },
+  "overrides": {
+    "@testing-library/react-hooks": {
+      "@types/react": "^18.0.0"
+    }
   }
 }
