@@ -39,7 +39,7 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project for Production
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }} --legacy-peer-deps
+        run: npm install --legacy-peer-deps && vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
