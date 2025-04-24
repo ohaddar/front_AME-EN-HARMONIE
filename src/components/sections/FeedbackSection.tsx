@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Box, Typography } from "@mui/material";
 import { useFeedback } from "../../hooks/useFeedback";
-
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 const StyledFeedbackSection = styled(Box)`
   margin: 1rem;
   position: relative;
@@ -165,7 +166,41 @@ const FeedbackSection: React.FC = () => {
   }, [feedbacks]);
 
   if (feedbacks.length === 0) {
-    return;
+    return (
+      <StyledFeedbackSection>
+        <Typography variant="h4" sx={{ mb: 3, color: "black", mt: "30px" }}>
+          Les derniers retour expérience
+        </Typography>
+
+        <SliderWrapper>
+          <SliderContainer currentIndex={currentIndex}>
+            {Array.from(new Array(3)).map((_, index) => (
+              <SliderItem key={index}>
+                <FeedbackCard>
+                  <Skeleton
+                    height={40}
+                    width="60%"
+                    style={{ marginBottom: 20 }}
+                  />
+                  <Skeleton
+                    height={20}
+                    count={3}
+                    style={{ marginBottom: 20 }}
+                  />
+                  <Skeleton
+                    circle
+                    height={50}
+                    width={50}
+                    style={{ marginBottom: 20 }}
+                  />
+                  <Skeleton height={20} width="50%" />
+                </FeedbackCard>
+              </SliderItem>
+            ))}
+          </SliderContainer>
+        </SliderWrapper>
+      </StyledFeedbackSection>
+    );
   }
 
   return (

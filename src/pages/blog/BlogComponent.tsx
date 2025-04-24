@@ -6,7 +6,8 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useBlog } from "../../hooks/useBlog";
 import Grid from "@mui/material/Grid2";
 import { Blog } from "../../types/types";
-
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 const BlogSection = styled(Box)`
   padding: 24px;
   background: radial-gradient(circle, #f2ffff);
@@ -189,39 +190,46 @@ const BlogComponent: React.FC = () => {
         Derniers Articles
       </Typography>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1, md: 3 }}>
-        {publicBlogs?.length === 0 ? (
-          <Typography variant="h4" color="textPrimary">
-            Aucun article n'est disponible pour le moment.
-          </Typography>
-        ) : (
-          publicBlogs?.map((blog) => (
-            <Grid key={blog.id} size={{ xs: 12, sm: 12, md: 4 }}>
-              <BlogCard>
-                <BlogImage
-                  src={`data:image/jpeg;base64,${blog.imageBlob}`}
-                  alt={blog.title}
-                />
-                <BlogContent>
-                  <BlogTitle>{blog.title}</BlogTitle>
-                  <BlogExcerpt>
-                    {blog.content.split(" ").slice(0, 30).join(" ")}...
-                  </BlogExcerpt>
-                  <BlogMeta>
-                    <DateText>
-                      {blog.creationDate
-                        ? new Date(blog.creationDate).toLocaleDateString()
-                        : "No date available"}
-                    </DateText>
-                    <CategoryBadge>{blog.category}</CategoryBadge>
-                  </BlogMeta>
-                </BlogContent>
-                <ReadMoreButton onClick={() => handleReadMore(blog.id)}>
-                  Lire la suite
-                </ReadMoreButton>
-              </BlogCard>
-            </Grid>
-          ))
-        )}
+        {!publicBlogs
+          ? Array.from(new Array(3)).map((_, index) => (
+              <Grid key={index} size={{ xs: 12, sm: 12, md: 4 }}>
+                <BlogCard>
+                  <Skeleton height={200} />
+                  <BlogContent>
+                    <Skeleton width="60%" height={25} />
+                    <Skeleton width="90%" height={20} />
+                    <Skeleton width="80%" height={20} />
+                  </BlogContent>
+                </BlogCard>
+              </Grid>
+            ))
+          : publicBlogs?.map((blog) => (
+              <Grid key={blog.id} size={{ xs: 12, sm: 12, md: 4 }}>
+                <BlogCard>
+                  <BlogImage
+                    src={`data:image/jpeg;base64,${blog.imageBlob}`}
+                    alt={blog.title}
+                  />
+                  <BlogContent>
+                    <BlogTitle>{blog.title}</BlogTitle>
+                    <BlogExcerpt>
+                      {blog.content.split(" ").slice(0, 30).join(" ")}...
+                    </BlogExcerpt>
+                    <BlogMeta>
+                      <DateText>
+                        {blog.creationDate
+                          ? new Date(blog.creationDate).toLocaleDateString()
+                          : "No date available"}
+                      </DateText>
+                      <CategoryBadge>{blog.category}</CategoryBadge>
+                    </BlogMeta>
+                  </BlogContent>
+                  <ReadMoreButton onClick={() => handleReadMore(blog.id)}>
+                    Lire la suite
+                  </ReadMoreButton>
+                </BlogCard>
+              </Grid>
+            ))}
       </Grid>
     </BlogSection>
   );
