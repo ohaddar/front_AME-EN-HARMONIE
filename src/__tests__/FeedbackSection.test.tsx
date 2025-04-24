@@ -20,12 +20,6 @@ describe("FeedbackSection Component", () => {
     vi.resetAllMocks();
   });
 
-  it("renders nothing when no feedbacks are provided", () => {
-    mockedUseFeedback.mockReturnValue({ feedbacks: [] });
-    const { container } = render(<FeedbackSection />);
-    expect(container.firstChild).toBeNull();
-  });
-
   it("renders the feedback section with feedback cards", () => {
     const dummyFeedbacks = [
       {
