@@ -48,7 +48,6 @@ const StyledSection = styled(Box)`
   height: auto;
   min-height: 70vh;
   padding: 24px;
-  background: radial-gradient(circle, #f2ffff);
   text-align: center;
   animation: moveBackground 50s linear infinite;
   overflow-x: hidden;
