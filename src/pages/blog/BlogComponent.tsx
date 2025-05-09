@@ -10,7 +10,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 const BlogSection = styled(Box)`
   padding: 24px;
-  background: radial-gradient(circle, #f2ffff);
+  background: radial-gradient(circle, #ffffff);
   text-align: center;
   position: relative;
   height: auto;
