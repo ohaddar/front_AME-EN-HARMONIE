@@ -177,10 +177,14 @@ const BlogComponent: React.FC = () => {
   }, [blogs]);
 
   const handleReadMore = (id: string | undefined) => {
-    const path =
-      currentUser?.role === "ADMIN"
-        ? `/admin/blog-details/${id}`
-        : `/user/blog-details/${id}`;
+    let path = "/connect";
+
+    if (currentUser?.role === "ADMIN") {
+      path = `/admin/blog-details/${id}`;
+    } else if (currentUser?.role === "USER") {
+      path = `/user/blog-details/${id}`;
+    }
+
     navigate(path);
   };
 
