@@ -161,6 +161,7 @@ const BlogComponent: React.FC = () => {
   const { currentUser } = useAuth();
   const { blogs } = useBlog();
   const [publicBlogs, setPublicBlogs] = useState<Blog[]>();
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -168,9 +169,11 @@ const BlogComponent: React.FC = () => {
       try {
         if (blogs.length > 0) {
           setPublicBlogs(blogs.slice(0, 3));
+          setIsLoading(false);
         }
       } catch (error) {
         console.error("Error fetching blogs:", error);
+        setIsLoading(false);
       }
     };
     getPublicBlogs();
@@ -193,6 +196,24 @@ const BlogComponent: React.FC = () => {
       <Typography variant="h4" sx={{ mb: "30px", color: "black", mt: "30px" }}>
         Derniers Articles
       </Typography>
+      {isLoading && (
+        <Typography
+          variant="body1"
+          sx={{
+            mb: "20px",
+            color: "#7c3aed",
+            fontWeight: 500,
+            textAlign: "center",
+            animation: "pulse 1.5s ease-in-out infinite",
+            "@keyframes pulse": {
+              "0%, 100%": { opacity: 1 },
+              "50%": { opacity: 0.5 }
+            }
+          }}
+        >
+          Chargement des articles en cours...
+        </Typography>
+      )}
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1, md: 3 }}>
         {!publicBlogs
           ? Array.from(new Array(3)).map((_, index) => (

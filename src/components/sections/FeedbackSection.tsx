@@ -153,10 +153,12 @@ const FeedbackDate = styled(Typography)`
 const FeedbackSection: React.FC = () => {
   const { feedbacks } = useFeedback();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Défilement automatique toutes les 5 secondes
   useEffect(() => {
     if (feedbacks.length === 0) return;
+    setIsLoading(false);
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) =>
         prevIndex === feedbacks.length - 1 ? 0 : prevIndex + 1,
@@ -171,6 +173,24 @@ const FeedbackSection: React.FC = () => {
         <Typography variant="h4" sx={{ mb: 3, color: "black", mt: "30px" }}>
           Les derniers retour expérience
         </Typography>
+        {isLoading && (
+          <Typography
+            variant="body1"
+            sx={{
+              mb: "20px",
+              color: "#7c3aed",
+              fontWeight: 500,
+              textAlign: "center",
+              animation: "pulse 1.5s ease-in-out infinite",
+              "@keyframes pulse": {
+                "0%, 100%": { opacity: 1 },
+                "50%": { opacity: 0.5 }
+              }
+            }}
+          >
+            Chargement des retours d'expérience en cours...
+          </Typography>
+        )}
 
         <SliderWrapper>
           <SliderContainer currentIndex={currentIndex}>
