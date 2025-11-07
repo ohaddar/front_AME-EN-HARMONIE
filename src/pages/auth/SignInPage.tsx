@@ -70,16 +70,17 @@ const SignInPage: React.FC = () => {
     <Container component="main" data-testid="sign-in-form">
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: { xs: 4, sm: 6, md: 8 },
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           boxShadow: 3,
-          p: 4,
-          borderRadius: 2,
+          p: { xs: 3, sm: 4 },
+          borderRadius: { xs: 3, sm: 2 },
           bgcolor: "background.paper",
-          width: "50%",
-          margin: "5% auto auto auto",
+          width: { xs: "95%", sm: "85%", md: "60%", lg: "50%" },
+          maxWidth: { xs: "100%", sm: "500px", md: "600px" },
+          margin: { xs: "10% auto", sm: "8% auto", md: "5% auto" },
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -93,7 +94,7 @@ const SignInPage: React.FC = () => {
             {errorMessage}
           </Typography>
         )}
-        <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleAuth}>
+        <Box component="form" noValidate sx={{ mt: { xs: 2, sm: 1 }, width: "100%" }} onSubmit={handleAuth}>
           <TextField
             margin="normal"
             required
@@ -107,6 +108,11 @@ const SignInPage: React.FC = () => {
             onChange={(e) => setEmail(e.target.value)}
             error={Boolean(errors.email)}
             helperText={errors.email}
+            sx={{
+              "& .MuiInputBase-root": {
+                minHeight: { xs: "56px", sm: "48px" },
+              },
+            }}
           />
           <TextField
             margin="normal"
@@ -121,12 +127,21 @@ const SignInPage: React.FC = () => {
             onChange={(e) => setPassword(e.target.value)}
             error={Boolean(errors.password)}
             helperText={errors.password}
+            sx={{
+              "& .MuiInputBase-root": {
+                minHeight: { xs: "56px", sm: "48px" },
+              },
+            }}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
                     onClick={() => setShowPassword(!showPassword)}
                     edge="end"
+                    sx={{
+                      width: { xs: "48px", sm: "40px" },
+                      height: { xs: "48px", sm: "40px" },
+                    }}
                   >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
@@ -139,19 +154,51 @@ const SignInPage: React.FC = () => {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{
+              mt: 3,
+              mb: 2,
+              minHeight: { xs: "52px", sm: "48px" },
+              fontSize: { xs: "1rem", sm: "0.9375rem" },
+              fontWeight: 600,
+            }}
             disabled={loading}
           >
             {loading ? "Connexion..." : "Se connecter"}
           </Button>
-          <Grid container justifyContent="space-between" sx={{ mt: 2 }}>
+          <Grid
+            container
+            justifyContent="space-between"
+            sx={{
+              mt: 2,
+              flexDirection: { xs: "column", sm: "row" },
+              gap: { xs: 2, sm: 0 },
+            }}
+          >
             <Grid>
-              <Link href="/reset-password" variant="body2">
+              <Link
+                href="/reset-password"
+                variant="body2"
+                sx={{
+                  fontSize: { xs: "0.9375rem", sm: "0.875rem" },
+                  minHeight: "44px",
+                  display: "inline-flex",
+                  alignItems: "center",
+                }}
+              >
                 Mot de passe oublié ?
               </Link>
             </Grid>
             <Grid>
-              <Link href="/sign-up" variant="body2">
+              <Link
+                href="/sign-up"
+                variant="body2"
+                sx={{
+                  fontSize: { xs: "0.9375rem", sm: "0.875rem" },
+                  minHeight: "44px",
+                  display: "inline-flex",
+                  alignItems: "center",
+                }}
+              >
                 Pas encore de compte ? Créez-en un
               </Link>
             </Grid>

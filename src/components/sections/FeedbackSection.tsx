@@ -7,18 +7,23 @@ import "react-loading-skeleton/dist/skeleton.css";
 const StyledFeedbackSection = styled(Box)`
   margin: 1rem;
   position: relative;
-  margin: 50px auto;
+  margin: 60px auto;
   max-width: 1200px;
-  background: #ffffff;
+  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
   text-align: center;
-  padding: 16px;
-  @media (max-width: 768px) {
-    margin: 10px auto;
-    padding: 16px;
+  padding: 60px 24px;
+  border-radius: 24px;
+
+  @media (max-width: 480px) {
+    margin: 20px 8px;
+    padding: 30px 12px;
+    border-radius: 20px;
   }
-  @media (max-width: 600px) {
-    margin: 8px auto;
-    padding: 16px;
+
+  @media (min-width: 481px) and (max-width: 768px) {
+    margin: 30px 16px;
+    padding: 40px 20px;
+    border-radius: 22px;
   }
 `;
 
@@ -26,6 +31,14 @@ const SliderWrapper = styled(Box)`
   overflow: hidden;
   width: 100%;
   height: 500px;
+
+  @media (max-width: 480px) {
+    height: 450px;
+  }
+
+  @media (min-width: 481px) and (max-width: 768px) {
+    height: 480px;
+  }
 `;
 
 const SliderContainer = styled(Box, {
@@ -45,75 +58,166 @@ const SliderItem = styled(Box)`
 
 const FeedbackCard = styled(Box)`
   width: 800px;
-  height: 350px;
+  min-height: 380px;
   background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
-  padding: 40px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.06),
+    0 4px 12px rgba(0, 0, 0, 0.04);
+  padding: 48px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
   overflow: hidden;
-  @media (max-width: 768px) {
-    width: 90%;
-    padding: 32px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    box-shadow:
+      0 20px 50px rgba(99, 102, 241, 0.12),
+      0 8px 20px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
+    border-color: rgba(99, 102, 241, 0.2);
   }
-  @media (max-width: 600px) {
-    width: 90%;
-    padding: 24px;
+
+  @media (max-width: 480px) {
+    width: 95%;
+    padding: 24px 20px;
     margin: 8px auto;
+    min-height: 380px;
+    border-radius: 16px;
+  }
+
+  @media (min-width: 481px) and (max-width: 768px) {
+    width: 92%;
+    padding: 32px 28px;
+    min-height: 360px;
+    border-radius: 18px;
   }
 `;
 
 const UserAvatar = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border: 3px solid #ffffff;
+  box-shadow:
+    0px 4px 12px rgba(99, 102, 241, 0.2),
+    0 0 0 1px rgba(99, 102, 241, 0.1);
+  transition: transform 0.3s ease;
+
+  ${FeedbackCard}:hover & {
+    transform: scale(1.05);
+  }
+
   @media (max-width: 600px) {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
+    border-width: 2px;
   }
 `;
 
 const FeedbackTitle = styled(Typography)`
   font-size: 2rem !important;
-  font-weight: bold !important;
-  color: #4f46e5;
+  font-weight: 700 !important;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   text-align: center;
-  margin-bottom: 20px !important;
-  @media (max-width: 768px) {
-    font-size: 1.6rem;
-    margin-bottom: 12px;
+  margin-bottom: 24px !important;
+  margin-top: 24px !important;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+
+  @media (max-width: 480px) {
+    font-size: 1.25rem !important;
+    margin-bottom: 12px !important;
+    margin-top: 16px !important;
+    line-height: 1.3;
   }
-  @media (max-width: 600px) {
-    font-size: 1.4rem;
-    margin-bottom: 15px;
+
+  @media (min-width: 481px) and (max-width: 768px) {
+    font-size: 1.5rem !important;
+    margin-bottom: 16px !important;
+    margin-top: 20px !important;
   }
 `;
 
 const FeedbackContent = styled(Typography)`
-  font-size: 1.2rem;
-  line-height: 1.8;
-  color: #333;
-  text-align: justify;
-  margin: 16px 0;
+  font-size: 1.125rem;
+  line-height: 1.9;
+  color: #374151;
+  text-align: center;
+  margin: 20px 0;
   margin-bottom: 3rem;
   display: -webkit-box;
   -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  @media (max-width: 768px) {
-    font-size: 1.1rem;
+  font-weight: 400;
+  position: relative;
+  padding: 0 20px;
+
+  &::before {
+    content: """;
+    position: absolute;
+    top: -10px;
+    left: -5px;
+    font-size: 4rem;
+    color: rgba(99, 102, 241, 0.15);
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+
+  &::after {
+    content: """;
+    position: absolute;
+    bottom: 10px;
+    right: -5px;
+    font-size: 4rem;
+    color: rgba(99, 102, 241, 0.15);
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.9375rem;
+    line-height: 1.65;
     margin: 12px 0;
     -webkit-line-clamp: 5;
+    padding: 0 8px;
+    margin-bottom: 2.5rem;
+
+    &::before,
+    &::after {
+      font-size: 2.5rem;
+    }
+
+    &::before {
+      top: -8px;
+      left: -3px;
+    }
+
+    &::after {
+      bottom: 8px;
+      right: -3px;
+    }
   }
-  @media (max-width: 600px) {
+
+  @media (min-width: 481px) and (max-width: 768px) {
     font-size: 1rem;
-    line-height: 1.5;
-    margin: 8px 0;
-    -webkit-line-clamp: 4;
+    line-height: 1.75;
+    margin: 14px 0;
+    -webkit-line-clamp: 5;
+    padding: 0 12px;
+    margin-bottom: 2.75rem;
+
+    &::before,
+    &::after {
+      font-size: 3.5rem;
+    }
   }
 `;
 
@@ -170,15 +274,24 @@ const FeedbackSection: React.FC = () => {
   if (feedbacks.length === 0) {
     return (
       <StyledFeedbackSection>
-        <Typography variant="h4" sx={{ mb: 3, color: "black", mt: "30px" }}>
-          Les derniers retour expérience
+        <Typography
+          variant="h3"
+          sx={{
+            mb: "48px",
+            color: "#1f2937",
+            fontWeight: 700,
+            fontSize: { xs: "1.875rem", md: "2.25rem" },
+            letterSpacing: "-0.02em",
+          }}
+        >
+          Les derniers retours d'expérience
         </Typography>
         {isLoading && (
           <Typography
             variant="body1"
             sx={{
-              mb: "20px",
-              color: "#7c3aed",
+              mb: "30px",
+              color: "#6366f1",
               fontWeight: 500,
               textAlign: "center",
               animation: "pulse 1.5s ease-in-out infinite",
@@ -225,8 +338,17 @@ const FeedbackSection: React.FC = () => {
 
   return (
     <StyledFeedbackSection>
-      <Typography variant="h4" sx={{ mb: 3, color: "black", mt: "30px" }}>
-        Les derniers retour expérience
+      <Typography
+        variant="h3"
+        sx={{
+          mb: "48px",
+          color: "#1f2937",
+          fontWeight: 700,
+          fontSize: { xs: "1.875rem", md: "2.25rem" },
+          letterSpacing: "-0.02em",
+        }}
+      >
+        Les derniers retours d'expérience
       </Typography>
 
       <SliderWrapper>

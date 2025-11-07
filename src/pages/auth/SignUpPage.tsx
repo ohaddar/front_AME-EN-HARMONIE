@@ -127,19 +127,17 @@ const SignUpPage = () => {
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
-          marginTop: { xs: "20%", sm: "20%", md: "5%" },
+          marginTop: { xs: 4, sm: 6, md: 8 },
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           boxShadow: 3,
-          p: 4,
-          borderRadius: 2,
+          p: { xs: 3, sm: 4 },
+          borderRadius: { xs: 3, sm: 2 },
           bgcolor: "background.paper",
-          width: { xs: "81%", sm: "100%", md: "50%" },
-          margin: "auto",
-          "@media (min-width: 912px) and (max-width: 1368px)": {
-            width: "100%",
-          },
+          width: { xs: "95%", sm: "90%", md: "70%", lg: "55%" },
+          maxWidth: { xs: "100%", sm: "550px", md: "650px" },
+          margin: { xs: "8% auto", sm: "6% auto", md: "5% auto" },
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -169,7 +167,7 @@ const SignUpPage = () => {
         <Box
           component="form"
           noValidate
-          sx={{ mt: 3 }}
+          sx={{ mt: { xs: 2, sm: 3 }, width: "100%" }}
           onSubmit={handleRegister}
         >
           <Grid container spacing={2}>
@@ -183,6 +181,12 @@ const SignUpPage = () => {
               autoFocus
               value={firstname}
               onChange={(e) => handleInputChange(e, setFirstname)}
+              sx={{
+                mb: 2,
+                "& .MuiInputBase-root": {
+                  minHeight: { xs: "56px", sm: "48px" },
+                },
+              }}
             />
             <TextField
               required
@@ -193,6 +197,12 @@ const SignUpPage = () => {
               autoComplete="family-name"
               value={lastname}
               onChange={(e) => handleInputChange(e, setLastname)}
+              sx={{
+                mb: 2,
+                "& .MuiInputBase-root": {
+                  minHeight: { xs: "56px", sm: "48px" },
+                },
+              }}
             />
             <TextField
               required
@@ -206,6 +216,10 @@ const SignUpPage = () => {
               error={!isEmailValid(email)}
               helperText={!isEmailValid(email) ? "Adresse e-mail invalide" : ""}
               sx={{
+                mb: 2,
+                "& .MuiInputBase-root": {
+                  minHeight: { xs: "56px", sm: "48px" },
+                },
                 "& .MuiOutlinedInput-root": {
                   borderColor: !isEmailValid(email) ? "red" : "default",
                 },
@@ -232,10 +246,22 @@ const SignUpPage = () => {
               }
               onFocus={() => setIsPasswordFocused(true)}
               onBlur={() => setIsPasswordFocused(false)}
+              sx={{
+                mb: 2,
+                "& .MuiInputBase-root": {
+                  minHeight: { xs: "56px", sm: "48px" },
+                },
+              }}
               slotProps={{
                 input: {
                   endAdornment: (
-                    <IconButton onClick={togglePasswordVisibility}>
+                    <IconButton
+                      onClick={togglePasswordVisibility}
+                      sx={{
+                        width: { xs: "48px", sm: "40px" },
+                        height: { xs: "48px", sm: "40px" },
+                      }}
+                    >
                       {passwordVisibility ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   ),
@@ -254,24 +280,48 @@ const SignUpPage = () => {
                 ))}
               </ul>
             )}
-            <Grid>
-              <Typography variant="body2" color="text.secondary">
+            <Grid sx={{ mt: 2, mb: 2 }}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{
+                  mb: 2,
+                  fontSize: { xs: "0.9375rem", sm: "0.875rem" },
+                }}
+              >
                 Choisir un avatar :
               </Typography>
-              <AvatarGroup max={avatars.length}>
+              <AvatarGroup
+                max={avatars.length}
+                sx={{
+                  justifyContent: "center",
+                  gap: { xs: 1, sm: 0.5 },
+                }}
+              >
                 {avatars.map((avatar, index) => (
                   <Avatar
                     key={index}
                     src={avatar}
                     onClick={() => setAvatarValue(avatar)}
                     sx={{
-                      width: avatarValue === avatar ? 65 : 60,
-                      height: avatarValue === avatar ? 65 : 60,
+                      width: {
+                        xs: avatarValue === avatar ? 60 : 56,
+                        sm: avatarValue === avatar ? 65 : 60,
+                      },
+                      height: {
+                        xs: avatarValue === avatar ? 60 : 56,
+                        sm: avatarValue === avatar ? 65 : 60,
+                      },
                       border:
                         avatarValue === avatar
-                          ? "3px solid rgb(70,38,228)"
-                          : "0px",
+                          ? "3px solid #6366f1"
+                          : "2px solid transparent",
                       cursor: "pointer",
+                      transition: "all 0.2s ease",
+                      "&:hover": {
+                        transform: "scale(1.1)",
+                        border: "3px solid #8b5cf6",
+                      },
                     }}
                   />
                 ))}
@@ -290,14 +340,29 @@ const SignUpPage = () => {
           <Button
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
             type="submit"
+            sx={{
+              mt: 3,
+              mb: 2,
+              minHeight: { xs: "52px", sm: "48px" },
+              fontSize: { xs: "1rem", sm: "0.9375rem" },
+              fontWeight: 600,
+            }}
           >
             Créer votre compte
           </Button>
-          <Grid container justifyContent="flex-end">
+          <Grid container justifyContent="center">
             <Grid>
-              <Link href="/connect" variant="body2">
+              <Link
+                href="/connect"
+                variant="body2"
+                sx={{
+                  fontSize: { xs: "0.9375rem", sm: "0.875rem" },
+                  minHeight: "44px",
+                  display: "inline-flex",
+                  alignItems: "center",
+                }}
+              >
                 Vous avez déjà un compte ? Se connecter
               </Link>
             </Grid>

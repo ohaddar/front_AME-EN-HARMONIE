@@ -73,9 +73,10 @@ const Nav: React.FC = () => {
             src={logo}
             alt="logo"
             sx={{
-              height: { xs: 50, sm: 60, md: 70 },
-              width: { xs: 200, sm: 300, md: 400 },
+              height: { xs: 45, sm: 55, md: 65 },
+              width: { xs: 180, sm: 280, md: 380 },
               cursor: "pointer",
+              maxWidth: "100%",
             }}
             onClick={() => navigate(currentUser ? "/user" : "/")}
           />
