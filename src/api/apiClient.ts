@@ -35,13 +35,19 @@ const ApiClient = (auth: boolean = true): ApiClient => {
     (config) => {
       if (auth) {
         const token = getToken();
+        console.log('🔑 API Request - Token exists:', !!token);
+        console.log('🔑 API Request - URL:', config.url);
         if (token) {
           config.headers["Authorization"] = `Bearer ${token}`;
+          console.log('✅ Authorization header set');
+        } else {
+          console.warn('⚠️ No token available for authenticated request');
         }
       }
       return config;
     },
     (error) => {
+      console.error('❌ Request interceptor error:', error);
       return Promise.reject(error);
     },
   );

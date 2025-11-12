@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Cookies from "js-cookie";
 import config from "../api/config";
 import CryptoJS from "crypto-js";
@@ -11,20 +12,45 @@ export const encryptToken = (token: string): string => {
 export const decryptToken = (): string | undefined => {
   const encryptedToken = getTokenFromCookie();
   if (encryptedToken == undefined) {
+    console.warn("🔒 No encrypted token found in cookies");
     return undefined;
   }
 
-  const bytes = CryptoJS.AES.decrypt(encryptedToken, SECRET_KEY);
-  const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+  try {
+    const bytes = CryptoJS.AES.decrypt(encryptedToken, SECRET_KEY);
+    const decrypted = bytes.toString(CryptoJS.enc.Utf8);
 
-  const exp = getTokenExpiration(decrypted);
-  const dateExp = new Date(exp * 1000);
-  if (dateExp < new Date()) {
-    Cookies.remove("auth_token");
+    if (!decrypted) {
+      console.error("🔒 Token decryption failed - empty result");
+      return undefined;
+    }
+
+    const exp = getTokenExpiration(decrypted);
+    const dateExp = new Date(exp * 1000);
+    const now = new Date();
+
+    console.log("🔒 Token validation:", {
+      expires: dateExp.toISOString(),
+      now: now.toISOString(),
+      isValid: dateExp > now,
+      timeRemaining:
+        Math.floor((dateExp.getTime() - now.getTime()) / 1000 / 60) +
+        " minutes",
+    });
+
+    if (dateExp < now) {
+      console.warn("⏰ Token expired - removing from cookies");
+      Cookies.remove("auth_token");
+      return undefined;
+    }
+
+    // eslint-disable-next-line no-console
+    console.log("✅ Token is valid");
+    return decrypted;
+  } catch (error) {
+    console.error("🔒 Error decrypting token:", error);
     return undefined;
   }
-
-  return decrypted;
 };
 
 const getTokenExpiration = (token: string): number => {
