@@ -38,6 +38,8 @@ export const useFeedback = () => {
     const feedbackData = JSON.stringify({
       title,
       content: plainText,
+      publicationDate: new Date().toISOString(),
+      user: { firstname: currentUser?.firstname, avatar: currentUser?.avatar },
     });
 
     const data = new FormData();
