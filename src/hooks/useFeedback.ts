@@ -35,7 +35,7 @@ export const useFeedback = () => {
     if (!validateForm(title, content)) return;
 
     const plainText = sanitizeHtml(content, { allowedTags: [] });
-    const feedbackData = JSON.stringify({
+    const feedbackData = {
       title,
       content: plainText,
       publicationDate: new Date().toISOString(),
@@ -44,18 +44,15 @@ export const useFeedback = () => {
         firstname: currentUser?.firstname,
         avatar: currentUser?.avatar,
       },
-    });
-
-    const data = new FormData();
-    data.append("feedback", feedbackData);
+    };
 
     try {
-      const response = await apiClient.post<FormData, FormData>(
+      const response = await apiClient.post<Feedback, typeof feedbackData>(
         "/feedback/save",
-        data,
+        feedbackData,
       );
 
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 201) {
         setCurrentUserFeedback({
           title: title,
           content: content,
@@ -72,7 +69,10 @@ export const useFeedback = () => {
         );
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error creating feedback:", error);
+      setWarningMessage(
+        "Failed to create feedback. Please try again later.",
+      );
     }
   };
 
