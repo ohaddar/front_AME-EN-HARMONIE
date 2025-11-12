@@ -29,6 +29,9 @@ export const decryptToken = (): string | undefined => {
     const dateExp = new Date(exp * 1000);
     const now = new Date();
 
+    // Decode and log the full token payload
+    const payload = JSON.parse(atob(decrypted.split(".")[1]));
+
     console.log("🔒 Token validation:", {
       expires: dateExp.toISOString(),
       now: now.toISOString(),
@@ -36,6 +39,14 @@ export const decryptToken = (): string | undefined => {
       timeRemaining:
         Math.floor((dateExp.getTime() - now.getTime()) / 1000 / 60) +
         " minutes",
+    });
+
+    console.log("🔍 JWT Token Payload:", {
+      sub: payload.sub,
+      roles: payload.roles || payload.authorities || payload.role,
+      userId: payload.userId || payload.id,
+      iat: payload.iat ? new Date(payload.iat * 1000).toISOString() : 'N/A',
+      exp: payload.exp ? new Date(payload.exp * 1000).toISOString() : 'N/A',
     });
 
     if (dateExp < now) {
@@ -61,6 +72,17 @@ const getTokenExpiration = (token: string): number => {
 export const getTokenEmail = (token: string): number => {
   const payload = JSON.parse(atob(token.split(".")[1]));
   return payload.sub;
+};
+
+export const decodeTokenPayload = (token: string) => {
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    console.log('🔍 JWT Token Payload:', payload);
+    return payload;
+  } catch (error) {
+    console.error('Error decoding token:', error);
+    return null;
+  }
 };
 
 export const setTokenCookie = (token: string | undefined) => {
