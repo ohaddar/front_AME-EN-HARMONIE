@@ -35,12 +35,9 @@ export const useFeedback = () => {
     if (!validateForm(title, content)) return;
 
     const plainText = sanitizeHtml(content, { allowedTags: [] });
-
     const feedbackData = JSON.stringify({
       title,
       content: plainText,
-      publicationDate: new Date().toISOString(),
-      user: { firstname: currentUser?.firstname, avatar: currentUser?.avatar },
     });
 
     const data = new FormData();

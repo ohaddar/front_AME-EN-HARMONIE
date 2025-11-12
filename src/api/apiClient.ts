@@ -59,8 +59,9 @@ const ApiClient = (auth: boolean = true): ApiClient => {
     config: AxiosRequestConfig = {},
   ): Promise<AxiosResponse<T>> => {
     const headers = {
-      "Content-Type":
-        data instanceof FormData ? "multipart/form-data" : "application/json",
+      ...(data instanceof FormData
+        ? {}
+        : { "Content-Type": "application/json" }),
       ...config.headers,
     };
     return await axiosInstance.post<T>(url, data, { ...config, headers });
@@ -72,8 +73,9 @@ const ApiClient = (auth: boolean = true): ApiClient => {
     config: AxiosRequestConfig = {},
   ): Promise<AxiosResponse<T>> => {
     const headers = {
-      "Content-Type":
-        data instanceof FormData ? "multipart/form-data" : "application/json",
+      ...(data instanceof FormData
+        ? {}
+        : { "Content-Type": "application/json" }),
       ...config.headers,
     };
     return await axiosInstance.put<T>(url, data, { ...config, headers });
