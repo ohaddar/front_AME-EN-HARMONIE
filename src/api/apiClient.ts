@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { decryptToken } from "../utils/token-helper";
 import config from "./config";
